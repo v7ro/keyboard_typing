@@ -6,7 +6,46 @@
 """
 
 class KeyboardAnalyzer:
-    def __init__(self):
+    def __init__(self, layout='standard'):
+        self.layout = layout
+        
+        if layout == 'standard':
+            self._init_standard_layout()
+        elif layout == 'challenge':
+            self._init_challenge_layout()
+        elif layout == 'zubachev':
+            self._init_zubachev_layout()
+        
+        # Карта клавиатуры: код -> (ряд, колонка) - общая для всех раскладок
+        self.keyboard_map = {
+            # Цифровой ряд
+            2: (0, 0), 3: (0, 1), 4: (0, 2), 5: (0, 3), 6: (0, 4),
+            7: (0, 5), 8: (0, 6), 9: (0, 7), 10: (0, 8), 11: (0, 9),
+            12: (0, 10), 13: (0, 11), 14: (0, 12),
+            
+            # Верхний ряд
+            16: (1, 0), 17: (1, 1), 18: (1, 2), 19: (1, 3), 20: (1, 4),
+            21: (1, 5), 22: (1, 6), 23: (1, 7), 24: (1, 8), 25: (1, 9),
+            26: (1, 10), 27: (1, 11),
+            
+            # Домашний ряд
+            30: (2, 0), 31: (2, 1), 32: (2, 2), 33: (2, 3), 34: (2, 4),
+            35: (2, 5), 36: (2, 6), 37: (2, 7), 38: (2, 8), 39: (2, 9),
+            40: (2, 10),
+            
+            # Нижний ряд
+            41: (3, 2), 44: (3, 0), 45: (3, 1), 46: (3, 2), 47: (3, 3), 
+            48: (3, 4), 49: (3, 5), 50: (3, 6), 51: (3, 7), 52: (3, 8), 
+            53: (3, 9),
+            
+            # Особые клавиши
+            42: (3, -1),  # Shift
+            43: (1, 12),  # \ (обратный слеш)
+            57: (4, 5)    # Пробел
+        }
+
+    def _init_standard_layout(self):
+        """Стандартная русская раскладка"""
         # Объединяем все в один словарь: буква -> (код, палец)
         self.keys = {
             # Левый мизинец
@@ -63,33 +102,147 @@ class KeyboardAnalyzer:
             'left_thumb': 42,   # shift
             'right_thumb': 57   # пробел
         }
+
+    def _init_challenge_layout(self):
+        """Раскладка Вызов (по твоим данным)"""
+        self.keys = {
+            # Левый мизинец
+            'б': (16, 'left_pinky'), 'ч': (30, 'left_pinky'), 'ш': (44, 'left_pinky'),
+            
+            # Левый безымянный
+            'ы': (17, 'left_ring'), 'и': (31, 'left_ring'), 'х': (45, 'left_ring'),
+            
+            # Левый средний
+            'о': (18, 'left_middle'), 'е': (32, 'left_middle'), 'й': (46, 'left_middle'),
+            
+            # Левый указательный
+            'у': (19, 'left_index'), 'а': (33, 'left_index'), 'к': (47, 'left_index'),
+            ',': (34, 'left_index'), 'ь': (20, 'left_index'), '-': (48, 'left_index'),
+            
+            # Правый указательный
+            '.': (35, 'right_index'), 'н': (36, 'right_index'), 'р': (50, 'right_index'),
+            'ё': (21, 'right_index'), '^': (22, 'right_index'), 'д': (23, 'right_index'),
+            
+            # Правый средний
+            'я': (24, 'right_middle'), 'г': (25, 'right_middle'), 'ж': (26, 'right_middle'),
+            
+            # Правый безымянный
+            'ц': (27, 'right_ring'), 'з': (40, 'right_ring'), 'м': (51, 'right_ring'),
+            
+            # Правый мизинец
+            'ф': (52, 'right_pinky'), 'ъ': (43, 'right_pinky'), '/': (49, 'right_pinky'),
+            'в': (39, 'right_pinky'), 'с': (38, 'right_pinky'), 'т': (37, 'right_pinky'),
+            
+            # Большие пальцы
+            ' ': (57, 'right_thumb'), '₽': (41, 'right_thumb')
+        }
+
+        # Символы с Shift для раскладки Вызов 
+        self.shift_keys = {
+            'ё': (2, 'left_pinky'),
+            '[': (3, 'left_ring'),
+            '{': (4, 'left_middle'),
+            '}': (5, 'left_index'),
+            '(': (6, 'right_index'),
+            '=': (7, 'right_middle'),
+            '*': (8, 'right_ring'),
+            ')': (9, 'right_pinky'),
+            '+': (10, 'right_pinky'),
+            ']': (11, 'right_pinky'),
+            '!': (12, 'right_pinky'),
+            'щ': (13, 'right_pinky'),
+            '№': (13, 'right_pinky'),  
+            'ю': (19, 'left_index'),
+            'ц': (30, 'left_pinky'),   
+            'э': (32, 'left_middle'),  
+            'щ': (36, 'right_index'),
+            'ъ': (37, 'right_middle'),
+            '№': (39, 'right_pinky'),
+        }
         
-        # Карта клавиатуры: код -> (ряд, колонка)
-        self.keyboard_map = {
-            # Цифровой ряд
-            2: (0, 0), 3: (0, 1), 4: (0, 2), 5: (0, 3), 6: (0, 4),
-            7: (0, 5), 8: (0, 6), 9: (0, 7), 10: (0, 8), 11: (0, 9),
-            12: (0, 10), 13: (0, 11), 14: (0, 12),
-            
-            # Верхний ряд
-            16: (1, 0), 17: (1, 1), 18: (1, 2), 19: (1, 3), 20: (1, 4),
-            21: (1, 5), 22: (1, 6), 23: (1, 7), 24: (1, 8), 25: (1, 9),
-            26: (1, 10), 27: (1, 11),
-            
-            # Домашний ряд
-            30: (2, 0), 31: (2, 1), 32: (2, 2), 33: (2, 3), 34: (2, 4),
-            35: (2, 5), 36: (2, 6), 37: (2, 7), 38: (2, 8), 39: (2, 9),
-            40: (2, 10),
-            
-            # Нижний ряд
-            41: (3, 2), 44: (3, 0), 45: (3, 1), 46: (3, 2), 47: (3, 3), 
-            48: (3, 4), 49: (3, 5), 50: (3, 6), 51: (3, 7), 52: (3, 8), 
-            53: (3, 9),
-            
-            # Особые клавиши
-            42: (3, -1),  # Shift
-            43: (1, 12),  # \ (обратный слеш)
-            57: (4, 5)    # Пробел
+        # Домашние позиции для раскладки Вызов
+        self.home_positions = {
+            'left_pinky': 30,   # ч
+            'left_ring': 31,    # и
+            'left_middle': 32,  # е
+            'left_index': 33,   # а
+            'right_index': 36,  # н
+            'right_middle': 37, # т
+            'right_ring': 38,   # с
+            'right_pinky': 39,  # в
+            'left_thumb': 42,   # shift
+            'right_thumb': 57   # пробел
+        }
+
+    def _init_zubachev_layout(self):
+    """Раскладка Зубачев - ИСПРАВЛЕННАЯ ВЕРСИЯ"""
+    self.keys = {
+        # Левый мизинец
+        'ф': (16, 'left_pinky'), 'г': (30, 'left_pinky'), 'ш': (44, 'left_pinky'),
+        
+        # Левый безымянный
+        'ы': (17, 'left_ring'), 'и': (31, 'left_ring'), 'ь': (45, 'left_ring'),
+        
+        # Левый средний
+        'а': (18, 'left_middle'), 'е': (32, 'left_middle'), 'ю': (46, 'left_middle'),
+        
+        # Левый указательный
+        'я': (19, 'left_index'), 'о': (33, 'left_index'), '.': (47, 'left_index'),
+        'ъ': (20, 'left_index'), 'й': (21, 'left_index'), 'м': (22, 'left_index'),
+        
+        # Правый указательный
+        'р': (23, 'right_index'), 'п': (24, 'right_index'), 'х': (25, 'right_index'),
+        'ц': (26, 'right_index'), 'щ': (27, 'right_index'), '\\': (43, 'right_index'),
+        
+        # Правый средний
+        'л': (35, 'right_middle'), 'т': (36, 'right_middle'), 'с': (37, 'right_middle'),
+        
+        # Правый безымянный
+        'н': (38, 'right_ring'), 'з': (39, 'right_ring'), 'ж': (40, 'right_ring'),
+        
+        # Правый мизинец
+        'э': (48, 'right_pinky'), 'б': (49, 'right_pinky'), 'д': (50, 'right_pinky'),
+        'в': (51, 'right_pinky'), 'к': (52, 'right_pinky'), 'ч': (53, 'right_pinky'),
+        'ё': (41, 'right_pinky'),  # ПЕРЕМЕСТИЛИ с большого пальца на мизинец!
+        
+        # Большие пальцы - ТОЛЬКО пробел!
+        ' ': (57, 'right_thumb')
+    }
+
+        # Символы с Shift для раскладки Зубачев
+        self.shift_keys = {
+            '!': (2, 'left_pinky'),
+            '"': (3, 'left_ring'),
+            '№': (4, 'left_middle'),
+            ';': (5, 'left_index'),
+            '%': (6, 'right_index'),
+            ':': (7, 'right_middle'),
+            '?': (8, 'right_ring'),
+            '*': (9, 'right_pinky'),
+            '(': (10, 'right_pinky'),
+            ')': (11, 'right_pinky'),
+            '_': (12, 'right_pinky'),
+            '-': (12, 'right_pinky'),
+            '=': (13, 'right_pinky'),
+            '+': (13, 'right_pinky'),
+            '/': (43, 'right_index'),
+            ',': (20, 'left_index'),
+            'ъ': (45, 'left_ring'),
+            'ь': (47, 'left_index'),
+        }
+        
+        # Домашние позиции для раскладки Зубачев
+        self.home_positions = {
+            'left_pinky': 30,   # г
+            'left_ring': 31,    # и
+            'left_middle': 32,  # е
+            'left_index': 33,   # о
+            'right_index': 23,  # р
+            'right_middle': 36, # т
+            'right_ring': 38,   # н
+            'right_pinky': 39,  # з
+            'left_thumb': 42,   # shift
+            'right_thumb': 57   # пробел
         }
 
     def _calculate_penalty(self, key_code, finger):
@@ -132,15 +285,19 @@ class KeyboardAnalyzer:
             print(f"ОШИБКА загрузки файла {filename}: {e}")
             return ""
 
-    def analyze_text(self, text, text_name):
-        """Анализ конкретного текста"""
+    def analyze_text(self, text, text_name, common_chars=None):
+        """Анализ конкретного текста с возможностью фильтрации общих символов"""
         if not text:
             print(f"Текст {text_name} пустой, пропускаем анализ")
             return None
             
-        # Фильтруем русский текст + Shift символы
-        all_chars = set(self.keys.keys()).union(set(self.shift_keys.keys()))
-        clean_text = ''.join(c for c in text.lower() if c in all_chars)
+        # Фильтруем текст: либо все символы раскладки, либо только общие
+        if common_chars:
+            clean_text = ''.join(c for c in text.lower() if c in common_chars)
+            print(f"  (использовано общих символов: {len(clean_text)})")
+        else:
+            all_chars = set(self.keys.keys()).union(set(self.shift_keys.keys()))
+            clean_text = ''.join(c for c in text.lower() if c in all_chars)
         
         penalties = {finger: 0 for finger in [
             'left_pinky', 'left_ring', 'left_middle', 'left_index',
@@ -184,6 +341,7 @@ class KeyboardAnalyzer:
         
         return {
             'text_name': text_name,
+            'layout': self.layout,
             'total_penalty': total_penalty,
             'finger_penalties': penalties,
             'finger_counts': finger_counts,
@@ -196,8 +354,8 @@ class KeyboardAnalyzer:
             'right_hand_percentage': right_hand_percentage
         }
 
-    def analyze_all_files(self):
-        """Анализ всех трех файлов"""
+    def analyze_all_files(self, common_chars=None):
+        """Анализ всех трех файлов с возможностью фильтрации общих символов"""
         files_to_analyze = [
             ('voina_i_mir.txt', 'Война и мир'),
             ('digramms.txt', 'Диграммы'),
@@ -210,7 +368,7 @@ class KeyboardAnalyzer:
             print(f"\n--- Загрузка {filename} ---")
             text = self._load_text_file(filename)
             if text:
-                result = self.analyze_text(text, text_name)
+                result = self.analyze_text(text, text_name, common_chars)
                 if result:
                     results.append(result)
         
@@ -221,6 +379,7 @@ class KeyboardAnalyzer:
         for result in results:
             print(f"\n{'='*50}")
             print(f"=== АНАЛИЗ ШТРАФОВ ДЛЯ: {result['text_name']} ===")
+            print(f"=== РАСКЛАДКА: {result['layout']} ===")
             print(f"{'='*50}")
             print(f"Всего проанализировано символов: {result['characters_analyzed']}")
             print(f"ОБЩИЙ ШТРАФ: {result['total_penalty']}")
@@ -241,17 +400,61 @@ class KeyboardAnalyzer:
                     print(f"  {finger}: {count} нажатий ({percentage:.1f}%)")
 
 
-# Запуск
-analyzer = KeyboardAnalyzer()
-all_results = analyzer.analyze_all_files()
-analyzer.print_results(all_results)
+def get_common_chars():
+    """Получить общие символы для всех трех раскладок"""
+    # Базовые русские буквы + пробел + общие символы
+    basic_russian = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя ')
+    
+    # Общие символы из shift (которые есть во всех раскладках)
+    common_shift = set('!№;%*()+/,.')
+    
+    return basic_russian.union(common_shift)
 
-# Сводная таблица для сравнения
-if len(all_results) > 1:
-    print(f"\n{'='*60}")
-    print("СВОДНАЯ ТАБЛИЦА ДЛЯ СРАВНЕНИЯ")
-    print(f"{'='*60}")
-    print(f"{'Текст':<15} {'Символов':<10} {'Общий штраф':<12} {'Ср. штраф':<10} {'Левая рука':<12} {'Правая рука':<12}")
-    print(f"{'-'*60}")
-    for result in all_results:
-        print(f"{result['text_name']:<15} {result['characters_analyzed']:<10} {result['total_penalty']:<12} {result['average_penalty']:<10.2f} {result['left_hand_percentage']:<10.1f}% {result['right_hand_percentage']:<10.1f}%")
+
+# Запуск для всех трех раскладок с ОБЩИМИ СИМВОЛАМИ
+print("="*70)
+print("СРАВНЕНИЕ ТРЕХ РАСКЛАДОК НА ОБЩИХ СИМВОЛАХ")
+print("="*70)
+
+# Получаем общие символы
+common_chars = get_common_chars()
+print(f"Используется общих символов: {len(common_chars)}")
+print(f"Общие символы: {''.join(sorted(common_chars))}")
+
+# Анализ для каждой раскладки
+layouts = [
+    ('standard', 'СТАНДАРТНАЯ'),
+    ('challenge', 'ВЫЗОВ'), 
+    ('zubachev', 'ЗУБАЧЕВ')
+]
+
+all_results = {}
+
+for layout_code, layout_name in layouts:
+    print(f"\n\n{'='*70}")
+    print(f"АНАЛИЗ РАСКЛАДКИ: {layout_name}")
+    print("="*70)
+    
+    analyzer = KeyboardAnalyzer(layout=layout_code)
+    results = analyzer.analyze_all_files(common_chars)
+    analyzer.print_results(results)
+    all_results[layout_code] = results
+
+# Сводная таблица для сравнения всех раскладок
+print(f"\n{'='*90}")
+print("СВОДНАЯ ТАБЛИЦА ДЛЯ СРАВНЕНИЯ ТРЕХ РАСКЛАДОК (ОБЩИЕ СИМВОЛЫ)")
+print(f"{'='*90}")
+print(f"{'Текст':<15} {'Раскладка':<12} {'Символов':<10} {'Общий штраф':<12} {'Ср. штраф':<10} {'Левая рука':<12} {'Правая рука':<12}")
+print(f"{'-'*90}")
+
+for i in range(3):  # для трех текстов
+    for layout_code, layout_name in layouts:
+        results = all_results[layout_code]
+        if i < len(results):
+            result = results[i]
+            layout_display_name = 'Стандарт' if layout_code == 'standard' else 'Вызов' if layout_code == 'challenge' else 'Зубачев'
+            
+            print(f"{result['text_name']:<15} {layout_display_name:<12} {result['characters_analyzed']:<10} {result['total_penalty']:<12} {result['average_penalty']:<10.2f} {result['left_hand_percentage']:<10.1f}% {result['right_hand_percentage']:<10.1f}%")
+    
+    if i < 2:  # не печатать разделитель после последнего текста
+        print(f"{'-'*90}")
