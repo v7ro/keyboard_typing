@@ -32,31 +32,31 @@
 
 ### Раскладка ЙЦУКЕН
 
-![Standard](docs/source/_static/icuken.png)
+![icuken](docs/source/_static/icuken.png)
 
 ### Раскладка Вызов
 
-![Standard](docs/source/_static/vyzov.png)
+![vyzov](docs/source/_static/vyzov.png)
 
 ### Раскладка Зубачев
 
-![Standard](docs/source/_static/zubachev.png)
+![zubachev](docs/source/_static/zubachev.png)
 
 ### Раскладка Скоропись
 
-![Standard](docs/source/_static/skoropis.png)
+![skoropi](docs/source/_static/skoropis.png)
 
 ### Раскладка Русфон
 
-![Standard](docs/source/_static/rusphon.png)
+![rusphon](docs/source/_static/rusphon.png)
 
 ### Раскладка Диктор
 
-![Standard](docs/source/_static/diktor.png)
+![diktor](docs/source/_static/diktor.png)
 
 ### Раскладка Ант
 
-![Standard](docs/source/_static/ant.png)
+![ant](docs/source/_static/ant.png)
 
 ---
 
@@ -83,6 +83,20 @@ test_analyze_text[vyzov] PASSED
 ```````
 ---
 
+## 📊 Модуль графиков
+
+Графический интерфейс включает три вкладки, каждая из которых визуализирует нагрузку на пальцы, руки и раскладки клавиатуры:
+
+### Общая нагрузка
+![nagruzka_svodnaya](docs/source/_static/nagruzka_svodnaya.png)
+
+### Нагрузка на руку
+![nagryzka_na_ryky](docs/source/_static/nagryzka_na_ryky.png)
+
+### Нагрузка на пальцы
+![nagryzka_na_palci](docs/source/_static/nagryzka_na_palci.png)
+
+---
 ## 👥 Команда проекта
 
 ### 🧠 Shandina Veronika — тим-лидер и разработчик логики анализа
