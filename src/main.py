@@ -511,7 +511,7 @@ class KeyboardAnalyzer:
         try:
             with open(filename, 'r', encoding='utf-8') as file:
                 text = file.read()
-                print(f"Успешно загружен {filename}: {len(text)} символов")
+                #print(f"Успешно загружен {filename}: {len(text)} символов")
                 return text
         except FileNotFoundError:
             print(f"ОШИБКА: Файл {filename} не найден!")
@@ -546,7 +546,7 @@ class KeyboardAnalyzer:
             return None
             
         clean_text = text  # Анализируем ВЕСЬ текст без фильтрации
-        print(f"  (анализируется весь текст: {len(clean_text)} символов)")
+        #print(f"  (анализируется весь текст: {len(clean_text)} символов)")
         
         paths = {finger: 0 for finger in [
             'left_pinky', 'left_ring', 'left_middle', 'left_index',
@@ -646,15 +646,15 @@ class KeyboardAnalyzer:
         check_total = left_hand_only + right_hand_only + both_hands
         check_presses = left_hand_count + right_hand_count
         
-        print(f"  Проверка подсчета для {text_name}:")
-        print(f"    Всего нажатий: {total_presses}")
-        print(f"    Левая рука: {left_hand_count} ({left_hand_percentage:.1f}%)")
-        print(f"    Правая рука: {right_hand_count} ({right_hand_percentage:.1f}%)")
-        print(f"    Только левая: {left_hand_only} ({left_hand_only/total_presses*100:.1f}%)")
-        print(f"    Только правая: {right_hand_only} ({right_hand_only/total_presses*100:.1f}%)")
-        print(f"    Обе руки: {both_hands} ({both_hands/total_presses*100:.1f}%)")
-        print(f"    Shift: {shift_count}, Alt: {alt_count}")
-        print(f"    Проверка: {check_total} = {total_presses}? {check_total == total_presses}")
+        #print(f"  Проверка подсчета для {text_name}:")
+        #print(f"    Всего нажатий: {total_presses}")
+        #print(f"    Левая рука: {left_hand_count} ({left_hand_percentage:.1f}%)")
+        #print(f"    Правая рука: {right_hand_count} ({right_hand_percentage:.1f}%)")
+        #print(f"    Только левая: {left_hand_only} ({left_hand_only/total_presses*100:.1f}%)")
+        #print(f"    Только правая: {right_hand_only} ({right_hand_only/total_presses*100:.1f}%)")
+        #print(f"    Обе руки: {both_hands} ({both_hands/total_presses*100:.1f}%)")
+        #print(f"    Shift: {shift_count}, Alt: {alt_count}")
+        #print(f"    Проверка: {check_total} = {total_presses}? {check_total == total_presses}")
         
         return {
             'text_name': text_name,
@@ -706,7 +706,7 @@ class KeyboardAnalyzer:
         results = []
         
         for filename, text_name in files_to_analyze:
-            print(f"\n--- Загрузка {filename} ---")
+            #print(f"\n--- Загрузка {filename} ---")
             text = self._load_text_file(filename)
             if text:
                 result = self.analyze_text(text, text_name, common_chars)
@@ -730,28 +730,28 @@ class KeyboardAnalyzer:
             results: Список словарей, полученных из метода analyze_text, содержащих статистику по раскладке.
         """
         for result in results:
-            print(f"\n{'='*60}")
-            print(f"=== АНАЛИЗ ПУТЕЙ ДЛЯ: {result['text_name']} ===")
-            print(f"=== РАСКЛАДКА: {result['layout']} ===")
-            print(f"{'='*60}")
-            print(f"Всего проанализировано символов: {result['characters_analyzed']}")
-            print(f"ОБЩИЙ ПУТЬ: {result['total_path']}")
-            print(f"СРЕДНИЙ ПУТЬ НА СИМВОЛ: {result['average_path']:.2f}")
-            print(f"ОБЩЕЕ КОЛИЧЕСТВО НАЖАТИЙ: {result['total_presses']}")
-            print(f"СРЕДНЕЕ НАЖАТИЙ НА СИМВОЛ: {result['average_presses_per_char']:.2f}")
-            print(f"Количество Shift-символов: {result['shift_count']}")
-            print(f"Количество Alt-символов: {result['alt_count']}")
+            #print(f"\n{'='*60}")
+            #print(f"=== АНАЛИЗ ПУТЕЙ ДЛЯ: {result['text_name']} ===")
+            #print(f"=== РАСКЛАДКА: {result['layout']} ===")
+            #print(f"{'='*60}")
+            #print(f"Всего проанализировано символов: {result['characters_analyzed']}")
+            #print(f"ОБЩИЙ ПУТЬ: {result['total_path']}")
+            #print(f"СРЕДНИЙ ПУТЬ НА СИМВОЛ: {result['average_path']:.2f}")
+            #print(f"ОБЩЕЕ КОЛИЧЕСТВО НАЖАТИЙ: {result['total_presses']}")
+            #print(f"СРЕДНЕЕ НАЖАТИЙ НА СИМВОЛ: {result['average_presses_per_char']:.2f}")
+            #print(f"Количество Shift-символов: {result['shift_count']}")
+            #print(f"Количество Alt-символов: {result['alt_count']}")
 
-            print(f"\nРаспределение по рукам:")
-            print(f"Левая рука: {result['left_hand_count']} нажатий ({result['left_hand_percentage']:.1f}%)")
-            print(f"Правая рука: {result['right_hand_count']} нажатий ({result['right_hand_percentage']:.1f}%)")
+            #print(f"\nРаспределение по рукам:")
+            #print(f"Левая рука: {result['left_hand_count']} нажатий ({result['left_hand_percentage']:.1f}%)")
+            #print(f"Правая рука: {result['right_hand_count']} нажатий ({result['right_hand_percentage']:.1f}%)")
 
-            print(f"\nТипы нажатий:")
-            print(f"  Только левая рука: {result['left_hand_only']} ({result['left_hand_only_percentage']:.1f}%)")
-            print(f"  Только правая рука: {result['right_hand_only']} ({result['right_hand_only_percentage']:.1f}%)")
-            print(f"  Двуручные: {result['two_handed']} ({result['two_handed_percentage']:.1f}%)")
-            print(f"    - Shift + буква: {result['shift_count']}")
-            print(f"    - Alt + буква: {result['alt_count']}")
+            #print(f"\nТипы нажатий:")
+            #print(f"  Только левая рука: {result['left_hand_only']} ({result['left_hand_only_percentage']:.1f}%)")
+            #print(f"  Только правая рука: {result['right_hand_only']} ({result['right_hand_only_percentage']:.1f}%)")
+            #print(f"  Двуручные: {result['two_handed']} ({result['two_handed_percentage']:.1f}%)")
+            #print(f"    - Shift + буква: {result['shift_count']}")
+            #print(f"    - Alt + буква: {result['alt_count']}")
 
             print(f"\nНагрузка по пальцам:")
             total_presses = sum(result['finger_counts'].values())
@@ -844,23 +844,23 @@ layouts = [
 
 all_results = {}
 
-for layout_code, layout_name in layouts:
-    print(f"\n\n{'='*70}")
-    print(f"АНАЛИЗ РАСКЛАДКИ: {layout_name}")
-    print("="*70)
+#for layout_code, layout_name in layouts:
+    #print(f"\n\n{'='*70}")
+    #print(f"АНАЛИЗ РАСКЛАДКИ: {layout_name}")
+    #print("="*70)
     
-    analyzer = KeyboardAnalyzer(layout=layout_code)
-    results = analyzer.analyze_all_files(common_chars)
-    if results:
-        analyzer.print_improved_results(results)
-        all_results[layout_code] = results
+    #analyzer = KeyboardAnalyzer(layout=layout_code)
+    #results = analyzer.analyze_all_files(common_chars)
+    #if results:
+        #analyzer.print_improved_results(results)
+        #all_results[layout_code] = results
 
 # Сводная таблица для сравнения всех раскладок
-print(f"\n{'='*140}")
-print("СВОДНАЯ ТАБЛИЦА ДЛЯ СРАВНЕНИЯ РАСКЛАДОК (ОБЩИЕ СИМВОЛЫ)")
-print(f"{'='*140}")
-print(f"{'Текст':<15} {'Раскладка':<12} {'Символов':<10} {'Нажатий':<10} {'Наж/симв':<10} {'Общий путь':<12} {'Ср. путь':<10} {'Левая':<8} {'Правая':<8} {'2 руки':<8} {'Shift':<8} {'Alt':<6}")
-print(f"{'-'*140}")
+#print(f"\n{'='*140}")
+#print("СВОДНАЯ ТАБЛИЦА ДЛЯ СРАВНЕНИЯ РАСКЛАДОК (ОБЩИЕ СИМВОЛЫ)")
+#print(f"{'='*140}")
+#print(f"{'Текст':<15} {'Раскладка':<12} {'Символов':<10} {'Нажатий':<10} {'Наж/симв':<10} {'Общий путь':<12} {'Ср. путь':<10} {'Левая':<8} {'Правая':<8} {'2 руки':<8} {'Shift':<8} {'Alt':<6}")
+#print(f"{'-'*140}")
 
 layout_display_names = {
     'ytsuken': 'Стандарт', 'vyzov': 'Вызов', 'zubachev': 'Зубачев',
@@ -873,11 +873,11 @@ for i in range(3):  # для трех текстов
             result = all_results[layout_code][i]
             layout_display_name = layout_display_names.get(layout_code, layout_code)
             
-            print(f"{result['text_name']:<15} {layout_display_name:<12} {result['characters_analyzed']:<10} "
-                  f"{result['total_presses']:<10} {result['average_presses_per_char']:<10.2f} "
-                  f"{result['total_path']:<12} {result['average_path']:<10.2f} "
-                  f"{result['left_hand_only_percentage']:<7.1f}% {result['right_hand_only_percentage']:<7.1f}% "
-                  f"{result['two_handed_percentage']:<7.1f}% {result['shift_count']:<8} {result['alt_count']:<6}")
+           # print(f"{result['text_name']:<15} {layout_display_name:<12} {result['characters_analyzed']:<10} "
+               ###   f"{result['total_presses']:<10} {result['average_presses_per_char']:<10.2f} "
+                 # f"{result['total_path']:<12} {result['average_path']:<10.2f} "
+                 # f"{result['left_hand_only_percentage']:<7.1f}% {result['right_hand_only_percentage']:<7.1f}% "
+                  #f"{result['two_handed_percentage']:<7.1f}% {result['shift_count']:<8} {result['alt_count']:<6}")
     
     if i < 2:  # не печатать разделитель после последнего текста
         print(f"{'-'*140}")
