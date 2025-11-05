@@ -13,6 +13,7 @@
 ## 📚 Содержание
 
 - [🛠 Технологии](#-технологии)
+- [⌨️ Раскладки клавиатур](#-раскладки-клавиатур)
 - [🧪 Тестирование](#-тестирование)
 - [👥 Команда проекта](#-команда-проекта)
 - [📖 Источники](#-источники)
@@ -25,6 +26,37 @@
 - **PyQt5** — графический интерфейс
 - **matplotlib** — визуализация графиков
 - **Sphinx** — генерация документации
+
+---
+## ⌨️ Раскладки клавиатур
+
+### Раскладка ЙЦУКЕН
+
+![Standard](docs/source/_static/icuken.png)
+
+### Раскладка Вызов
+
+![Standard](docs/source/_static/vyzov.png)
+
+### Раскладка Зубачев
+
+![Standard](docs/source/_static/zubachev.png)
+
+### Раскладка Скоропись
+
+![Standard](docs/source/_static/skoropis.png)
+
+### Раскладка Русфон
+
+![Standard](docs/source/_static/rusphon.png)
+
+### Раскладка Диктор
+
+![Standard](docs/source/_static/diktor.png)
+
+### Раскладка Ант
+
+![Standard](docs/source/_static/ant.png)
 
 ---
 
