@@ -42,8 +42,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
               <p class="caption" role="heading"><span class="caption-text">📚 Навигация по документации</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="module1.html">Модуль №1 — Анализатор раскладок клавиатуры</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Визуализация анализа раскладок</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module1.html">Модуль №1 — Раскладки клавиатур</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Анализатор раскладок клавиатуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module3.html">Модуль №3 — Визуализация анализа раскладок</a></li>
 </ul>
 
         </div>
@@ -78,29 +79,35 @@
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#G"><strong>G</strong></a>
- | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
+ | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
- | <a href="#R"><strong>R</strong></a>
- | <a href="#S"><strong>S</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module1.html#init__">__init__()</a>, <a href="module2.html#init__">[1]</a>
+      <li><a href="module2.html#init__">__init__()</a>, <a href="module3.html#init__">[1]</a>
 </li>
-      <li><a href="module1.html#calculate_penalty">_calculate_penalty()</a>
+      <li><a href="module2.html#calculate_path">_calculate_path()</a>
 </li>
-      <li><a href="module1.html#init_challenge_layout">_init_challenge_layout()</a>
+      <li><a href="module2.html#init_ant_layout">_init_ant_layout()</a>
+</li>
+      <li><a href="module2.html#init_diktor_layout">_init_diktor_layout()</a>
+</li>
+      <li><a href="module2.html#init_rusfon_layout">_init_rusfon_layout()</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module1.html#init_standard_layout">_init_standard_layout()</a>
+      <li><a href="module2.html#init_skoropis_layout">_init_skoropis_layout()</a>
 </li>
-      <li><a href="module1.html#init_zubachev_layout">_init_zubachev_layout()</a>
+      <li><a href="module2.html#init_vyzov_layout">_init_vyzov_layout()</a>
 </li>
-      <li><a href="module1.html#load_text_file">_load_text_file()</a>
+      <li><a href="module2.html#init_ytsuken_layout">_init_ytsuken_layout()</a>
+</li>
+      <li><a href="module2.html#init_zubachev_layout">_init_zubachev_layout()</a>
+</li>
+      <li><a href="module2.html#load_text_file">_load_text_file()</a>
 </li>
   </ul></td>
 </tr></table>
@@ -108,11 +115,11 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module1.html#analyze_all_files">analyze_all_files()</a>
+      <li><a href="module2.html#analyze_all_files">analyze_all_files()</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module1.html#analyze_text">analyze_text()</a>
+      <li><a href="module2.html#analyze_text">analyze_text()</a>
 </li>
   </ul></td>
 </tr></table>
@@ -120,15 +127,13 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module2.html#back_to_selection">back_to_selection()</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     built-in function
 
       <ul>
-        <li><a href="module1.html#get_common_chars">get_common_chars()</a>
+        <li><a href="module2.html#get_common_chars">get_common_chars()</a>
+</li>
+        <li><a href="module3.html#main">main()</a>
 </li>
       </ul></li>
   </ul></td>
@@ -137,11 +142,13 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module2.html#clear_canvas">clear_canvas()</a>
+      <li><a href="module3.html#create_finger_chart_tab">create_finger_chart_tab()</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module2.html#compare_layouts_for_file">compare_layouts_for_file()</a>
+      <li><a href="module3.html#create_hand_pie_tab">create_hand_pie_tab()</a>
+</li>
+      <li><a href="module3.html#create_summary_tab">create_summary_tab()</a>
 </li>
   </ul></td>
 </tr></table>
@@ -153,56 +160,41 @@
     get_common_chars()
 
       <ul>
-        <li><a href="module1.html#get_common_chars">built-in function</a>
+        <li><a href="module2.html#get_common_chars">built-in function</a>
 </li>
       </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="I">I</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module2.html#init_chart_page">init_chart_page()</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module2.html#init_selection_page">init_selection_page()</a>
-</li>
   </ul></td>
 </tr></table>
 
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module1.html#KeyboardAnalyzer">KeyboardAnalyzer (встроенный класс)</a>
+      <li><a href="module2.html#KeyboardAnalyzer">KeyboardAnalyzer (встроенный класс)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module2.html#KeyboardGUI">KeyboardGUI (встроенный класс)</a>
+      <li><a href="module3.html#KeyboardComparisonGUI">KeyboardComparisonGUI (встроенный класс)</a>
 </li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    main()
+
+      <ul>
+        <li><a href="module3.html#main">built-in function</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module1.html#print_results">print_results()</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module2.html#reload_analysis">reload_analysis()</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module2.html#show_bar_chart">show_bar_chart()</a>
+      <li><a href="module2.html#print_results">print_results()</a>
 </li>
   </ul></td>
 </tr></table>
