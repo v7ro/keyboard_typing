@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Модуль №1 — Анализатор раскладок клавиатуры &mdash; документация keyboard typing-master 2.0</title>
+  <title>Модуль №1 — Раскладки клавиатур &mdash; документация keyboard typing-master 2.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -20,7 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
-    <link rel="next" title="Модуль №2 — Визуализация анализа раскладок" href="module2.html" />
+    <link rel="next" title="Модуль №2 — Анализатор раскладок клавиатуры" href="module2.html" />
     <link rel="prev" title="KEYBOARD TYPING-MASTER" href="index.html" /> 
 </head>
 
@@ -45,31 +45,18 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
               <p class="caption" role="heading"><span class="caption-text">📚 Навигация по документации</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Модуль №1 — Анализатор раскладок клавиатуры</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#keyboardanalyzer">🧩 <strong>Класс: KeyboardAnalyzer</strong></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#KeyboardAnalyzer"><code class="docutils literal notranslate"><span class="pre">KeyboardAnalyzer</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Модуль №1 — Раскладки клавиатур</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">ЙЦУКЕН</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Вызов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Зубачев</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Скоропись</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Русфон</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Диктор</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Ант</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">🔧 <strong>Методы класса</strong></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_standard_layout"><code class="docutils literal notranslate"><span class="pre">_init_standard_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_challenge_layout"><code class="docutils literal notranslate"><span class="pre">_init_challenge_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_zubachev_layout"><code class="docutils literal notranslate"><span class="pre">_init_zubachev_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#calculate_penalty"><code class="docutils literal notranslate"><span class="pre">_calculate_penalty()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#load_text_file"><code class="docutils literal notranslate"><span class="pre">_load_text_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analyze_text"><code class="docutils literal notranslate"><span class="pre">analyze_text()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analyze_all_files"><code class="docutils literal notranslate"><span class="pre">analyze_all_files()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#print_results"><code class="docutils literal notranslate"><span class="pre">print_results()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#get-common-chars">🔣 <strong>Функция: get_common_chars</strong></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#get_common_chars"><code class="docutils literal notranslate"><span class="pre">get_common_chars()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">📌 <strong>Пример использования</strong></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Визуализация анализа раскладок</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Анализатор раскладок клавиатуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module3.html">Модуль №3 — Визуализация анализа раскладок</a></li>
 </ul>
 
         </div>
@@ -86,7 +73,7 @@
           <div role="navigation" aria-label="Навигация по страницам">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Модуль №1 — Анализатор раскладок клавиатуры</li>
+      <li class="breadcrumb-item active">Модуль №1 — Раскладки клавиатур</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/module1.rst.txt" rel="nofollow"> Просмотреть исходный код страницы</a>
       </li>
@@ -97,142 +84,100 @@
            <div itemprop="articleBody">
              
   <section id="o1">
-<h1>Модуль №1 — Анализатор раскладок клавиатуры<a class="headerlink" href="#o1" title="Ссылка на этот заголовок"></a></h1>
-<p>📦 <strong>main.py</strong>
-Модуль реализует класс <cite>KeyboardAnalyzer</cite>, предназначенный для анализа физической нагрузки на пальцы при наборе текста на различных раскладках клавиатуры.</p>
+<h1>Модуль №1 — Раскладки клавиатур<a class="headerlink" href="#o1" title="Ссылка на этот заголовок"></a></h1>
+<p>В этом разделе представлены различные русские раскладки клавиатуры. Для каждой раскладки указаны описание, особенности и визуальное изображение.</p>
 <p>—</p>
-<p>🎯 <strong>Назначение</strong></p>
-<ul class="simple">
-<li><p>Моделировать движения пальцев при печати</p></li>
-<li><p>Рассчитывать штрафы за отклонения от домашнего ряда</p></li>
-<li><p>Сравнивать раскладки по метрикам эргономики</p></li>
-<li><p>Выводить статистику по пальцам, рукам и символам</p></li>
-</ul>
-<p>Поддерживаемые раскладки:
-- <strong>standard</strong> — стандартная русская (ЙЦУКЕН)
-- <strong>challenge</strong> — экспериментальная (Вызов)
-- <strong>zubachev</strong> — альтернативная (Зубачев)</p>
-<p>—</p>
-<section id="keyboardanalyzer">
-<h2>🧩 <strong>Класс: KeyboardAnalyzer</strong><a class="headerlink" href="#keyboardanalyzer" title="Ссылка на этот заголовок"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="KeyboardAnalyzer">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KeyboardAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'standard'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#KeyboardAnalyzer" title="Ссылка на это определение"></a></dt>
-<dd><p>Класс для анализа раскладок клавиатуры.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>layout</strong> – Название раскладки („standard“, „challenge“, „zubachev“)</p>
-</dd>
-</dl>
-<p>При инициализации загружает карту клавиш, домашние позиции пальцев и соответствующую раскладку.</p>
-</dd></dl>
-
-<p>—</p>
-</section>
 <section id="id1">
-<h2>🔧 <strong>Методы класса</strong><a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
-<dl class="py method">
-<dt class="sig sig-object py" id="init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'standard'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#init__" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализация анализатора с выбранной раскладкой.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="init_standard_layout">
-<span class="sig-name descname"><span class="pre">_init_standard_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_standard_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Загружает стандартную русскую раскладку (ЙЦУКЕН).</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="init_challenge_layout">
-<span class="sig-name descname"><span class="pre">_init_challenge_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_challenge_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Загружает экспериментальную раскладку «Вызов».</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="init_zubachev_layout">
-<span class="sig-name descname"><span class="pre">_init_zubachev_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_zubachev_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Загружает альтернативную раскладку «Зубачев».</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="calculate_penalty">
-<span class="sig-name descname"><span class="pre">_calculate_penalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finger</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calculate_penalty" title="Ссылка на это определение"></a></dt>
-<dd><p>Вычисляет штраф за движение пальца от домашней позиции до целевой клавиши.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Результат<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Целочисленный штраф</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="load_text_file">
-<span class="sig-name descname"><span class="pre">_load_text_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#load_text_file" title="Ссылка на это определение"></a></dt>
-<dd><p>Загружает текст из указанного файла.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Результат<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Строка с текстом</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="analyze_text">
-<span class="sig-name descname"><span class="pre">analyze_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_text" title="Ссылка на это определение"></a></dt>
-<dd><p>Анализирует текст: считает штрафы, распределение по пальцам и рукам.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Результат<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Словарь с результатами анализа</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="analyze_all_files">
-<span class="sig-name descname"><span class="pre">analyze_all_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">common_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_all_files" title="Ссылка на это определение"></a></dt>
-<dd><p>Анализирует три предопределённых файла: <cite>voina_i_mir.txt</cite>, <cite>digramms.txt</cite>, <cite>1grams.txt</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Результат<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Список словарей с результатами</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="print_results">
-<span class="sig-name descname"><span class="pre">print_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#print_results" title="Ссылка на это определение"></a></dt>
-<dd><p>Выводит результаты анализа в консоль: статистику по символам, пальцам, рукам.</p>
-</dd></dl>
-
-<p>—</p>
-</section>
-<section id="get-common-chars">
-<h2>🔣 <strong>Функция: get_common_chars</strong><a class="headerlink" href="#get-common-chars" title="Ссылка на этот заголовок"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="get_common_chars">
-<span class="sig-name descname"><span class="pre">get_common_chars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#get_common_chars" title="Ссылка на это определение"></a></dt>
-<dd><p>Возвращает множество символов, общих для всех трёх раскладок.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Результат<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Множество символов (буквы, знаки препинания, пробел)</p>
-</dd>
-</dl>
-</dd></dl>
-
+<h2>ЙЦУКЕН<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Описание:</strong>
+Классическая русская раскладка, используемая по умолчанию в большинстве ОС.</p>
+<p><strong>Особенности:</strong></p>
+<ul class="simple">
+<li><p>Стандартное расположение букв.</p></li>
+<li><p>Основана на машинописной традиции.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/icuken.png"><img alt="Раскладка ЙЦУКЕН" class="align-center" src="_images/icuken.png" style="width: 500px;" />
+</a>
 <p>—</p>
 </section>
 <section id="id2">
-<h2>📌 <strong>Пример использования</strong><a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">keyboard_analyzer</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeyboardAnalyzer</span><span class="p">,</span> <span class="n">get_common_chars</span>
-
-<span class="n">common_chars</span> <span class="o">=</span> <span class="n">get_common_chars</span><span class="p">()</span>
-<span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">)</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">_load_text_file</span><span class="p">(</span><span class="s1">&#39;voina_i_mir.txt&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;Война и мир&#39;</span><span class="p">,</span> <span class="n">common_chars</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">print_results</span><span class="p">([</span><span class="n">result</span><span class="p">])</span>
-</pre></div>
-</div>
+<h2>Вызов<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Описание:</strong>
+Авторская раскладка, оптимизированная для быстрого набора текста.</p>
+<p><strong>Особенности:</strong></p>
+<ul class="simple">
+<li><p>Частотное размещение символов.</p></li>
+<li><p>Минимизация движения пальцев.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/vyzov.png"><img alt="Раскладка Вызов" class="align-center" src="_images/vyzov.png" style="width: 500px;" />
+</a>
+<p>—</p>
+</section>
+<section id="id3">
+<h2>Зубачев<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Описание:</strong>
+Экспериментальная раскладка, ориентированная на эргономику и симметрию.</p>
+<p><strong>Особенности:</strong></p>
+<ul class="simple">
+<li><p>Центрирование часто используемых букв.</p></li>
+<li><p>Подходит для длительного набора текста.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/zubachev.png"><img alt="Раскладка Зубачев" class="align-center" src="_images/zubachev.png" style="width: 500px;" />
+</a>
+<p>—</p>
+</section>
+<section id="id4">
+<h2>Скоропись<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Описание:</strong>
+Раскладка, ориентированная на скоростной набор с минимальными усилиями.</p>
+<p><strong>Особенности:</strong></p>
+<ul class="simple">
+<li><p>Максимальное использование сильных пальцев.</p></li>
+<li><p>Частотный анализ.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/skoropis.png"><img alt="Раскладка Скоропись" class="align-center" src="_images/skoropis.png" style="width: 500px;" />
+</a>
+<p>—</p>
+</section>
+<section id="id5">
+<h2>Русфон<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Описание:</strong>
+Фонетическая раскладка, адаптированная для обучения и интуитивного ввода.</p>
+<p><strong>Особенности:</strong></p>
+<ul class="simple">
+<li><p>Упрощённое запоминание.</p></li>
+<li><p>Подходит для начинающих.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/rusphon.png"><img alt="Раскладка Русфон" class="align-center" src="_images/rusphon.png" style="width: 500px;" />
+</a>
+<p>—</p>
+</section>
+<section id="id6">
+<h2>Диктор<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Описание:</strong>
+Раскладка, оптимизированная для дикторов и стенографистов.</p>
+<p><strong>Особенности:</strong></p>
+<ul class="simple">
+<li><p>Быстрый доступ к служебным символам.</p></li>
+<li><p>Поддержка речевых сокращений.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/diktor.png"><img alt="Раскладка Диктор" class="align-center" src="_images/diktor.png" style="width: 500px;" />
+</a>
+<p>—</p>
+</section>
+<section id="id7">
+<h2>Ант<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Описание:</strong>
+Это эргономичная клавиатура, разработанная с учётом эргоэкономики: минимизации нагрузки на кисти, оптимизации движений пальцев и повышения скорости набора.</p>
+<p><strong>Особенности:</strong></p>
+<ul class="simple">
+<li><p>Разделённая раскладка.</p></li>
+<li><p>Минимизация движения пальцев.</p></li>
+<li><p>Перепрограммируемость</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/ant.png"><img alt="Клавиатура Toxic Ant" class="align-center" src="_images/ant.png" style="width: 500px;" />
+</a>
+<p>—</p>
 </section>
 </section>
 
@@ -241,7 +186,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
         <a href="index.html" class="btn btn-neutral float-left" title="KEYBOARD TYPING-MASTER" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="module2.html" class="btn btn-neutral float-right" title="Модуль №2 — Визуализация анализа раскладок" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="module2.html" class="btn btn-neutral float-right" title="Модуль №2 — Анализатор раскладок клавиатуры" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
