@@ -20,7 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
-    <link rel="next" title="Модуль №1 — Анализатор раскладок клавиатуры" href="module1.html" /> 
+    <link rel="next" title="Модуль №1 — Раскладки клавиатур" href="module1.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,8 +44,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
               <p class="caption" role="heading"><span class="caption-text">📚 Навигация по документации</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="module1.html">Модуль №1 — Анализатор раскладок клавиатуры</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Визуализация анализа раскладок</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module1.html">Модуль №1 — Раскладки клавиатур</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Анализатор раскладок клавиатуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module3.html">Модуль №3 — Визуализация анализа раскладок</a></li>
 </ul>
 
         </div>
@@ -79,13 +80,7 @@
 <p>—</p>
 <section id="id1">
 <h2>📌 Цель проекта<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
-<p>Цель — определить наиболее удобную и сбалансированную раскладку клавиатуры для русскоязычного набора текста.
-Анализ проводится по трём раскладкам:</p>
-<ul class="simple">
-<li><p><strong>ЙЦУКЕН</strong> — стандартная русская раскладка</p></li>
-<li><p><strong>Вызов</strong> — экспериментальная раскладка</p></li>
-<li><p><strong>Зубачев</strong> — альтернативная оптимизированная раскладка</p></li>
-</ul>
+<p>Цель — определить наиболее удобную и сбалансированную раскладку клавиатуры для русскоязычного набора текста.</p>
 <p>Каждая раскладка оценивается по степени физической нагрузки, которую испытывают пальцы при наборе текста.
 Моделируются движения пальцев: вверх, вниз, влево, вправо и по диагонали. За каждое движение начисляется штраф:</p>
 <ul class="simple">
@@ -129,19 +124,28 @@
 <div><div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">📚 Навигация по документации</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="module1.html">Модуль №1 — Анализатор раскладок клавиатуры</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module1.html#keyboardanalyzer">🧩 <strong>Класс: KeyboardAnalyzer</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module1.html#id1">🔧 <strong>Методы класса</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module1.html#get-common-chars">🔣 <strong>Функция: get_common_chars</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module1.html#id2">📌 <strong>Пример использования</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="module1.html">Модуль №1 — Раскладки клавиатур</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module1.html#id1">ЙЦУКЕН</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module1.html#id2">Вызов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module1.html#id3">Зубачев</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module1.html#id4">Скоропись</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module1.html#id5">Русфон</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module1.html#id6">Диктор</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module1.html#id7">Ант</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Визуализация анализа раскладок</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module2.html#keyboardgui">🧩 <strong>Класс: KeyboardGUI</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Анализатор раскладок клавиатуры</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module2.html#keyboardanalyzer">🧩 <strong>Класс: KeyboardAnalyzer</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module2.html#id1">🔧 <strong>Методы класса</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module2.html#id2">🚀 <strong>Точка входа</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module2.html#id3">🎨 <strong>Цветовая схема раскладок</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module2.html#id4">📌 <strong>Пример запуска</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module2.html#get-common-chars">🔣 <strong>Функция: get_common_chars</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module3.html">Модуль №3 — Визуализация анализа раскладок</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module3.html#keyboardgui">🧩 <strong>Класс: KeyboardGUI</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module3.html#id1">🔧 <strong>Методы класса</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module3.html#id2">🚀 <strong>Точка входа</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module3.html#id3">🎨 <strong>Цветовая схема раскладок</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module3.html#id4">📌 <strong>Полученные графики</strong></a></li>
 </ul>
 </li>
 </ul>
@@ -154,7 +158,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
-        <a href="module1.html" class="btn btn-neutral float-right" title="Модуль №1 — Анализатор раскладок клавиатуры" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="module1.html" class="btn btn-neutral float-right" title="Модуль №1 — Раскладки клавиатур" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
