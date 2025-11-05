@@ -76,8 +76,8 @@ python -m pytest test.py -v
 <summary>📊 Пример вывода pytest</summary>
 
 ```text
-test_analyze_text[standard] PASSED
-test_analyze_text[challenge] PASSED
+test_analyze_text[icuken] PASSED
+test_analyze_text[vyzov] PASSED
 ...
 =========================== 58 passed in 1.23s ============================
 ```````
