@@ -54,7 +54,7 @@ class KeyboardComparisonGUI(QMainWindow):
 
     def create_finger_chart_tab(self):
         fig = Figure(figsize=(12, 8))
-        fig.subplots_adjust(left=1/16, right=1 - 1/16, top=1 - 1/12, bottom=1/12)
+        fig.subplots_adjust(left=0.12, right=0.94, top=0.92, bottom=0.08)
         ax = fig.add_subplot(111)
 
         common_chars = get_common_chars()
@@ -214,6 +214,7 @@ if __name__ == "__main__":
     window = KeyboardComparisonGUI()
     window.show()
     sys.exit(app.exec_())
+
 
 
 
