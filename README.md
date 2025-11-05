@@ -3,7 +3,7 @@
 ![Статус проекта](https://img.shields.io/badge/status-active-blue)
 ![Python](https://img.shields.io/badge/python-3.8%2B-green)
 ![GUI](https://img.shields.io/badge/interface-PyQt5-orange)
-![Coverage]([https://img.shields.io/badge/test--coverage-0%25-lightgrey](https://img.shields.io/badge/test--coverage-100%25-brightgreen))
+![Coverage](https://img.shields.io/badge/test--coverage-100%25-brightgreen)
 
 Инструмент для анализа и визуального сравнения эффективности различных раскладок клавиатуры при десятипальцевом методе печати.  
 Проект моделирует движения пальцев, рассчитывает нагрузку и визуализирует результаты на основе реальных текстов.
