@@ -8,21 +8,20 @@ import sys
 import matplotlib
 matplotlib.use("Qt5Agg")
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QTabWidget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
 from main import KeyboardAnalyzer, get_common_chars
 
-# Цвета раскладок
 LAYOUTS = {
-    'ytsuken': '#FF0000',
-    'vyzov': '#000000',
-    'diktor': '#FFD700',
-    'rusfon': '#FF69B4',
-    'ant': '#00BFFF',
-    'zubachev': '#800080',
-    'skoropis': '#228B22'
+    'ytsuken': '#FF0000',     # красный
+    'vyzov': '#000000',       # черный
+    'diktor': '#FFD700',      # желтый
+    'rusfon': '#FF69B4',      # розовый
+    'ant': '#00BFFF',         # голубой
+    'zubachev': '#800080',    # фиолетовый
+    'skoropis': '#228B22'     # зеленый
 }
 
 LAYOUT_NAMES = {
@@ -35,32 +34,54 @@ LAYOUT_NAMES = {
     'skoropis': 'Скоропись'
 }
 
-class FingerComparisonChart(QMainWindow):
-    def __init__(self, all_results):
+FINGERS = [
+    'left_pinky', 'left_ring', 'left_middle', 'left_index',
+    'right_index', 'right_middle', 'right_ring', 'right_pinky', 'right_thumb'
+]
+
+class KeyboardComparisonGUI(QMainWindow):
+    def __init__(self):
         super().__init__()
-        self.setWindowTitle("Нагрузка на пальцы по раскладкам")
+        self.setWindowTitle("Сравнение раскладок — нагрузка на пальцы и руки")
         self.resize(1600, 900)
 
-        fig = Figure(figsize=(18, 10))
-        fig.subplots_adjust(left=0.25, right=0.95, top=0.95, bottom=0.1)
+        tabs = QTabWidget()
+        tabs.addTab(self.create_finger_chart_tab(), "Нагрузка на пальцы")
+        tabs.addTab(self.create_hand_pie_tab(), "Нагрузка на руки")
+        tabs.addTab(self.create_summary_tab(), "Сводная нагрузка")
+
+        self.setCentralWidget(tabs)
+
+    def create_finger_chart_tab(self):
+        fig = Figure(figsize=(12, 8))
+        fig.subplots_adjust(left=1/16, right=1 - 1/16, top=1 - 1/12, bottom=1/12)
         ax = fig.add_subplot(111)
 
-        fingers = [
-            'left_pinky', 'left_ring', 'left_middle', 'left_index',
-            'right_index', 'right_middle', 'right_ring', 'right_pinky', 'right_thumb'
-        ]
+        common_chars = get_common_chars()
+        layout_totals = {}
 
-        bar_height = 0.7 / len(LAYOUTS)
-        y_positions = range(len(fingers))
+        for layout_code in LAYOUTS:
+            analyzer = KeyboardAnalyzer(layout=layout_code)
+            results = analyzer.analyze_all_files(common_chars)
+
+            total_counts = {finger: 0 for finger in FINGERS}
+            for result in results:
+                for finger in FINGERS:
+                    total_counts[finger] += result['finger_counts'].get(finger, 0)
+
+            layout_totals[layout_code] = [total_counts[f] for f in FINGERS]
+
+        total_layouts = len(LAYOUTS)
+        bar_height = 1 / (total_layouts + 1)
 
         for i, (layout_code, color) in enumerate(LAYOUTS.items()):
-            offset = (i - len(LAYOUTS) / 2) * bar_height
-            values = [sum(all_results[layout_code][j]['finger_counts'][f] for j in range(3)) for f in fingers]
+            y_offsets = [y + i * bar_height for y in range(len(FINGERS))]
+            values = layout_totals[layout_code]
 
             bars = ax.barh(
-                [y + offset for y in y_positions],
+                y_offsets,
                 values,
-                height=bar_height,
+                height=bar_height * 0.9,
                 color=color,
                 label=LAYOUT_NAMES.get(layout_code, layout_code)
             )
@@ -72,15 +93,15 @@ class FingerComparisonChart(QMainWindow):
                     f"{value:.0f}",
                     va='center',
                     ha='left',
-                    fontsize=10,
+                    fontsize=9,
                     color='black',
-                    bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.6)
+                    bbox=dict(facecolor='white', alpha=0.6, boxstyle='round,pad=0.2', edgecolor='none')
                 )
 
-        ax.set_yticks(y_positions)
-        ax.set_yticklabels(fingers, fontsize=12)
+        ax.set_yticks([y + bar_height * (total_layouts / 2) for y in range(len(FINGERS))])
+        ax.set_yticklabels(FINGERS, fontsize=12)
         ax.set_xlabel("Количество нажатий", fontsize=14)
-        ax.set_title("Нагрузка на пальцы по раскладкам (3 текста, общие символы)", fontsize=16)
+        ax.set_title("Сравнение нагрузок на пальцы во всех раскладках", fontsize=16)
         ax.grid(True, axis='x', linestyle='--', alpha=0.5)
         ax.legend(title="Раскладка", loc="lower right", fontsize=12, title_fontsize=13)
 
@@ -90,63 +111,110 @@ class FingerComparisonChart(QMainWindow):
 
         container = QWidget()
         container.setLayout(layout)
-        self.setCentralWidget(container)
+        return container
 
-class HandLoadPieChartsWindow(QMainWindow):
-    def __init__(self, all_results):
-        super().__init__()
-        self.setWindowTitle("Нагрузка на руки по раскладкам")
-        self.resize(1600, 700)
+    def create_hand_pie_tab(self):
+        fig = Figure(figsize=(16, 9))
+        fig.subplots_adjust(hspace=0.4)
+        layout_codes = list(LAYOUTS.keys())
+        rows = (len(layout_codes) + 2) // 3
 
-        fig = Figure(figsize=(16, 7))
-        fig.subplots_adjust(left=0.05, right=0.95, wspace=0.4, hspace=0.4)
-        layout = QVBoxLayout()
-        canvas = FigureCanvasQTAgg(fig)
-        layout.addWidget(canvas)
-
-        container = QWidget()
-        container.setLayout(layout)
-        self.setCentralWidget(container)
-
-        for i, layout_code in enumerate(LAYOUTS):
-            ax = fig.add_subplot(2, 4, i + 1)
-            results = all_results[layout_code]
+        for i, layout_code in enumerate(layout_codes):
+            analyzer = KeyboardAnalyzer(layout=layout_code)
+            results = analyzer.analyze_all_files(get_common_chars())
 
             left_total = sum(r['left_hand_count'] for r in results)
             right_total = sum(r['right_hand_count'] for r in results)
-            total = left_total + right_total
 
-            if total == 0:
-                continue
-
-            ax.pie(
+            ax = fig.add_subplot(rows, 3, i + 1)
+            wedges, texts, autotexts = ax.pie(
                 [left_total, right_total],
                 labels=['Левая', 'Правая'],
                 colors=['#00BFFF', '#FF0000'],
                 startangle=90,
-                wedgeprops=dict(width=0.4),
-                autopct='%1.0f%%'
+                autopct='%1.0f%%',
+                wedgeprops=dict(width=0.4)
             )
-            ax.set_title(LAYOUT_NAMES.get(layout_code, layout_code), fontsize=12)
+            for autotext in autotexts:
+                autotext.set_bbox(dict(facecolor='white', alpha=0.6, boxstyle='round,pad=0.2', edgecolor='none'))
+            ax.set_title(LAYOUT_NAMES.get(layout_code, layout_code), fontsize=13)
+
+        canvas = FigureCanvasQTAgg(fig)
+        layout = QVBoxLayout()
+        layout.addWidget(canvas)
+
+        container = QWidget()
+        container.setLayout(layout)
+        return container
+
+    def create_summary_tab(self):
+        fig = Figure(figsize=(16, 9))
+        fig.subplots_adjust(hspace=0.3, wspace=0.3)
+
+        common_chars = get_common_chars()
+        total_finger_counts = {finger: 0 for finger in FINGERS}
+        layout_press_totals = {}
+
+        for layout_code in LAYOUTS:
+            analyzer = KeyboardAnalyzer(layout=layout_code)
+            results = analyzer.analyze_all_files(common_chars)
+
+            layout_total = 0
+            for result in results:
+                layout_total += sum(result['finger_counts'].values())
+                for finger in FINGERS:
+                    total_finger_counts[finger] += result['finger_counts'].get(finger, 0)
+
+            layout_press_totals[layout_code] = layout_total
+
+        # Круговая диаграмма по пальцам
+        ax1 = fig.add_subplot(121)
+        finger_labels = [f.replace('_', ' ').title() for f in FINGERS]
+        finger_values = [total_finger_counts[f] for f in FINGERS]
+
+        wedges1, texts1, autotexts1 = ax1.pie(
+            finger_values,
+            labels=finger_labels,
+            autopct='%1.0f%%',
+            startangle=90,
+            wedgeprops=dict(width=0.4)
+        )
+        for autotext in autotexts1:
+            autotext.set_bbox(dict(facecolor='white', alpha=0.6, boxstyle='round,pad=0.2', edgecolor='none'))
+        ax1.set_title("Нагрузка по пальцам (все раскладки и тексты)", fontsize=13)
+
+        # Круговая диаграмма по раскладкам
+        ax2 = fig.add_subplot(122)
+        layout_labels = [LAYOUT_NAMES.get(code, code) for code in LAYOUTS]
+        layout_values = [layout_press_totals[code] for code in LAYOUTS]
+        layout_colors = [LAYOUTS[code] for code in LAYOUTS]
+
+        wedges2, texts2, autotexts2 = ax2.pie(
+            layout_values,
+            labels=layout_labels,
+            colors=layout_colors,
+            autopct='%1.0f%%',
+            startangle=90,
+            wedgeprops=dict(width=0.4)
+        )
+        for autotext in autotexts2:
+            autotext.set_bbox(dict(facecolor='white', alpha=0.6, boxstyle='round,pad=0.2', edgecolor='none'))
+        ax2.set_title("Нагрузка по раскладкам (все тексты)", fontsize=13)
+
+        canvas = FigureCanvasQTAgg(fig)
+        layout = QVBoxLayout()
+        layout.addWidget(canvas)
+
+        container = QWidget()
+        container.setLayout(layout)
+        return container
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-
-    common_chars = get_common_chars()
-    all_results = {}
-
-    for layout_code in LAYOUTS:
-        analyzer = KeyboardAnalyzer(layout=layout_code)
-        results = analyzer.analyze_all_files(common_chars)
-        all_results[layout_code] = results
-
-    bar_window = FingerComparisonChart(all_results)
-    bar_window.show()
-
-    pie_window = HandLoadPieChartsWindow(all_results)
-    pie_window.show()
-
+    window = KeyboardComparisonGUI()
+    window.show()
     sys.exit(app.exec_())
+
 
 
 
