@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Модуль №3 — Визуализация анализа раскладок &mdash; документация keyboard typing-master 2.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0eddcf85"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=cd1d70c9"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="prev" title="Модуль №2 — Анализатор раскладок клавиатуры" href="module2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            keyboard typing-master
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">📚 Навигация по документации</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="module1.html">Модуль №1 — Раскладки клавиатур</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module2.html">Модуль №2 — Анализатор раскладок клавиатуры</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Модуль №3 — Визуализация анализа раскладок</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#keyboardgui">🧩 <strong>Класс: KeyboardGUI</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#KeyboardComparisonGUI"><code class="docutils literal notranslate"><span class="pre">KeyboardComparisonGUI</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">🔧 <strong>Методы класса</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create_finger_chart_tab"><code class="docutils literal notranslate"><span class="pre">create_finger_chart_tab()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create_hand_pie_tab"><code class="docutils literal notranslate"><span class="pre">create_hand_pie_tab()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create_summary_tab"><code class="docutils literal notranslate"><span class="pre">create_summary_tab()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">🚀 <strong>Точка входа</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">🎨 <strong>Цветовая схема раскладок</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">📌 <strong>Полученные графики</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Общая нагрузка</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Нагрузка на руку</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Нагрузка на пальцы</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">keyboard typing-master</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Модуль №3 — Визуализация анализа раскладок</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/module3.rst.txt" rel="nofollow"> Просмотреть исходный код страницы</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="o3">
+<h1>Модуль №3 — Визуализация анализа раскладок<a class="headerlink" href="#o3" title="Ссылка на этот заголовок"></a></h1>
+<p>📦 <strong>gui.py</strong></p>
+<p>Модуль реализует графический интерфейс на PyQt5 для визуализации результатов анализа раскладок клавиатуры.
+Он импортирует данные из <cite>main.py</cite>, строит столбчатые диаграммы и таблицы, отображающие нагрузку на пальцы и сравнение раскладок.</p>
+<p>—</p>
+<p>🎯 <strong>Назначение</strong></p>
+<ul class="simple">
+<li><p>Построение графиков нагрузки по пальцам</p></li>
+<li><p>Сравнение раскладок по общему штрафу</p></li>
+<li><p>Интерактивный выбор раскладки и текста</p></li>
+<li><p>Отображение таблиц с процентной нагрузкой</p></li>
+</ul>
+<p>—</p>
+<section id="keyboardgui">
+<h2>🧩 <strong>Класс: KeyboardGUI</strong><a class="headerlink" href="#keyboardgui" title="Ссылка на этот заголовок"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="KeyboardComparisonGUI">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KeyboardComparisonGUI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#KeyboardComparisonGUI" title="Ссылка на это определение"></a></dt>
+<dd><p>Класс для визуального сравнения русскоязычных раскладок клавиатуры.</p>
+<p>При инициализации создаёт главное окно Qt-приложения с тремя вкладками визуализации:</p>
+<ul class="simple">
+<li><p><strong>Нагрузка на пальцы</strong> — столбчатая диаграмма по каждому пальцу.</p></li>
+<li><p><strong>Нагрузка на руки</strong> — круговая диаграмма по левой и правой руке.</p></li>
+<li><p><strong>Сводная нагрузка</strong> — круговые диаграммы по пальцам и раскладкам.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parent</strong> (<em>QWidget</em><em> or </em><em>None</em>) – Родительский элемент Qt (опционально). По умолчанию — None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="n">window</span> <span class="o">=</span> <span class="n">KeyboardComparisonGUI</span><span class="p">()</span>
+<span class="n">window</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+<section id="id1">
+<h2>🔧 <strong>Методы класса</strong><a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#init__" title="Ссылка на это определение"></a></dt>
+<dd><p>Инициализирует главное окно приложения и добавляет вкладки с визуализациями.</p>
+<ul class="simple">
+<li><p>Устанавливает заголовок окна и размеры.</p></li>
+<li><p>Создаёт QTabWidget с тремя вкладками:
+- «Нагрузка на пальцы» — отображает столбчатую диаграмму по пальцам.
+- «Нагрузка на руки» — отображает круговую диаграмму по рукам.
+- «Сводная нагрузка» — отображает круговые диаграммы по пальцам и раскладкам.</p></li>
+<li><p>Устанавливает вкладки как центральный виджет главного окна.</p></li>
+</ul>
+</dd></dl>
+
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">window</span> <span class="o">=</span> <span class="n">KeyboardComparisonGUI</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Результат</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">window</span><span class="o">.</span><span class="n">windowTitle</span><span class="p">()</span>
+<span class="c1"># → &#39;Сравнение раскладок — нагрузка на пальцы и руки&#39;</span>
+
+<span class="n">window</span><span class="o">.</span><span class="n">centralWidget</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="c1"># → 3  # В окне отображаются три вкладки с визуализациями</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="create_finger_chart_tab">
+<span class="sig-name descname"><span class="pre">create_finger_chart_tab</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#create_finger_chart_tab" title="Ссылка на это определение"></a></dt>
+<dd><p>Создаёт вкладку с горизонтальной диаграммой нагрузки на пальцы для всех раскладок.</p>
+<p>Для каждой раскладки анализируются три текста, и суммируется количество нажатий по каждому пальцу.
+Результаты визуализируются в виде горизонтальных столбцов, сгруппированных по пальцам, с цветовой дифференциацией и числовыми подписями.</p>
+</dd></dl>
+
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">window</span> <span class="o">=</span> <span class="n">KeyboardComparisonGUI</span><span class="p">()</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">create_finger_chart_tab</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Результат</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">)</span>
+<span class="c1"># → True  # Вкладка с диаграммой по пальцам готова к отображению в интерфейсе</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="create_hand_pie_tab">
+<span class="sig-name descname"><span class="pre">create_hand_pie_tab</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#create_hand_pie_tab" title="Ссылка на это определение"></a></dt>
+<dd><p>Создаёт вкладку с круговыми диаграммами распределения нагрузки между руками для каждой раскладки.</p>
+<p>Метод:</p>
+<ul class="simple">
+<li><p>Загружает общий набор символов с помощью <code class="docutils literal notranslate"><span class="pre">get_common_chars()</span></code>.</p></li>
+<li><p>Анализирует три текста для каждой раскладки из <code class="docutils literal notranslate"><span class="pre">LAYOUTS</span></code>.</p></li>
+<li><p>Суммирует количество нажатий левой и правой рукой.</p></li>
+<li><p>Строит круговую диаграмму с двумя секторами: «Левая» и «Правая».</p></li>
+<li><p>Настраивает подписи, цвета, заголовки и визуальные параметры диаграмм.</p></li>
+<li><p>Размещает диаграммы в сетке (по 3 на строку) внутри одного matplotlib-холста.</p></li>
+</ul>
+</dd></dl>
+
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">window</span> <span class="o">=</span> <span class="n">KeyboardComparisonGUI</span><span class="p">()</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">create_hand_pie_tab</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Результат</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">)</span>
+<span class="c1"># → True  # Вкладка с круговыми диаграммами по рукам готова к отображению</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="create_summary_tab">
+<span class="sig-name descname"><span class="pre">create_summary_tab</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#create_summary_tab" title="Ссылка на это определение"></a></dt>
+<dd><p>Создаёт вкладку со сводной визуализацией нагрузки по пальцам и раскладкам.</p>
+<p>Метод выполняет следующие действия:</p>
+<ul class="simple">
+<li><p>Загружает общий набор символов с помощью <code class="docutils literal notranslate"><span class="pre">get_common_chars()</span></code>.</p></li>
+<li><p>Для каждой раскладки из <code class="docutils literal notranslate"><span class="pre">LAYOUTS</span></code> анализирует три текста и суммирует:</p>
+<ul>
+<li><p>Общее количество нажатий по каждому пальцу.</p></li>
+<li><p>Общее количество нажатий по каждой раскладке.</p></li>
+</ul>
+</li>
+<li><p>Строит две круговые диаграммы:</p>
+<ul>
+<li><p>Слева — распределение нагрузки по пальцам (все раскладки и тексты).</p></li>
+<li><p>Справа — распределение нагрузки по раскладкам (все тексты).</p></li>
+</ul>
+</li>
+<li><p>Настраивает подписи, цвета, заголовки и визуальные параметры диаграмм.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Результат<span class="colon">:</span></dt>
+<dd class="field-odd"><p>QWidget с двумя круговыми диаграммами, готовый для отображения во вкладке GUI.</p>
+</dd>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
+<dd class="field-even"><p>QWidget</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">window</span> <span class="o">=</span> <span class="n">KeyboardComparisonGUI</span><span class="p">()</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">create_summary_tab</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Результат</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">)</span>
+<span class="c1"># → True  # Вкладка с круговыми диаграммами по пальцам и раскладкам готова к отображению</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+<section id="id2">
+<h2>🚀 <strong>Точка входа</strong><a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="main">
+<span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main" title="Ссылка на это определение"></a></dt>
+<dd><p>Точка входа в приложение.</p>
+<p>Выполняет следующие действия:</p>
+<ul class="simple">
+<li><p>Создаёт экземпляр <code class="docutils literal notranslate"><span class="pre">QApplication</span></code>.</p></li>
+<li><p>Инициализирует главное окно <a class="reference internal" href="#KeyboardComparisonGUI" title="KeyboardComparisonGUI"><code class="xref py py-class docutils literal notranslate"><span class="pre">KeyboardComparisonGUI</span></code></a>.</p></li>
+<li><p>Отображает окно.</p></li>
+<li><p>Запускает главный цикл событий Qt через <code class="docutils literal notranslate"><span class="pre">app.exec_()</span></code>.</p></li>
+</ul>
+</dd></dl>
+
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">KeyboardComparisonGUI</span><span class="p">()</span>
+    <span class="n">window</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">())</span>
+</pre></div>
+</div>
+<p class="rubric">Результат</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Открывается графическое окно с тремя вкладками визуализации.
+</pre></div>
+</div>
+<p>—</p>
+</section>
+<section id="id3">
+<h2>🎨 <strong>Цветовая схема раскладок</strong><a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<ul class="simple">
+<li><p><strong>Йцукен</strong> — красный (<cite>#FF0000</cite>)</p></li>
+<li><p><strong>Вызов</strong> — чёрный (<cite>#000000</cite>)</p></li>
+<li><p><strong>Диктор</strong> — желтый (<cite>#FFD700</cite>)</p></li>
+<li><p><strong>Русфон</strong> — розовый (<cite>#FF69B4</cite>)</p></li>
+<li><p><strong>Ант</strong> — голубой (<cite>#00BFFF</cite>)</p></li>
+<li><p><strong>Зубачев</strong> — фиолетовый (<cite>#800080</cite>)</p></li>
+<li><p><strong>Скоропись</strong> — зеленый (<cite>#228B22</cite>)</p></li>
+</ul>
+<p>—</p>
+</section>
+<section id="id4">
+<h2>📌 <strong>Полученные графики</strong><a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<section id="id5">
+<h3>Общая нагрузка<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h3>
+<a class="reference internal image-reference" href="_images/nagruzka_svodnaya.png"><img alt="Раскладка ЙЦУКЕН" class="align-center" src="_images/nagruzka_svodnaya.png" style="width: 500px;" />
+</a>
+<p>—</p>
+</section>
+<section id="id6">
+<h3>Нагрузка на руку<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
+<a class="reference internal image-reference" href="_images/nagryzka_na_ryky.png"><img alt="Раскладка ЙЦУКЕН" class="align-center" src="_images/nagryzka_na_ryky.png" style="width: 500px;" />
+</a>
+<p>—</p>
+</section>
+<section id="id7">
+<h3>Нагрузка на пальцы<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h3>
+<a class="reference internal image-reference" href="_images/nagryzka_na_palci.png"><img alt="Раскладка ЙЦУКЕН" class="align-center" src="_images/nagryzka_na_palci.png" style="width: 500px;" />
+</a>
+<p>—</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
+        <a href="module2.html" class="btn btn-neutral float-left" title="Модуль №2 — Анализатор раскладок клавиатуры" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Anokhina Varvara, Varzieva Marina, Roganova Sofia, Shandina Veronika. </p>
+  </div>
+
+  Собрано при помощи <a href="https://www.sphinx-doc.org/">Sphinx</a> с использованием
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">темы,</a>
+    предоставленной <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
