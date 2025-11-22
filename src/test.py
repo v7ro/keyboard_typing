@@ -12,7 +12,7 @@ import tempfile
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_dir)
 
-from main2 import KeyboardAnalyzer, get_common_chars
+from main import KeyboardAnalyzer, get_common_chars
 
 class TestKeyboardAnalyzerLayouts:
     """Тесты инициализации каждой раскладки"""

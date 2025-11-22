@@ -5,6 +5,12 @@
 Автор: Vero
 """
 
+from keyboard_layouts import (
+    keyboard_map, home_positions,
+    ytsuken_layout, vyzov_layout, zubachev_layout, 
+    skoropis_layout, rusfon_layout, diktor_layout, ant_layout
+)
+
 class KeyboardAnalyzer:
     """
     Класс для анализа раскладок клавиатуры.
@@ -30,433 +36,40 @@ class KeyboardAnalyzer:
             layout: Название раскладки, которую нужно загрузить. По умолчанию — 'ytsuken'.
         """
         self.layout = layout
+        self.keyboard_map = keyboard_map
         
         if layout == 'ytsuken':
-            self._init_ytsuken_layout()
+            self._init_from_layout_data(ytsuken_layout)
         elif layout == 'vyzov':
-            self._init_vyzov_layout()
+            self._init_from_layout_data(vyzov_layout)
         elif layout == 'zubachev':
-            self._init_zubachev_layout()
+            self._init_from_layout_data(zubachev_layout)
         elif layout == 'skoropis':
-            self._init_skoropis_layout()
+            self._init_from_layout_data(skoropis_layout)
         elif layout == 'rusfon':
-            self._init_rusfon_layout()
+            self._init_from_layout_data(rusfon_layout)
         elif layout == 'diktor':
-            self._init_diktor_layout()
+            self._init_from_layout_data(diktor_layout)
         elif layout == 'ant':
-            self._init_ant_layout()
+            self._init_from_layout_data(ant_layout)
+
+    def _init_from_layout_data(self, layout_data):
+        """
+        Инициализирует раскладку из данных словаря.
+
+        Args:
+            layout_data: Словарь с данными раскладки (keys, shift_keys, alt_keys, home_positions)
+        """
+        self.keys = layout_data['keys']
+        self.shift_keys = layout_data.get('shift_keys', {})
+        self.alt_keys = layout_data.get('alt_keys', {})
+        self.home_positions = layout_data.get('home_positions', home_positions)
         
-        # Карта клавиатуры: код -> (ряд, колонка) - общая для всех раскладок
-        self.keyboard_map = {
-            # Цифровой ряд
-            2: (0, 0), 3: (0, 1), 4: (0, 2), 5: (0, 3), 6: (0, 4),
-            7: (0, 5), 8: (0, 6), 9: (0, 7), 10: (0, 8), 11: (0, 9),
-            12: (0, 10), 13: (0, 11), 14: (0, 12),
-            
-            # Верхний ряд
-            16: (1, 0), 17: (1, 1), 18: (1, 2), 19: (1, 3), 20: (1, 4),
-            21: (1, 5), 22: (1, 6), 23: (1, 7), 24: (1, 8), 25: (1, 9),
-            26: (1, 10), 27: (1, 11),
-            
-            # Домашний ряд
-            30: (2, 0), 31: (2, 1), 32: (2, 2), 33: (2, 3), 34: (2, 4),
-            35: (2, 5), 36: (2, 6), 37: (2, 7), 38: (2, 8), 39: (2, 9),
-            40: (2, 10),
-            
-            # Нижний ряд
-            41: (3, 0), 44: (3, 1), 45: (3, 2), 46: (3, 3), 47: (3, 4), 
-            48: (3, 5), 49: (3, 6), 50: (3, 7), 51: (3, 8), 52: (3, 9), 
-            53: (3, 10),
-            
-            # Особые клавиши
-            42: (3, -1),  # Shift
-            43: (1, 12),  # \ (обратный слеш)
-            57: (4, 5)    # Пробел
-        }
-
-    def _init_ytsuken_layout(self):
-        """
-        Инициализирует стандартную русскую раскладку ЙЦУКЕН.
-        
-        Устанавливает соответствие символов клавиш их кодам и пальцам, 
-        а также определяет:
-        - заглавные буквы (через Shift),
-        - специальные символы с Shift,
-        - домашние позиции пальцев.
-        """
-        self.keys = {
-            # Основные буквы
-            'й': (16, 'left_pinky'), 'ц': (17, 'left_ring'), 'у': (18, 'left_middle'), 
-            'к': (19, 'left_index'), 'е': (20, 'left_index'), 'н': (21, 'right_index'),
-            'г': (22, 'right_index'), 'ш': (23, 'right_middle'), 'щ': (24, 'right_ring'),
-            'з': (25, 'right_pinky'), 'х': (26, 'right_pinky'), 'ъ': (27, 'right_pinky'),
-            
-            'ф': (30, 'left_pinky'), 'ы': (31, 'left_ring'), 'в': (32, 'left_middle'),
-            'а': (33, 'left_index'), 'п': (34, 'left_index'), 'р': (35, 'right_index'),
-            'о': (36, 'right_index'), 'л': (37, 'right_middle'), 'д': (38, 'right_ring'),
-            'ж': (39, 'right_pinky'), 'э': (40, 'right_pinky'),
-            
-            'я': (44, 'left_pinky'), 'ч': (45, 'left_ring'), 'с': (46, 'left_middle'),
-            'м': (47, 'left_index'), 'и': (48, 'right_index'), 'т': (49, 'right_index'),
-            'ь': (50, 'right_index'), 'б': (51, 'right_middle'), 'ю': (52, 'right_ring'),
-            
-            'ё': (41, 'left_pinky'), ' ': (57, 'right_thumb')
-        }
-
-        # Заглавные буквы (буква + Shift)
+        # Создаем заглавные буквы автоматически
         self.caps_keys = {}
         for char, (code, finger) in self.keys.items():
             if char.isalpha() and char != ' ':
                 self.caps_keys[char.upper()] = (code, finger)
-
-        # Символы с Shift
-        self.shift_keys = {
-            '!': (2, 'left_pinky'), '"': (3, 'left_ring'), '№': (4, 'left_middle'), 
-            ';': (5, 'left_index'), '%': (6, 'right_index'), ':': (7, 'right_middle'), 
-            '?': (8, 'right_ring'), '*': (9, 'right_pinky'), '(': (10, 'right_pinky'), 
-            ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), '+': (13, 'right_pinky'),
-            '/': (43, 'right_pinky'), ',': (53, 'right_pinky')
-        }
-
-        # Домашние позиции
-        self.home_positions = {
-            'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-            'right_index': 36, 'right_middle': 37, 'right_ring': 38, 'right_pinky': 39,
-            'left_thumb': 42, 'right_thumb': 57
-        }
-
-    def _init_vyzov_layout(self):
-        """
-        Инициализирует раскладку «Вызов» с оптимизацией через Alt-символы.
-
-        Эта раскладка разработана для повышения эффективности набора текста за счёт:
-        - переноса редко используемых символов на Alt-комбинации,
-        - сокращения расстояний до часто используемых букв,
-        - перераспределения нагрузки между пальцами.
-        
-        Метод определяет:
-        - основные символы и их расположение,
-        - заглавные буквы (через Shift),
-        - символы с Shift-модификатором,
-        - Alt-символы (альтернативные позиции для экономии движений),
-        - домашние позиции пальцев.
-        """
-        self.keys = {
-            'б': (16, 'left_pinky'), 'ы': (17, 'left_ring'), 'о': (18, 'left_middle'),
-            'у': (19, 'left_index'), 'ь': (20, 'left_index'), 'ё': (21, 'right_index'),
-            '^': (22, 'right_index'), 'д': (23, 'right_index'), 'я': (24, 'right_middle'),
-            'г': (25, 'right_middle'), 'ж': (26, 'right_middle'), 
-            
-            'ч': (30, 'left_pinky'), 'и': (31, 'left_ring'), 'е': (32, 'left_middle'),
-            'а': (33, 'left_index'), ',': (34, 'left_index'), 'н': (36, 'right_index'),
-            'т': (37, 'right_middle'), 'с': (38, 'right_ring'), 'в': (39, 'right_pinky'),
-            'з': (40, 'right_ring'),
-            
-            'х': (45, 'left_ring'), 'й': (46, 'left_middle'),
-            'к': (47, 'left_index'), '_': (48, 'left_index'), '/': (49, 'right_pinky'),
-            'р': (50, 'right_index'), 'м': (51, 'right_ring'), 'ф': (52, 'right_pinky'),
-            'п': (53, 'right_pinky'),
-            
-            ' ': (57, 'right_thumb'), '₽': (41, 'right_thumb')
-        }
-
-        # Заглавные буквы
-        self.caps_keys = {}
-        for char, (code, finger) in self.keys.items():
-            if char.isalpha() and char != ' ':
-                self.caps_keys[char.upper()] = (code, finger)
-
-        # Символы с Shift
-        self.shift_keys = {
-            'ё': (2, 'left_pinky'), '[': (3, 'left_ring'), '{': (4, 'left_middle'),
-            '}': (5, 'left_index'), '(': (6, 'right_index'), '=': (7, 'right_middle'),
-            '*': (8, 'right_ring'), ')': (9, 'right_pinky'), '+': (10, 'right_pinky'),
-            ']': (11, 'right_pinky'), '!': (12, 'right_pinky'), 
-            ';': (34, 'left_index'), ':': (35, 'right_index'), "'": (20, 'left_index'),
-            '-': (48, 'left_index'), '?': (49, 'right_pinky'), '@': (27, 'right_ring'),
-            '$': (41, 'right_thumb')
-        }
-
-        # Alt-символы - оставляем только экономичные
-        self.alt_keys = {
-            'ц': (30, 'left_ring'),  
-            'щ': (36, 'right_index'),   
-            'ъ': (37, 'right_middle'),   
-            '№': (39, 'right_pinky'),    
-            'э': (32, 'left_middle')     
-        }
-
-        self.home_positions = {
-            'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-            'right_index': 36, 'right_middle': 37, 'right_ring': 38, 'right_pinky': 39,
-            'left_thumb': 42, 'right_thumb': 57
-        }
-
-    def _init_zubachev_layout(self):
-        """
-        Инициализирует раскладку «Зубачев».
-
-        Раскладка разработана с акцентом на симметрию, эргономику и частотное распределение символов.
-        Часто используемые буквы расположены ближе к центру, чтобы снизить нагрузку на пальцы.
-
-        Метод определяет:
-        - основные символы и их расположение на клавиатуре,
-        - заглавные буквы (через Shift),
-        - специальные символы с Shift-модификатором,
-        - домашние позиции пальцев для расчёта пути.
-        """
-        self.keys = {
-            'ф': (16, 'left_pinky'), 'ы': (17, 'left_ring'), 'а': (18, 'left_middle'),
-            'я': (19, 'left_index'), ',': (20, 'left_index'), 'й': (21, 'left_index'),
-            'м': (22, 'left_index'), 'р': (23, 'right_index'), 'п': (24, 'right_index'),
-            'х': (25, 'right_index'), 'ц': (26, 'right_index'), 'щ': (27, 'right_index'),
-            
-            'г': (30, 'left_pinky'), 'и': (31, 'left_ring'), 'у': (32, 'left_middle'),
-            'о': (33, 'left_index'), 'у': (34, 'left_index'), 'л': (35, 'right_middle'),
-            'т': (36, 'right_middle'), 'с': (37, 'right_middle'), 'н': (38, 'right_ring'),
-            'з': (39, 'right_ring'), 'ж': (40, 'right_ring'),
-            
-            'ш': (44, 'left_pinky'), 'ь': (45, 'left_ring'), 'ю': (46, 'left_middle'),
-            '.': (47, 'left_index'), 'э': (48, 'right_pinky'), 'б': (49, 'right_pinky'),
-            'д': (50, 'right_pinky'), 'в': (51, 'right_pinky'), 'к': (52, 'right_pinky'),
-            'ч': (53, 'right_pinky'),
-            
-            '\\': (43, 'right_index'), 'ё': (41, 'right_pinky'), ' ': (57, 'right_thumb')
-        }
-
-        # Заглавные буквы
-        self.caps_keys = {}
-        for char, (code, finger) in self.keys.items():
-            if char.isalpha() and char != ' ':
-                self.caps_keys[char.upper()] = (code, finger)
-
-        # Символы с Shift
-        self.shift_keys = {
-            '!': (2, 'left_pinky'), '"': (3, 'left_ring'), '№': (4, 'left_middle'),
-            ';': (5, 'left_index'), '%': (6, 'right_index'), ':': (7, 'right_middle'),
-            '?': (8, 'right_ring'), '*': (9, 'right_pinky'), '(': (10, 'right_pinky'),
-            ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), '+': (13, 'right_pinky'),
-            '/': (43, 'right_index'), 'ъ': (45, 'left_ring'), 'ь': (47, 'left_index')
-        }
-
-        self.home_positions = {
-            'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-            'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-            'left_thumb': 42, 'right_thumb': 57
-        }
-
-    def _init_skoropis_layout(self):
-        """
-        Инициализирует раскладку «Скоропись».
-
-        Раскладка разработана для скоростного набора текста с минимальной нагрузкой на пальцы.
-        Частотные символы размещены ближе к сильным пальцам, а редкие — на периферии.
-
-        Метод определяет:
-        - основные символы и их расположение,
-        - заглавные буквы (через Shift),
-        - специальные символы с Shift-модификатором,
-        - домашние позиции пальцев для расчёта пути.
-        """
-        self.keys = {
-            'ц': (16, 'left_pinky'), 'ь': (17, 'left_ring'), 'я': (18, 'left_middle'),
-            ',': (19, 'left_index'), '.': (20, 'left_index'), 'з': (21, 'left_index'),
-            'в': (22, 'left_index'), 'к': (23, 'right_index'), 'д': (24, 'right_index'),
-            'ч': (25, 'right_index'), 'ш': (26, 'right_index'), 'щ': (27, 'right_index'),
-            
-            'у': (30, 'left_pinky'), 'и': (31, 'left_ring'), 'е': (32, 'left_middle'),
-            'о': (33, 'left_index'), 'а': (34, 'left_index'), 'л': (35, 'right_middle'),
-            'н': (36, 'right_middle'), 'т': (37, 'right_middle'), 'с': (38, 'right_ring'),
-            'р': (39, 'right_ring'), 'й': (40, 'right_ring'),
-            
-            'ф': (44, 'left_pinky'), 'э': (45, 'left_ring'), 'х': (46, 'left_middle'),
-            'ы': (47, 'left_index'), 'ю': (48, 'right_pinky'), 'б': (49, 'right_pinky'),
-            'м': (50, 'right_pinky'), 'п': (51, 'right_pinky'), 'г': (52, 'right_pinky'),
-            'ж': (53, 'right_pinky'),
-            
-            '"': (43, 'right_index'), '*': (41, 'right_pinky'), ' ': (57, 'right_thumb')
-        }
-
-        # Заглавные буквы
-        self.caps_keys = {}
-        for char, (code, finger) in self.keys.items():
-            if char.isalpha() and char != ' ':
-                self.caps_keys[char.upper()] = (code, finger)
-
-        # Символы с Shift (спецсимволы)
-        self.shift_keys = {
-            '.': (2, 'left_pinky'), 'ё': (3, 'left_ring'), 'ъ': (4, 'left_middle'),
-            '?': (5, 'left_index'), '!': (6, 'right_index'), '': (7, 'right_middle'),
-            '-': (8, 'right_ring'), "'": (9, 'right_pinky'), '(': (10, 'right_pinky'),
-            ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), '«': (13, 'right_pinky')
-        }
-
-        self.home_positions = {
-            'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-            'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-            'left_thumb': 42, 'right_thumb': 57
-        }
-
-    def _init_rusfon_layout(self):
-        """
-        Инициализирует раскладку «Русфон» — русскую фонетическую клавиатуру.
-
-        Раскладка разработана для интуитивного ввода русских символов, особенно полезна
-        для начинающих пользователей и тех, кто привык к латинской клавиатуре.
-
-        Метод определяет:
-        - основные символы и их расположение на клавиатуре,
-        - заглавные буквы (через Shift),
-        - специальные символы с Shift-модификатором,
-        - домашние позиции пальцев для расчёта пути.
-        """
-        self.keys = {
-            'я': (16, 'left_pinky'), 'в': (17, 'left_ring'), 'е': (18, 'left_middle'),
-            'р': (19, 'left_index'), 'т': (20, 'left_index'), 'ы': (21, 'left_index'),
-            'у': (22, 'left_index'), 'и': (23, 'right_index'), 'о': (24, 'right_index'),
-            'п': (25, 'right_index'), 'ш': (26, 'right_index'), 'щ': (27, 'right_index'),
-            
-            'а': (30, 'left_pinky'), 'с': (31, 'left_ring'), 'д': (32, 'left_middle'),
-            'ф': (33, 'left_index'), 'г': (34, 'left_index'), 'х': (35, 'right_middle'),
-            'й': (36, 'right_middle'), 'к': (37, 'right_middle'), 'л': (38, 'right_ring'),
-            ';': (39, 'right_ring'), "'": (40, 'right_ring'),
-            
-            'з': (44, 'left_pinky'), 'ь': (45, 'left_ring'), 'ц': (46, 'left_middle'),
-            'ж': (47, 'left_index'), 'б': (48, 'right_pinky'), 'н': (49, 'right_pinky'),
-            'м': (50, 'right_pinky'), ',': (51, 'right_pinky'), '.': (52, 'right_pinky'),
-            '/': (53, 'right_pinky'),
-            
-            'э': (43, 'right_index'), 'ю': (41, 'right_pinky'), ' ': (57, 'right_thumb')
-        }
-
-        # Заглавные буквы
-        self.caps_keys = {}
-        for char, (code, finger) in self.keys.items():
-            if char.isalpha() and char != ' ':
-                self.caps_keys[char.upper()] = (code, finger)
-
-        # Символы с Shift
-        self.shift_keys = {
-            '!': (2, 'left_pinky'), '@': (3, 'left_ring'), 'ё': (4, 'left_middle'),
-            'Ё': (5, 'left_index'), 'ъ': (6, 'right_index'), 'Ъ': (7, 'right_middle'),
-            '&': (8, 'right_ring'), '*': (9, 'right_pinky'), '(': (10, 'right_pinky'),
-            ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), 'ч': (13, 'right_pinky'),
-            ':': (39, 'right_ring'), '"': (40, 'right_ring'), '<': (51, 'right_pinky'),
-            '>': (52, 'right_pinky'), '?': (53, 'right_pinky')
-        }
-
-        self.home_positions = {
-            'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-            'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-            'left_thumb': 42, 'right_thumb': 57
-        }
-
-    def _init_diktor_layout(self):
-        """
-        Инициализирует раскладку «Диктор».
-        
-        Раскладка разработана для дикторов, стенографистов и пользователей, работающих с речевыми текстами.
-        Оптимизирована для быстрого доступа к служебным символам, знакам препинания и часто используемым буквам.
-
-        Метод определяет:
-        - основные символы и их расположение на клавиатуре,
-        - заглавные буквы (через Shift),
-        - специальные символы с Shift-модификатором,
-        - домашние позиции пальцев для расчёта пути.
-        """
-        self.keys = {
-            'ц': (16, 'left_pinky'), 'ь': (17, 'left_ring'), 'я': (18, 'left_middle'),
-            ',': (19, 'left_index'), '.': (20, 'left_index'), 'з': (21, 'left_index'),
-            'в': (22, 'left_index'), 'к': (23, 'right_index'), 'д': (24, 'right_index'),
-            'ч': (25, 'right_index'), 'ш': (26, 'right_index'), 'щ': (27, 'right_index'),
-            
-            'у': (30, 'left_pinky'), 'и': (31, 'left_ring'), 'е': (32, 'left_middle'),
-            'о': (33, 'left_index'), 'а': (34, 'left_index'), 'л': (35, 'right_middle'),
-            'н': (36, 'right_middle'), 'т': (37, 'right_middle'), 'с': (38, 'right_ring'),
-            'р': (39, 'right_ring'), 'й': (40, 'right_ring'),
-            
-            'ф': (44, 'left_pinky'), 'э': (45, 'left_ring'), 'х': (46, 'left_middle'),
-            'ы': (47, 'left_index'), 'ю': (48, 'right_pinky'), 'б': (49, 'right_pinky'),
-            'м': (50, 'right_pinky'), 'п': (51, 'right_pinky'), 'г': (52, 'right_pinky'),
-            'ж': (53, 'right_pinky'),
-            
-            ' ': (57, 'right_thumb'), 'ё': (41, 'right_pinky')
-        }
-
-        # Заглавные буквы
-        self.caps_keys = {}
-        for char, (code, finger) in self.keys.items():
-            if char.isalpha() and char != ' ':
-                self.caps_keys[char.upper()] = (code, finger)
-
-        # Символы с Shift
-        self.shift_keys = {
-            'ь': (3, 'left_ring'), '№': (4, 'left_middle'),
-            '%': (5, 'left_index'), ':': (6, 'right_index'), ';': (7, 'right_middle'),
-            '-': (8, 'right_ring'), '"': (9, 'right_pinky'), '(': (10, 'right_pinky'),
-            ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), '+': (13, 'right_pinky'),
-            'ъ': (17, 'left_ring'), '?': (19, 'left_index'), '!': (20, 'left_index')
-        }
-
-        self.home_positions = {
-            'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-            'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-            'left_thumb': 42, 'right_thumb': 57
-        }
-
-    def _init_ant_layout(self):
-        """
-        Инициализирует раскладку «Ант» — альтернативную русскую клавиатуру с эргономическим смещением.
-
-        Раскладка разработана для снижения нагрузки на пальцы и повышения скорости набора.
-        Частотные символы размещены ближе к центру, а редкие — на периферии.
-        Подходит для анализа эргоэкономичных конфигураций и нестандартных клавиатур.
-        
-        Метод определяет:
-        - основные символы и их расположение на клавиатуре,
-        - заглавные буквы (через Shift),
-        - специальные символы с Shift-модификатором,
-        - домашние позиции пальцев для расчёта пути.
-        """
-        self.keys = {
-            'г': (16, 'left_pinky'), 'п': (17, 'left_ring'), 'р': (18, 'left_middle'),
-            'д': (19, 'left_index'), 'м': (20, 'left_index'), 'ы': (21, 'left_index'),
-            'и': (22, 'left_index'), 'я': (23, 'right_index'), 'у': (24, 'right_index'),
-            'х': (25, 'right_index'), 'ц': (26, 'right_index'), 'ж': (27, 'right_index'),
-            
-            'в': (30, 'left_pinky'), 'н': (31, 'left_ring'), 'с': (32, 'left_middle'),
-            'т': (33, 'left_index'), 'л': (34, 'left_index'), 'ь': (35, 'right_middle'),
-            'о': (36, 'right_middle'), 'е': (37, 'right_middle'), 'а': (38, 'right_ring'),
-            'к': (39, 'right_ring'), 'з': (40, 'right_ring'),
-            
-            'щ': (44, 'left_pinky'), 'й': (45, 'left_ring'), 'ш': (46, 'left_middle'),
-            'ь': (47, 'left_index'), ',': (48, 'right_pinky'), '.': (49, 'right_pinky'),
-            'ю': (50, 'right_pinky'), 'э': (51, 'right_pinky'), 'ё': (52, 'right_pinky'),
-            'ф': (53, 'right_pinky'),
-            
-            'ч': (43, 'right_index'), '\\': (41, 'right_pinky'), ' ': (57, 'right_thumb')
-        }
-
-        # Заглавные буквы
-        self.caps_keys = {}
-        for char, (code, finger) in self.keys.items():
-            if char.isalpha() and char != ' ':
-                self.caps_keys[char.upper()] = (code, finger)
-
-        # Символы с Shift
-        self.shift_keys = {
-            '!': (2, 'left_pinky'), '?': (3, 'left_ring'), "'": (4, 'left_middle'),
-            '"': (5, 'left_index'), '=': (6, 'right_index'), '+': (7, 'right_middle'),
-            '-': (8, 'right_ring'), '*': (9, 'right_pinky'), '/': (10, 'right_pinky'),
-            '%': (11, 'right_pinky'), '«': (12, 'right_pinky'), '»': (13, 'right_pinky'),
-            ';': (48, 'right_pinky'), ':': (49, 'right_pinky')
-        }
-
-        self.home_positions = {
-            'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-            'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-            'left_thumb': 42, 'right_thumb': 57
-        }
 
     def _calculate_path(self, key_code, finger):
         """
@@ -545,9 +158,7 @@ class KeyboardAnalyzer:
             print(f"Текст {text_name} пустой, пропускаем анализ")
             return None
             
-        clean_text = text  # Анализируем ВЕСЬ текст без фильтрации
-        #print(f"  (анализируется весь текст: {len(clean_text)} символов)")
-        
+        clean_text = text
         paths = {finger: 0 for finger in [
             'left_pinky', 'left_ring', 'left_middle', 'left_index',
             'right_index', 'right_middle', 'right_ring', 'right_pinky', 
@@ -560,43 +171,75 @@ class KeyboardAnalyzer:
         alt_count = 0
         character_count = len(clean_text)
 
-        # Статистика по типам нажатий - ИСПРАВЛЕННАЯ ЛОГИКА
-        left_hand_only = 0      # Только левая рука (все нажатия левой рукой)
-        right_hand_only = 0     # Только правая рука (все нажатия правой рукой)  
-        both_hands = 0          # Обе руки одновременно (модификатор + буква)
-        total_presses = 0       # Общее количество нажатий (буквы + модификаторы)
+        # НОВАЯ ЛОГИКА: считаем распределение рук
+        left_hand_letters = 0      # Буквы, набранные левой рукой
+        right_hand_letters = 0     # Буквы, набранные правой рукой  
+        hand_switches = 0          # Смены рук (переход от левой к правой или наоборот)
+        total_presses = 0          # Общее количество нажатий
         
         # Определяем какие пальцы к каким рукам относятся
         left_hand_fingers = ['left_pinky', 'left_ring', 'left_middle', 'left_index', 'left_thumb']
         right_hand_fingers = ['right_pinky', 'right_ring', 'right_middle', 'right_index', 'right_thumb']
 
+        # Переменная для отслеживания предыдущей руки
+        previous_hand = None  # None, 'left', или 'right'
+        
         for char in clean_text:
             # Собираем ВСЕ возможные варианты для этого символа
             options = []
+            current_hand = None
             
             # Вариант 1: обычная буква
             if char in self.keys:
                 key_code, finger = self.keys[char]
                 path = self._calculate_path(key_code, finger)
                 options.append(('normal', path, key_code, finger, 0, None))
+                # Определяем руку для основной клавиши
+                if finger in left_hand_fingers:
+                    current_hand = 'left'
+                    left_hand_letters += 1
+                elif finger in right_hand_fingers:
+                    current_hand = 'right' 
+                    right_hand_letters += 1
             
             # Вариант 2: заглавная буква (буква + Shift)
             if char in getattr(self, 'caps_keys', {}):
                 key_code, finger = self.caps_keys[char]
                 path = self._calculate_path(key_code, finger)
                 options.append(('caps', path + 1, key_code, finger, 1, 'left_thumb'))
+                # Определяем руку для основной клавиши
+                if finger in left_hand_fingers:
+                    current_hand = 'left'
+                    left_hand_letters += 1
+                elif finger in right_hand_fingers:
+                    current_hand = 'right'
+                    right_hand_letters += 1
             
             # Вариант 3: Shift-символ
             if char in getattr(self, 'shift_keys', {}):
                 key_code, finger = self.shift_keys[char]
                 path = self._calculate_path(key_code, finger)
                 options.append(('shift', path + 1, key_code, finger, 1, 'left_thumb'))
+                # Определяем руку для основной клавиши
+                if finger in left_hand_fingers:
+                    current_hand = 'left'
+                    left_hand_letters += 1
+                elif finger in right_hand_fingers:
+                    current_hand = 'right'
+                    right_hand_letters += 1
             
             # Вариант 4: Alt-символ
             if char in getattr(self, 'alt_keys', {}):
                 key_code, finger = self.alt_keys[char]
                 path = self._calculate_path(key_code, finger)
                 options.append(('alt', path + 1, key_code, finger, 1, 'right_thumb'))
+                # Определяем руку для основной клавиши
+                if finger in left_hand_fingers:
+                    current_hand = 'left'
+                    left_hand_letters += 1
+                elif finger in right_hand_fingers:
+                    current_hand = 'right'
+                    right_hand_letters += 1
             
             if options:
                 # Выбираем вариант с минимальным общим путем
@@ -621,16 +264,13 @@ class KeyboardAnalyzer:
                     elif mode == 'alt':
                         alt_count += 1
                 
-                # Считаем типы нажатий 
-                if mod_cost == 0:
-                    # Одиночное нажатие - определяем какая рука
-                    if finger in left_hand_fingers:
-                        left_hand_only += 1
-                    elif finger in right_hand_fingers:
-                        right_hand_only += 1
-                else:
-                    # Двуручное нажатие - модификатор + основная клавиша
-                    both_hands += 1
+                # Считаем смены рук (только для букв, не для пробелов и т.д.)
+                if current_hand and previous_hand and current_hand != previous_hand:
+                    hand_switches += 1
+                
+                # Обновляем предыдущую руку
+                if current_hand:
+                    previous_hand = current_hand
         
         average_path = total_path / character_count if character_count > 0 else 0
         
@@ -642,44 +282,34 @@ class KeyboardAnalyzer:
         left_hand_percentage = (left_hand_count / total_hand_count * 100) if total_hand_count > 0 else 0
         right_hand_percentage = (right_hand_count / total_hand_count * 100) if total_hand_count > 0 else 0
         
-        # Проверка корректности подсчета
-        check_total = left_hand_only + right_hand_only + both_hands
-        check_presses = left_hand_count + right_hand_count
-        
-        #print(f"  Проверка подсчета для {text_name}:")
-        #print(f"    Всего нажатий: {total_presses}")
-        #print(f"    Левая рука: {left_hand_count} ({left_hand_percentage:.1f}%)")
-        #print(f"    Правая рука: {right_hand_count} ({right_hand_percentage:.1f}%)")
-        #print(f"    Только левая: {left_hand_only} ({left_hand_only/total_presses*100:.1f}%)")
-        #print(f"    Только правая: {right_hand_only} ({right_hand_only/total_presses*100:.1f}%)")
-        #print(f"    Обе руки: {both_hands} ({both_hands/total_presses*100:.1f}%)")
-        #print(f"    Shift: {shift_count}, Alt: {alt_count}")
-        #print(f"    Проверка: {check_total} = {total_presses}? {check_total == total_presses}")
+        # Проценты для распределения рук
+        total_letters = left_hand_letters + right_hand_letters
+        left_hand_letters_percentage = (left_hand_letters / total_letters * 100) if total_letters > 0 else 0
+        right_hand_letters_percentage = (right_hand_letters / total_letters * 100) if total_letters > 0 else 0
         
         return {
-            'text_name': text_name,
-            'layout': self.layout,
-            'total_path': total_path,
-            'finger_paths': paths,
-            'finger_counts': finger_counts,
-            'characters_analyzed': character_count,
-            'shift_count': shift_count,
-            'alt_count': alt_count,
-            'average_path': average_path,
-            'left_hand_count': left_hand_count,
-            'right_hand_count': right_hand_count,
-            'left_hand_percentage': left_hand_percentage,
-            'right_hand_percentage': right_hand_percentage,
-            'left_hand_only': left_hand_only,
-            'right_hand_only': right_hand_only, 
-            'two_handed': both_hands,  
-            'total_presses': total_presses,
-            'average_presses_per_char': total_presses / character_count if character_count > 0 else 0,
-            'left_hand_only_percentage': (left_hand_only / total_presses * 100) if total_presses > 0 else 0,
-            'right_hand_only_percentage': (right_hand_only / total_presses * 100) if total_presses > 0 else 0,
-            'two_handed_percentage': (both_hands / total_presses * 100) if total_presses > 0 else 0,
-        }
-
+                'text_name': text_name,
+                'layout': self.layout,
+                'total_path': total_path,
+                'finger_paths': paths,
+                'finger_counts': finger_counts,
+                'characters_analyzed': character_count,
+                'shift_count': shift_count,
+                'alt_count': alt_count,
+                'average_path': average_path,
+                'left_hand_count': left_hand_count,
+                'right_hand_count': right_hand_count,
+                'left_hand_percentage': left_hand_percentage,
+                'right_hand_percentage': right_hand_percentage,
+                'left_hand_letters': left_hand_letters,           # буквы левой рукой
+                'right_hand_letters': right_hand_letters,         # буквы правой рукой
+                'hand_switches': hand_switches,                   # смены рук
+                'total_presses': total_presses,
+                'average_presses_per_char': total_presses / character_count if character_count > 0 else 0,
+                'left_hand_letters_percentage': left_hand_letters_percentage,
+                'right_hand_letters_percentage': right_hand_letters_percentage,
+                'hand_switches_per_100_chars': (hand_switches / character_count * 100) if character_count > 0 else 0,
+            }
     def analyze_all_files(self, common_chars=None): 
         """
         Последовательно анализирует три предопределённых текстовых файла с раскладкой клавиатуры.
@@ -844,40 +474,132 @@ layouts = [
 
 all_results = {}
 
-#for layout_code, layout_name in layouts:
-    #print(f"\n\n{'='*70}")
-    #print(f"АНАЛИЗ РАСКЛАДКИ: {layout_name}")
-    #print("="*70)
+
+def analyze_all_layouts_optimized():
+    """Оптимизированный анализ всех раскладок с выбором текста"""
+    print("="*70)
+    print("УСКОРЕННЫЙ АНАЛИЗ РАСКЛАДОК")
+    print("="*70)
     
-    #analyzer = KeyboardAnalyzer(layout=layout_code)
-    #results = analyzer.analyze_all_files(common_chars)
-    #if results:
-        #analyzer.print_improved_results(results)
-        #all_results[layout_code] = results
-
-# Сводная таблица для сравнения всех раскладок
-#print(f"\n{'='*140}")
-#print("СВОДНАЯ ТАБЛИЦА ДЛЯ СРАВНЕНИЯ РАСКЛАДОК (ОБЩИЕ СИМВОЛЫ)")
-#print(f"{'='*140}")
-#print(f"{'Текст':<15} {'Раскладка':<12} {'Символов':<10} {'Нажатий':<10} {'Наж/симв':<10} {'Общий путь':<12} {'Ср. путь':<10} {'Левая':<8} {'Правая':<8} {'2 руки':<8} {'Shift':<8} {'Alt':<6}")
-#print(f"{'-'*140}")
-
-layout_display_names = {
-    'ytsuken': 'Стандарт', 'vyzov': 'Вызов', 'zubachev': 'Зубачев',
-    'skoropis': 'Скоропись', 'rusfon': 'Русфон', 'diktor': 'Диктор', 'ant': 'Ант'
-}
-
-for i in range(3):  # для трех текстов
+    # МЕНЮ ВЫБОРА ТЕКСТА
+    print("\nВЫБЕРИТЕ ТЕКСТ ДЛЯ АНАЛИЗА:")
+    print("1 - Война и мир (большой художественный текст)")
+    print("2 - Сортировка букв (частотный анализ)")
+    print("3 - Минимальные фразы (первые 1000 слов)")
+    print("4 - Все тексты")
+    
+    try:
+        choice = input("Введите номер (1-4): ").strip()
+    except KeyboardInterrupt:
+        print("\nПрограмма прервана пользователем")
+        return
+    
+    files_to_analyze = []
+    
+    if choice == "1":
+        files_to_analyze = [('voina_i_mir.txt', 'Война и мир')]
+        print("Выбран: Война и мир")
+    elif choice == "2":
+        files_to_analyze = [('sortchbukw.csv', 'Сортировка букв')]
+        print("Выбран: Сортировка букв")
+    elif choice == "3":
+        files_to_analyze = [('1grams.txt', 'Минимальные фразы')]
+        print("Выбран: Минимальные фразы (первые 1000 слов)")
+    elif choice == "4":
+        files_to_analyze = [
+            ('voina_i_mir.txt', 'Война и мир'),
+            ('sortchbukw.csv', 'Сортировка букв'), 
+            ('1grams.txt', 'Минимальные фразы')
+        ]
+        print("Выбраны все тексты")
+    else:
+        print("Неверный выбор! Загружаются все тексты по умолчанию")
+        files_to_analyze = [
+            ('voina_i_mir.txt', 'Война и мир'),
+            ('sortchbukw.csv', 'Сортировка букв'), 
+            ('1grams.txt', 'Минимальные фразы')
+        ]
+    
+    # ЗАГРУЖАЕМ ВЫБРАННЫЕ ТЕКСТЫ
+    texts_data = []
+    
+    print("\nЗагрузка текстов...")
+    for filename, text_name in files_to_analyze:
+        try:
+            with open(filename, 'r', encoding='utf-8') as file:
+                text = file.read()
+                # ДЛЯ ФАЙЛА С ЛЕКСЕМАМИ БЕРЕМ ТОЛЬКО ПЕРВУЮ 1000 СЛОВ
+                if filename == '1grams.txt':
+                    words = text.split()[:1000]
+                    text = ' '.join(words)
+                    print(f"  ✓ Загружено {len(words)} слов из {text_name}")
+                else:
+                    print(f"  ✓ Загружен {text_name}: {len(text):,} символов".replace(',', ' '))
+                texts_data.append((text, text_name))
+        except FileNotFoundError:
+            print(f"  ✗ ОШИБКА: Файл {filename} не найден!")
+        except Exception as e:
+            print(f"  ✗ ОШИБКА загрузки {filename}: {e}")
+    
+    if not texts_data:
+        print("Нет данных для анализа!")
+        return
+    
+    common_chars = get_common_chars()
+    layouts = [
+        ('ytsuken', 'СТАНДАРТНАЯ'),
+        ('vyzov', 'ВЫЗОВ'), 
+        ('zubachev', 'ЗУБАЧЕВ'),
+        ('skoropis', 'СКОРОПИСЬ'),
+        ('rusfon', 'РУСФОН'),
+        ('diktor', 'ДИКТОР'),
+        ('ant', 'АНТ')
+    ]
+    
+    all_results = {}
+    
+    print(f"\nАнализ {len(layouts)} раскладок...")
     for layout_code, layout_name in layouts:
-        if layout_code in all_results and i < len(all_results[layout_code]):
-            result = all_results[layout_code][i]
-            layout_display_name = layout_display_names.get(layout_code, layout_code)
-            
-           # print(f"{result['text_name']:<15} {layout_display_name:<12} {result['characters_analyzed']:<10} "
-               ###   f"{result['total_presses']:<10} {result['average_presses_per_char']:<10.2f} "
-                 # f"{result['total_path']:<12} {result['average_path']:<10.2f} "
-                 # f"{result['left_hand_only_percentage']:<7.1f}% {result['right_hand_only_percentage']:<7.1f}% "
-                  #f"{result['two_handed_percentage']:<7.1f}% {result['shift_count']:<8} {result['alt_count']:<6}")
+        print(f"  Анализируем {layout_name}...")
+        analyzer = KeyboardAnalyzer(layout=layout_code)
+        layout_results = []
+        
+        for text, text_name in texts_data:
+            result = analyzer.analyze_text(text, text_name, common_chars)
+            if result:
+                layout_results.append(result)
+        
+        if layout_results:
+            all_results[layout_code] = layout_results
     
-    if i < 2:  # не печатать разделитель после последнего текста
-        print(f"{'-'*140}")
+    # ВЫВОД РЕЗУЛЬТАТОВ
+    print(f"\n{'='*140}")
+    print("СВОДНАЯ ТАБЛИЦА РЕЗУЛЬТАТОВ")
+    print(f"{'='*140}")
+    print(f"{'Текст':<18} {'Раскладка':<12} {'Символов':<10} {'Нажатий':<10} {'Наж/симв':<10} {'Общий путь':<12} {'Ср. путь':<10} {'Левая':<8} {'Правая':<8} {'Смены':<8}")
+    print(f"{'-'*140}")
+
+    layout_display_names = {
+        'ytsuken': 'Стандарт', 'vyzov': 'Вызов', 'zubachev': 'Зубачев',
+        'skoropis': 'Скоропись', 'rusfon': 'Русфон', 'diktor': 'Диктор', 'ant': 'Ант'
+    }
+
+    for i in range(len(texts_data)):
+        for layout_code, layout_name in layouts:
+            if layout_code in all_results and i < len(all_results[layout_code]):
+                result = all_results[layout_code][i]
+                layout_display_name = layout_display_names.get(layout_code, layout_code)
+                
+                print(f"{result['text_name']:<18} {layout_display_name:<12} {result['characters_analyzed']:<10} "
+                    f"{result['total_presses']:<10} {result['average_presses_per_char']:<10.2f} "
+                    f"{result['total_path']:<12} {result['average_path']:<10.2f} "
+                    f"{result['left_hand_letters_percentage']:<7.1f} {result['right_hand_letters_percentage']:<7.1f} "
+                    f"{result['hand_switches_per_100_chars']:<7.1f}")
+                        
+        if i < len(texts_data) - 1:
+            print(f"{'-'*140}")
+    
+    print(f"\nАнализ завершен! Проанализировано {len(texts_data)} текстов и {len(layouts)} раскладок.")
+
+# ЗАПУСКАЕМ ОПТИМИЗИРОВАННУЮ ВЕРСИЮ
+analyze_all_layouts_optimized()
