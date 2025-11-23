@@ -53,22 +53,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">🔧 <strong>Методы класса</strong></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_ytsuken_layout"><code class="docutils literal notranslate"><span class="pre">_init_ytsuken_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_vyzov_layout"><code class="docutils literal notranslate"><span class="pre">_init_vyzov_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_zubachev_layout"><code class="docutils literal notranslate"><span class="pre">_init_zubachev_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_skoropis_layout"><code class="docutils literal notranslate"><span class="pre">_init_skoropis_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_rusfon_layout"><code class="docutils literal notranslate"><span class="pre">_init_rusfon_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_diktor_layout"><code class="docutils literal notranslate"><span class="pre">_init_diktor_layout()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#init_ant_layout"><code class="docutils literal notranslate"><span class="pre">_init_ant_layout()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#init_from_layout_data"><code class="docutils literal notranslate"><span class="pre">_init_from_layout_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#calculate_path"><code class="docutils literal notranslate"><span class="pre">_calculate_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#load_text_file"><code class="docutils literal notranslate"><span class="pre">_load_text_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#analyze_text"><code class="docutils literal notranslate"><span class="pre">analyze_text()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#analyze_all_files"><code class="docutils literal notranslate"><span class="pre">analyze_all_files()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#print_results"><code class="docutils literal notranslate"><span class="pre">print_results()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#print_improved_results"><code class="docutils literal notranslate"><span class="pre">print_improved_results()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#get-common-chars">🔣 <strong>Функция: get_common_chars</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">🔣 <strong>Функции:</strong></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#get_common_chars"><code class="docutils literal notranslate"><span class="pre">get_common_chars()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyze_all_layouts_optimized"><code class="docutils literal notranslate"><span class="pre">analyze_all_layouts_optimized()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -140,18 +136,29 @@
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ytsuken'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#init__" title="Ссылка на это определение"></a></dt>
 <dd><p>Инициализирует анализатор клавиатурной раскладки.</p>
 <p>Загружает выбранную раскладку клавиатуры и формирует карту клавиш для анализа.
-Поддерживаются следующие раскладки: <cite>„ytsuken“</cite>, <cite>„vyzov“</cite>, <cite>„zubachev“</cite>, <cite>„skoropis“</cite>,
-<cite>„rusfon“</cite>, <cite>„diktor“</cite>, <cite>„ant“</cite>.</p>
+Поддерживаются следующие раскладки: <code class="docutils literal notranslate"><span class="pre">'ytsuken'</span></code>, <code class="docutils literal notranslate"><span class="pre">'vyzov'</span></code>, <code class="docutils literal notranslate"><span class="pre">'zubachev'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'skoropis'</span></code>, <code class="docutils literal notranslate"><span class="pre">'rusfon'</span></code>, <code class="docutils literal notranslate"><span class="pre">'diktor'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ant'</span></code>.</p>
 <p>Также создаётся универсальная карта клавиатуры, связывающая код клавиши с её
 позицией на физической клавиатуре (ряд, колонка), используемая для расчёта пути
 движения пальцев.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>layout</strong> – Название раскладки, которую нужно загрузить. По умолчанию — <cite>„ytsuken“</cite>.</p>
+<dd class="field-odd"><p><strong>layout</strong> (<em>str</em>) – Название раскладки, которую нужно загрузить. По умолчанию — <code class="docutils literal notranslate"><span class="pre">'ytsuken'</span></code>.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Метод не возвращает значение.
+Однако в объекте создаются атрибуты:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">self.layout</span></code> (str): выбранная раскладка</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.keyboard_map</span></code> (dict): универсальная карта клавиатуры</p></li>
+<li><p>внутренние структуры раскладки (инициализируются через <code class="docutils literal notranslate"><span class="pre">_init_from_layout_data</span></code>)</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
-</dd></dl>
-
 <p class="rubric">Пример</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;zubachev&#39;</span><span class="p">)</span>
 </pre></div>
@@ -164,240 +171,85 @@
 <span class="c1"># → (2, 0)  # Координаты клавиши &#39;ф&#39; в домашнем ряду</span>
 </pre></div>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="init_ytsuken_layout">
-<span class="sig-name descname"><span class="pre">_init_ytsuken_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_ytsuken_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализирует стандартную русскую раскладку ЙЦУКЕН.</p>
-<p>Устанавливает соответствие символов клавиш их кодам и пальцам,
-а также определяет:
-- заглавные буквы (через Shift),
-- специальные символы с Shift,
-- домашние позиции пальцев.</p>
-<p>Этот метод вызывается автоматически при создании экземпляра <cite>KeyboardAnalyzer(layout=“ytsuken“)</cite>.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="init_from_layout_data">
+<span class="sig-name descname"><span class="pre">_init_from_layout_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#init_from_layout_data" title="Ссылка на это определение"></a></dt>
+<dd><p>Инициализирует раскладку из данных словаря.</p>
+<p>Загружает основные карты клавиш (обычные, с Shift и Alt), а также позиции
+домашнего ряда. Дополнительно автоматически формирует словарь заглавных букв
+на основе алфавитных символов.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>layout_data</strong> (<em>dict</em>) – <p>Словарь с данными раскладки, содержащий ключи:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">keys</span></code> — соответствие символов их коду клавиши и пальцу</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shift_keys</span></code> — (опционально) символы, доступные через Shift</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alt_keys</span></code> — (опционально) символы, доступные через Alt</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">home_positions</span></code> — (опционально) позиции пальцев в домашнем ряду</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Метод не возвращает значение.
+Однако в объекте создаются/обновляются атрибуты:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">self.keys</span></code> — основная карта клавиш</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.shift_keys</span></code> — символы, доступные через Shift</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.alt_keys</span></code> — символы, доступные через Alt</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.home_positions</span></code> — позиции пальцев в домашнем ряду</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.caps_keys</span></code> — автоматически созданные заглавные буквы для алфавитных символов</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 <p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;ytsuken&#39;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;ф&#39;</span><span class="p">]</span>
-<span class="c1"># → (30, &#39;left_pinky&#39;)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span><span class="o">.</span><span class="n">_init_from_layout_data</span><span class="p">(</span><span class="n">ytsuken_layout</span><span class="p">)</span>
 
 <span class="n">analyzer</span><span class="o">.</span><span class="n">caps_keys</span><span class="p">[</span><span class="s1">&#39;Ф&#39;</span><span class="p">]</span>
-<span class="c1"># → (30, &#39;left_pinky&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">shift_keys</span><span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">]</span>
-<span class="c1"># → (2, &#39;left_pinky&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">home_positions</span><span class="p">[</span><span class="s1">&#39;right_index&#39;</span><span class="p">]</span>
-<span class="c1"># → 36</span>
+<span class="c1"># → (код клавиши, палец)</span>
 </pre></div>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="init_vyzov_layout">
-<span class="sig-name descname"><span class="pre">_init_vyzov_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_vyzov_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализирует раскладку «Вызов» с оптимизацией через Alt-символы.</p>
-<p>Эта раскладка разработана для повышения эффективности набора текста за счёт:
-- переноса редко используемых символов на Alt-комбинации,
-- сокращения расстояний до часто используемых букв,
-- перераспределения нагрузки между пальцами.</p>
-<p>Метод определяет:
-- основные символы и их расположение,
-- заглавные буквы (через Shift),
-- символы с Shift-модификатором,
-- Alt-символы (альтернативные позиции для экономии движений),
-- домашние позиции пальцев.</p>
-<p>Вызывается автоматически при создании экземпляра <cite>KeyboardAnalyzer(layout=“vyzov“)</cite>.</p>
 </dd></dl>
 
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;vyzov&#39;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;о&#39;</span><span class="p">]</span>
-<span class="c1"># → (18, &#39;left_middle&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">alt_keys</span><span class="p">[</span><span class="s1">&#39;ц&#39;</span><span class="p">]</span>
-<span class="c1"># → (30, &#39;left_ring&#39;)  # Более удобная позиция, чем в стандартной раскладке</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">shift_keys</span><span class="p">[</span><span class="s1">&#39;@&#39;</span><span class="p">]</span>
-<span class="c1"># → (27, &#39;right_ring&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">home_positions</span><span class="p">[</span><span class="s1">&#39;right_middle&#39;</span><span class="p">]</span>
-<span class="c1"># → 37</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="init_zubachev_layout">
-<span class="sig-name descname"><span class="pre">_init_zubachev_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_zubachev_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализирует раскладку «Зубачев».</p>
-<p>Раскладка разработана с акцентом на симметрию, эргономику и частотное распределение символов.
-Часто используемые буквы расположены ближе к центру, чтобы снизить нагрузку на пальцы.</p>
-<p>Метод определяет:
-- основные символы и их расположение на клавиатуре,
-- заглавные буквы (через Shift),
-- специальные символы с Shift-модификатором,
-- домашние позиции пальцев для расчёта пути.</p>
-<p>Вызывается автоматически при создании экземпляра <cite>KeyboardAnalyzer(layout=“zubachev“)</cite>.</p>
-</dd></dl>
-
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;zubachev&#39;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;а&#39;</span><span class="p">]</span>
-<span class="c1"># → (18, &#39;left_middle&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">caps_keys</span><span class="p">[</span><span class="s1">&#39;А&#39;</span><span class="p">]</span>
-<span class="c1"># → (18, &#39;left_middle&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">shift_keys</span><span class="p">[</span><span class="s1">&#39;?&#39;</span><span class="p">]</span>
-<span class="c1"># → (8, &#39;right_ring&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">home_positions</span><span class="p">[</span><span class="s1">&#39;right_middle&#39;</span><span class="p">]</span>
-<span class="c1"># → 36</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="init_skoropis_layout">
-<span class="sig-name descname"><span class="pre">_init_skoropis_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_skoropis_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализирует раскладку «Скоропись».</p>
-<p>Раскладка разработана для скоростного набора текста с минимальной нагрузкой на пальцы.
-Частотные символы размещены ближе к сильным пальцам, а редкие — на периферии.</p>
-<p>Метод определяет:
-- основные символы и их расположение,
-- заглавные буквы (через Shift),
-- специальные символы с Shift-модификатором,
-- домашние позиции пальцев для расчёта пути.</p>
-<p>Вызывается автоматически при создании экземпляра <cite>KeyboardAnalyzer(layout=“skoropis“)</cite>.</p>
-</dd></dl>
-
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;skoropis&#39;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;а&#39;</span><span class="p">]</span>
-<span class="c1"># → (34, &#39;left_index&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">caps_keys</span><span class="p">[</span><span class="s1">&#39;А&#39;</span><span class="p">]</span>
-<span class="c1"># → (34, &#39;left_index&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">shift_keys</span><span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">]</span>
-<span class="c1"># → (6, &#39;right_index&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">home_positions</span><span class="p">[</span><span class="s1">&#39;right_ring&#39;</span><span class="p">]</span>
-<span class="c1"># → 38</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="init_rusfon_layout">
-<span class="sig-name descname"><span class="pre">_init_rusfon_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_rusfon_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализирует раскладку «Русфон» — русскую фонетическую клавиатуру.</p>
-<p>Раскладка разработана для интуитивного ввода русских символов, особенно полезна
-для начинающих пользователей и тех, кто привык к латинской клавиатуре.</p>
-<p>Метод определяет:
-- основные символы и их расположение на клавиатуре,
-- заглавные буквы (через Shift),
-- специальные символы с Shift-модификатором,
-- домашние позиции пальцев для расчёта пути.</p>
-<p>Вызывается автоматически при создании экземпляра <cite>KeyboardAnalyzer(layout=“rusfon“)</cite>.</p>
-</dd></dl>
-
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;rusfon&#39;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;ф&#39;</span><span class="p">]</span>
-<span class="c1"># → (33, &#39;left_index&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">caps_keys</span><span class="p">[</span><span class="s1">&#39;Ф&#39;</span><span class="p">]</span>
-<span class="c1"># → (33, &#39;left_index&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">shift_keys</span><span class="p">[</span><span class="s1">&#39;@&#39;</span><span class="p">]</span>
-<span class="c1"># → (3, &#39;left_ring&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">home_positions</span><span class="p">[</span><span class="s1">&#39;right_pinky&#39;</span><span class="p">]</span>
-<span class="c1"># → 39</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="init_diktor_layout">
-<span class="sig-name descname"><span class="pre">_init_diktor_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_diktor_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализирует раскладку «Диктор».</p>
-<p>Раскладка разработана для дикторов, стенографистов и пользователей, работающих с речевыми текстами.
-Оптимизирована для быстрого доступа к служебным символам, знакам препинания и часто используемым буквам.</p>
-<p>Метод определяет:
-- основные символы и их расположение на клавиатуре,
-- заглавные буквы (через Shift),
-- специальные символы с Shift-модификатором,
-- домашние позиции пальцев для расчёта пути.</p>
-<p>Вызывается автоматически при создании экземпляра <cite>KeyboardAnalyzer(layout=“diktor“)</cite>.</p>
-</dd></dl>
-
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;diktor&#39;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;о&#39;</span><span class="p">]</span>
-<span class="c1"># → (33, &#39;left_index&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">caps_keys</span><span class="p">[</span><span class="s1">&#39;О&#39;</span><span class="p">]</span>
-<span class="c1"># → (33, &#39;left_index&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">shift_keys</span><span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">]</span>
-<span class="c1"># → (20, &#39;left_index&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">home_positions</span><span class="p">[</span><span class="s1">&#39;right_ring&#39;</span><span class="p">]</span>
-<span class="c1"># → 38</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="init_ant_layout">
-<span class="sig-name descname"><span class="pre">_init_ant_layout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init_ant_layout" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализирует раскладку «Ант» — альтернативную русскую клавиатуру с эргономическим смещением.</p>
-<p>Раскладка разработана для снижения нагрузки на пальцы и повышения скорости набора.
-Частотные символы размещены ближе к центру, а редкие — на периферии.
-Подходит для анализа эргоэкономичных конфигураций и нестандартных клавиатур.</p>
-<p>Метод определяет:
-- основные символы и их расположение на клавиатуре,
-- заглавные буквы (через Shift),
-- специальные символы с Shift-модификатором,
-- домашние позиции пальцев для расчёта пути.</p>
-<p>Вызывается автоматически при создании экземпляра <cite>KeyboardAnalyzer(layout=“ant“)</cite>.</p>
-</dd></dl>
-
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;ant&#39;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;а&#39;</span><span class="p">]</span>
-<span class="c1"># → (38, &#39;right_ring&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">caps_keys</span><span class="p">[</span><span class="s1">&#39;А&#39;</span><span class="p">]</span>
-<span class="c1"># → (38, &#39;right_ring&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">shift_keys</span><span class="p">[</span><span class="s1">&#39;!&#39;</span><span class="p">]</span>
-<span class="c1"># → (2, &#39;left_pinky&#39;)</span>
-
-<span class="n">analyzer</span><span class="o">.</span><span class="n">home_positions</span><span class="p">[</span><span class="s1">&#39;left_index&#39;</span><span class="p">]</span>
-<span class="c1"># → 33</span>
-</pre></div>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="calculate_path">
 <span class="sig-name descname"><span class="pre">_calculate_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finger</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calculate_path" title="Ссылка на это определение"></a></dt>
 <dd><p>Вычисляет путь движения пальца от домашней позиции до заданной клавиши.</p>
 <p>Расстояние рассчитывается как сумма вертикального и горизонтального смещения
 между координатами домашней позиции пальца и целевой клавиши на клавиатуре.</p>
-<p>Для больших пальцев (<cite>left_thumb</cite>, <cite>right_thumb</cite>) путь считается равным нулю.</p>
+<p>Для больших пальцев (Shift, Alt, Space) путь считается равным нулю.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key_code</strong> – Целочисленный код клавиши (например, 30 для „ф“).</p></li>
-<li><p><strong>finger</strong> – Название пальца, задействованного при нажатии (например, <cite>„left_index“</cite>).</p></li>
+<li><p><strong>key_code</strong> (<em>int</em>) – Целочисленный код клавиши (например, <code class="docutils literal notranslate"><span class="pre">30</span></code> для <code class="docutils literal notranslate"><span class="pre">'ф'</span></code>).</p></li>
+<li><p><strong>finger</strong> (<em>str</em>) – Название пальца, задействованного при нажатии
+(например, <code class="docutils literal notranslate"><span class="pre">'left_index'</span></code>, <code class="docutils literal notranslate"><span class="pre">'right_thumb'</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Результат<span class="colon">:</span></dt>
-<dd class="field-even"><p>Целое число, представляющее путь (количество шагов по рядам и колонкам).</p>
+<dd class="field-even"><p>Целое число, представляющее путь (количество шагов по рядам и колонкам).
+Если палец — большой (<code class="docutils literal notranslate"><span class="pre">left_thumb</span></code> или <code class="docutils literal notranslate"><span class="pre">right_thumb</span></code>), либо координаты
+не найдены, возвращается <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span><span class="o">.</span><span class="n">_calculate_path</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;left_index&#39;</span><span class="p">)</span>
+<span class="c1"># → 0  # если домашняя позиция совпадает с целевой клавишей</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_calculate_path</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="s1">&#39;right_middle&#39;</span><span class="p">)</span>
+<span class="c1"># → 2  # пример расчёта пути по рядам и колонкам</span>
+</pre></div>
+</div>
 </dd></dl>
 
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;ytsuken&#39;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">_calculate_path</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;left_index&#39;</span><span class="p">)</span>  <span class="c1"># &#39;й&#39; — верхний ряд, левый указательный</span>
-</pre></div>
-</div>
-<p class="rubric">Результат</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span>  <span class="c1"># Смещение: вверх на 1 ряд и влево на 1 колонку от позиции &#39;ф&#39; (код 30)</span>
-</pre></div>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="load_text_file">
 <span class="sig-name descname"><span class="pre">_load_text_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#load_text_file" title="Ссылка на это определение"></a></dt>
@@ -406,26 +258,25 @@
 В случае ошибки выводит сообщение в консоль и возвращает пустую строку.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filename</strong> – Путь к текстовому файлу.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Путь к текстовому файлу, который необходимо загрузить.</p>
 </dd>
 <dt class="field-even">Результат<span class="colon">:</span></dt>
-<dd class="field-even"><p>Строка с содержимым файла или пустая строка при ошибке.</p>
+<dd class="field-even"><p>Строка с содержимым файла.
+Если файл не найден или произошла ошибка чтения,
+возвращается пустая строка и выводится сообщение об ошибке в консоль.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">_load_text_file</span><span class="p">(</span><span class="s2">&quot;sample.txt&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+<span class="c1"># → 1200  # количество символов в файле</span>
+</pre></div>
+</div>
 </dd></dl>
 
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">()</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">_load_text_file</span><span class="p">(</span><span class="s2">&quot;voina_i_mir.txt&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p class="rubric">Результат</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Успешно</span> <span class="n">загружен</span> <span class="n">voina_i_mir</span><span class="o">.</span><span class="n">txt</span><span class="p">:</span> <span class="mi">1457321</span> <span class="n">символов</span>
-
-<span class="c1"># Возвращаемое значение:</span>
-<span class="s2">&quot;Война и мир. Том первый. Часть первая.</span><span class="se">\n\n</span><span class="s2">— Ну, князь, Генуя и Лукка стали не более как поместьями Бонапарте...&quot;</span>
-</pre></div>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="analyze_text">
 <span class="sig-name descname"><span class="pre">analyze_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_text" title="Ссылка на это определение"></a></dt>
@@ -435,84 +286,96 @@
 - количество нажатий с модификаторами (Shift, Alt),
 - распределение нагрузки по пальцам и рукам,
 - частоту использования левой, правой и обеих рук,
-- среднюю длину пути и количество нажатий на символ.</p>
+- среднюю длину пути и количество нажатий на символ,
+- количество смен рук при наборе текста.</p>
 <p>Поддерживается фильтрация по общим символам, если задан параметр <code class="docutils literal notranslate"><span class="pre">common_chars</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> – Строка текста для анализа.</p></li>
-<li><p><strong>text_name</strong> – Название текста (используется в отчёте).</p></li>
-<li><p><strong>common_chars</strong> – Множество символов, которые следует учитывать (опционально).</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – Строка текста для анализа.</p></li>
+<li><p><strong>text_name</strong> (<em>str</em>) – Название текста (используется в отчёте).</p></li>
+<li><p><strong>common_chars</strong> (<em>set</em><em>, </em><em>optional</em>) – Множество символов, которые следует учитывать при анализе.
+Если не задано, анализируются все символы.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Результат<span class="colon">:</span></dt>
-<dd class="field-even"><p>Словарь со статистикой по раскладке, включая путь, нагрузку, модификаторы и распределение.</p>
+<dd class="field-even"><p><p>Словарь со статистикой по раскладке, включающий следующие ключи:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">text_name</span></code> (str): название текста</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">layout</span></code> (str): используемая раскладка</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_path</span></code> (int): суммарный путь движения пальцев</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finger_paths</span></code> (dict): путь по каждому пальцу</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finger_counts</span></code> (dict): количество нажатий каждым пальцем</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">characters_analyzed</span></code> (int): количество символов в тексте</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shift_count</span></code> (int): количество нажатий с Shift</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alt_count</span></code> (int): количество нажатий с Alt</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">average_path</span></code> (float): средняя длина пути на символ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left_hand_count</span></code> (int): количество нажатий левой рукой</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right_hand_count</span></code> (int): количество нажатий правой рукой</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left_hand_percentage</span></code> (float): процент нагрузки левой руки</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right_hand_percentage</span></code> (float): процент нагрузки правой руки</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left_hand_letters</span></code> (int): количество букв, набранных левой рукой</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right_hand_letters</span></code> (int): количество букв, набранных правой рукой</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hand_switches</span></code> (int): количество смен рук</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_presses</span></code> (int): общее количество нажатий (включая модификаторы)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">average_presses_per_char</span></code> (float): среднее количество нажатий на символ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left_hand_letters_percentage</span></code> (float): процент букв левой рукой</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right_hand_letters_percentage</span></code> (float): процент букв правой рукой</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hand_switches_per_100_chars</span></code> (float): количество смен рук на 100 символов</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
-</dd></dl>
-
 <p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;vyzov&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_text</span><span class="p">(</span><span class="s2">&quot;Привет, мир!&quot;</span><span class="p">,</span> <span class="s2">&quot;Пример&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">&quot;ytsuken&quot;</span><span class="p">)</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_text</span><span class="p">(</span><span class="s2">&quot;Привет мир&quot;</span><span class="p">,</span> <span class="s2">&quot;greeting&quot;</span><span class="p">)</span>
+
+<span class="c1"># Выводим основные метрики</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Название текста:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;text_name&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Раскладка:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;layout&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Символов проанализировано:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;characters_analyzed&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Средний путь:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;average_path&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Нажатий левой рукой:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;left_hand_count&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Нажатий правой рукой:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;right_hand_count&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Смены рук:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;hand_switches&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Среднее количество нажатий на символ:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;average_presses_per_char&quot;</span><span class="p">])</span>
+
+<span class="c1"># Более детальная статистика по пальцам</span>
+<span class="k">for</span> <span class="n">finger</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;finger_counts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">finger</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> нажатий, путь </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;finger_paths&#39;</span><span class="p">][</span><span class="n">finger</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Результат</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s1">&#39;text_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Пример&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;layout&#39;</span><span class="p">:</span> <span class="s1">&#39;vyzov&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;total_path&#39;</span><span class="p">:</span> <span class="mi">27</span><span class="p">,</span>
-    <span class="s1">&#39;finger_paths&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;left_pinky&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s1">&#39;left_ring&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s1">&#39;left_middle&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s1">&#39;left_index&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="s1">&#39;right_index&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-        <span class="s1">&#39;right_middle&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s1">&#39;right_ring&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s1">&#39;right_pinky&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;left_thumb&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;right_thumb&#39;</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">},</span>
-    <span class="s1">&#39;finger_counts&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;left_pinky&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;left_ring&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;left_middle&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s1">&#39;left_index&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s1">&#39;right_index&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s1">&#39;right_middle&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;right_ring&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;right_pinky&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;left_thumb&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">&#39;right_thumb&#39;</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">},</span>
-    <span class="s1">&#39;characters_analyzed&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-    <span class="s1">&#39;shift_count&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s1">&#39;alt_count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s1">&#39;average_path&#39;</span><span class="p">:</span> <span class="mf">2.45</span><span class="p">,</span>
-    <span class="s1">&#39;left_hand_count&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
-    <span class="s1">&#39;right_hand_count&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-    <span class="s1">&#39;left_hand_percentage&#39;</span><span class="p">:</span> <span class="mf">53.85</span><span class="p">,</span>
-    <span class="s1">&#39;right_hand_percentage&#39;</span><span class="p">:</span> <span class="mf">46.15</span><span class="p">,</span>
-    <span class="s1">&#39;left_hand_only&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="s1">&#39;right_hand_only&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-    <span class="s1">&#39;two_handed&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s1">&#39;total_presses&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-    <span class="s1">&#39;average_presses_per_char&#39;</span><span class="p">:</span> <span class="mf">1.18</span><span class="p">,</span>
-    <span class="s1">&#39;left_hand_only_percentage&#39;</span><span class="p">:</span> <span class="mf">36.36</span><span class="p">,</span>
-    <span class="s1">&#39;right_hand_only_percentage&#39;</span><span class="p">:</span> <span class="mf">45.45</span><span class="p">,</span>
-    <span class="s1">&#39;two_handed_percentage&#39;</span><span class="p">:</span> <span class="mf">18.18</span>
-<span class="p">}</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Название текста: greeting
+Раскладка: ytsuken
+Символов проанализировано: 10
+Средний путь: 1.2
+Нажатий левой рукой: 6
+Нажатий правой рукой: 4
+Смены рук: 3
+Среднее количество нажатий на символ: 1.1
+left_pinky: 1 нажатий, путь 2
+left_ring: 0 нажатий, путь 0
+left_middle: 2 нажатий, путь 3
+left_index: 3 нажатий, путь 4
+right_index: 2 нажатий, путь 2
+right_middle: 1 нажатий, путь 1
+right_ring: 0 нажатий, путь 0
+right_pinky: 1 нажатий, путь 2
+left_thumb: 0 нажатий, путь 0
+right_thumb: 0 нажатий, путь 0
 </pre></div>
 </div>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="analyze_all_files">
 <span class="sig-name descname"><span class="pre">analyze_all_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">common_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_all_files" title="Ссылка на это определение"></a></dt>
-<dd><p>Последовательно анализирует три предопределённых текстовых файла с раскладкой клавиатуры:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">voina_i_mir.txt</span></code> — художественный текст,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">sortchbukw.csv</span></code> — частотная сортировка букв,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">1grams.txt</span></code> — минимальные фразы.</p></li>
-</ul>
+<dd><p>Последовательно анализирует три предопределённых текстовых файла с раскладкой клавиатуры.</p>
 <p>Для каждого файла:
 - загружает текст,
 - фильтрует символы (если задан <code class="docutils literal notranslate"><span class="pre">common_chars</span></code>),
@@ -520,52 +383,61 @@
 <p>Используется для пакетного анализа и сравнения раскладок на разных типах текстов.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>common_chars</strong> – Множество символов, которые следует учитывать при анализе (опционально).</p>
+<dd class="field-odd"><p><strong>common_chars</strong> (<em>set</em><em>, </em><em>optional</em>) – Множество символов, которые следует учитывать при анализе.
+Если не задано, анализируются все символы.</p>
 </dd>
 <dt class="field-even">Результат<span class="colon">:</span></dt>
-<dd class="field-even"><p>Список словарей с результатами анализа для каждого файла.</p>
+<dd class="field-even"><p><p>Список словарей с результатами анализа для каждого файла.
+Каждый словарь имеет ту же структуру, что и результат метода <code class="docutils literal notranslate"><span class="pre">analyze_text</span></code>,
+включая ключи:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">text_name</span></code> (str): название текста</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">layout</span></code> (str): используемая раскладка</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_path</span></code> (int): суммарный путь движения пальцев</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finger_paths</span></code> (dict): путь по каждому пальцу</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finger_counts</span></code> (dict): количество нажатий каждым пальцем</p></li>
+<li><p>и другие метрики (см. <code class="docutils literal notranslate"><span class="pre">analyze_text</span></code>).</p></li>
+</ul>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
 </dd>
 </dl>
-</dd></dl>
-
 <p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;skoropis&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">&quot;ytsuken&quot;</span><span class="p">)</span>
+
 <span class="n">results</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_all_files</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Текст: </span><span class="si">{</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;text_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Символов: </span><span class="si">{</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;characters_analyzed&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Средний путь: </span><span class="si">{</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;average_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Смены рук: </span><span class="si">{</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;hand_switches&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Результат</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s1">&#39;text_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Война и мир&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;layout&#39;</span><span class="p">:</span> <span class="s1">&#39;skoropis&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;characters_analyzed&#39;</span><span class="p">:</span> <span class="mi">1457321</span><span class="p">,</span>
-        <span class="s1">&#39;total_path&#39;</span><span class="p">:</span> <span class="mi">3129842</span><span class="p">,</span>
-        <span class="s1">&#39;average_path&#39;</span><span class="p">:</span> <span class="mf">2.15</span><span class="p">,</span>
-        <span class="s1">&#39;shift_count&#39;</span><span class="p">:</span> <span class="mi">18321</span><span class="p">,</span>
-        <span class="s1">&#39;alt_count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;left_hand_percentage&#39;</span><span class="p">:</span> <span class="mf">52.7</span><span class="p">,</span>
-        <span class="s1">&#39;right_hand_percentage&#39;</span><span class="p">:</span> <span class="mf">47.3</span><span class="p">,</span>
-        <span class="o">...</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s1">&#39;text_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Сортировка букв&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;layout&#39;</span><span class="p">:</span> <span class="s1">&#39;skoropis&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;characters_analyzed&#39;</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
-        <span class="s1">&#39;total_path&#39;</span><span class="p">:</span> <span class="mi">71</span><span class="p">,</span>
-        <span class="s1">&#39;average_path&#39;</span><span class="p">:</span> <span class="mf">2.15</span><span class="p">,</span>
-        <span class="o">...</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s1">&#39;text_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Минимальные фразы&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;layout&#39;</span><span class="p">:</span> <span class="s1">&#39;skoropis&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;characters_analyzed&#39;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
-        <span class="s1">&#39;total_path&#39;</span><span class="p">:</span> <span class="mi">248</span><span class="p">,</span>
-        <span class="s1">&#39;average_path&#39;</span><span class="p">:</span> <span class="mf">2.07</span><span class="p">,</span>
-        <span class="o">...</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Текст: Война и мир
+Символов: 100000
+Средний путь: 1.3
+Смены рук: 2500
+---
+Текст: Сортировка букв
+Символов: 5000
+Средний путь: 0.9
+Смены рук: 120
+---
+Текст: Минимальные фразы
+Символов: 800
+Средний путь: 1.1
+Смены рук: 40
 </pre></div>
 </div>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="print_results">
 <span class="sig-name descname"><span class="pre">print_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#print_results" title="Ссылка на это определение"></a></dt>
@@ -579,56 +451,122 @@
 - нагрузка по каждому пальцу с процентным соотношением.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>results</strong> – Список словарей, полученных из метода <code class="docutils literal notranslate"><span class="pre">analyze_text</span></code>, содержащих статистику по раскладке.</p>
+<dd class="field-odd"><p><strong>results</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – <p>Список словарей, полученных из метода <code class="docutils literal notranslate"><span class="pre">analyze_text</span></code> или <code class="docutils literal notranslate"><span class="pre">analyze_all_files</span></code>.
+Каждый словарь содержит статистику по раскладке, включая ключи:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">text_name</span></code> (str): название текста</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">layout</span></code> (str): используемая раскладка</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">characters_analyzed</span></code> (int): количество символов</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_path</span></code> (int): суммарный путь движения пальцев</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">average_path</span></code> (float): средний путь на символ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_presses</span></code> (int): общее количество нажатий</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shift_count</span></code> (int): количество нажатий с Shift</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alt_count</span></code> (int): количество нажатий с Alt</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left_hand_count</span></code> / <code class="docutils literal notranslate"><span class="pre">right_hand_count</span></code> (int): нагрузка по рукам</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finger_counts</span></code> (dict): нагрузка по каждому пальцу</p></li>
+</ul>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Метод не возвращает значение. Результаты выводятся в консоль в структурированном виде.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
-</dd></dl>
-
 <p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;vyzov&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_text</span><span class="p">(</span><span class="s2">&quot;Привет, мир!&quot;</span><span class="p">,</span> <span class="s2">&quot;Пример&quot;</span><span class="p">)</span>
-<span class="n">analyzer</span><span class="o">.</span><span class="n">print_results</span><span class="p">([</span><span class="n">result</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">&quot;ytsuken&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_all_files</span><span class="p">()</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">print_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="rubric">Вывод в консоль</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>============================================================
-=== АНАЛИЗ ПУТЕЙ ДЛЯ: Пример ===
-=== РАСКЛАДКА: vyzov ===
-============================================================
-Всего проанализировано символов: 11
-ОБЩИЙ ПУТЬ: 27
-СРЕДНИЙ ПУТЬ НА СИМВОЛ: 2.45
-ОБЩЕЕ КОЛИЧЕСТВО НАЖАТИЙ: 13
-СРЕДНЕЕ НАЖАТИЙ НА СИМВОЛ: 1.18
-Количество Shift-символов: 1
-Количество Alt-символов: 0
+<p class="rubric">Результат</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>=== АНАЛИЗ ПУТЕЙ ДЛЯ: Война и мир ===
+=== РАСКЛАДКА: ytsuken ===
+Всего проанализировано символов: 100000
+ОБЩИЙ ПУТЬ: 130000
+СРЕДНИЙ ПУТЬ НА СИМВОЛ: 1.30
+ОБЩЕЕ КОЛИЧЕСТВО НАЖАТИЙ: 105000
+СРЕДНЕЕ НАЖАТИЙ НА СИМВОЛ: 1.05
+Количество Shift-символов: 2500
+Количество Alt-символов: 1200
 
 Распределение по рукам:
-Левая рука: 7 нажатий (53.8%)
-Правая рука: 6 нажатий (46.2%)
-
-Типы нажатий:
-  Только левая рука: 4 (36.4%)
-  Только правая рука: 5 (45.5%)
-  Двуручные: 2 (18.2%)
-    - Shift + буква: 1
-    - Alt + буква: 0
+Левая рука: 52000 нажатий (49.5%)
+Правая рука: 53000 нажатий (50.5%)
 
 Нагрузка по пальцам:
-  left_pinky: 1 нажатий (9.1%)
-  left_ring: 1 нажатий (9.1%)
-  left_middle: 2 нажатий (18.2%)
-  left_index: 2 нажатий (18.2%)
-  right_index: 2 нажатий (18.2%)
-  right_middle: 1 нажатий (9.1%)
-  right_ring: 1 нажатий (9.1%)
-  left_thumb: 1 нажатий (9.1%)
+  left_index: 18000 нажатий (17.1%)
+  left_middle: 12000 нажатий (11.4%)
+  right_index: 20000 нажатий (19.0%)
+  right_pinky: 8000 нажатий (7.6%)
+  ...
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="print_improved_results">
+<span class="sig-name descname"><span class="pre">print_improved_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#print_improved_results" title="Ссылка на это определение"></a></dt>
+<dd><p>Улучшенный вывод результатов анализа с акцентом на использование пробела.</p>
+<p>Метод выводит в консоль структурированную статистику по каждому тексту:
+- процентное распределение нагрузки по пальцам (с человеко‑читаемыми названиями),
+- количество нажатий и их процентное соотношение,
+- особенности раскладки с акцентом на пробел (правый большой палец), а также использование модификаторов Alt/Shift (левый большой палец),
+- соотношение нагрузки между левой и правой рукой.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>results</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – <p>Список словарей, полученных из метода <code class="docutils literal notranslate"><span class="pre">analyze_text</span></code> или <code class="docutils literal notranslate"><span class="pre">analyze_all_files</span></code>.
+Каждый словарь содержит статистику по раскладке, включая ключи:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">text_name</span></code> (str): название текста</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">layout</span></code> (str): используемая раскладка</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finger_counts</span></code> (dict): количество нажатий по каждому пальцу</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left_hand_percentage</span></code> (float): процент нагрузки левой руки</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right_hand_percentage</span></code> (float): процент нагрузки правой руки</p></li>
+</ul>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Метод не возвращает значение. Результаты выводятся в консоль в улучшенном структурированном виде.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">&quot;ytsuken&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_all_files</span><span class="p">()</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">print_improved_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Результат</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>============================================================
+=== УЛУЧШЕННЫЙ АНАЛИЗ: Война и мир ===
+=== РАСКЛАДКА: ytsuken ===
+============================================================
+НАГРУЗКА ПО ПАЛЬЦАМ (%):
+  Лев. указ.        3200 нажатий ( 25.3%)
+  Лев. средний      2100 нажатий ( 16.6%)
+  Прав. указ.       4000 нажатий ( 31.7%)
+  Прав. мизинец     1500 нажатий ( 11.9%)
+
+ОСОБЕННОСТИ РАСКЛАДКИ:
+  • Пробел (правый большой): 8.5%
+  • Alt/Shift (левый большой): 2.1%
+  • Соотношение рук: Левая 48.7% / Правая 51.3%
+</pre></div>
+</div>
+</dd></dl>
+
 <p>—</p>
 </section>
-<section id="get-common-chars">
-<h2>🔣 <strong>Функция: get_common_chars</strong><a class="headerlink" href="#get-common-chars" title="Ссылка на этот заголовок"></a></h2>
+<section id="id2">
+<h2>🔣 <strong>Функции:</strong><a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="get_common_chars">
 <span class="sig-name descname"><span class="pre">get_common_chars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#get_common_chars" title="Ссылка на это определение"></a></dt>
@@ -639,22 +577,125 @@
 <p>Используется для унифицированного анализа раскладок по ограниченному набору символов.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Результат<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Множество символов, пригодных для сравнения раскладок.</p>
+<dd class="field-odd"><p>Множество символов, пригодных для сравнения раскладок.
+Включает русские буквы, пробел и общие спецсимволы.</p>
+</dd>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
+<dd class="field-even"><p>set</p>
 </dd>
 </dl>
-</dd></dl>
-
 <p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">common_chars</span> <span class="o">=</span> <span class="n">get_common_chars</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Всего общих символов: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">common_chars</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Символы:&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">common_chars</span><span class="p">)))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Получаем множество общих символов</span>
+<span class="n">common_chars</span> <span class="o">=</span> <span class="n">get_common_chars</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Используется общих символов: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">common_chars</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Общие символы: </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">common_chars</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Анализ для каждой раскладки</span>
+<span class="n">layouts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;ytsuken&#39;</span><span class="p">,</span> <span class="s1">&#39;СТАНДАРТНАЯ&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;vyzov&#39;</span><span class="p">,</span> <span class="s1">&#39;ВЫЗОВ&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;zubachev&#39;</span><span class="p">,</span> <span class="s1">&#39;ЗУБАЧЕВ&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;skoropis&#39;</span><span class="p">,</span> <span class="s1">&#39;СКОРОПИСЬ&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;rusfon&#39;</span><span class="p">,</span> <span class="s1">&#39;РУСФОН&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;diktor&#39;</span><span class="p">,</span> <span class="s1">&#39;ДИКТОР&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;ant&#39;</span><span class="p">,</span> <span class="s1">&#39;АНТ&#39;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">layout_code</span><span class="p">,</span> <span class="n">layout_name</span> <span class="ow">in</span> <span class="n">layouts</span><span class="p">:</span>
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="n">layout_code</span><span class="p">)</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_text</span><span class="p">(</span><span class="s2">&quot;пример текста&quot;</span><span class="p">,</span> <span class="n">layout_name</span><span class="p">,</span> <span class="n">common_chars</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">layout_name</span><span class="si">}</span><span class="s2">: средний путь </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;average_path&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Результат</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Всего общих символов: 42
-Символы: !%()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`абвгдеёжзийклмнопрстуфхцчшщъыьэюя
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>======================================================================
+СРАВНЕНИЕ РАСКЛАДОК НА ОБЩИХ СИМВОЛАХ
+======================================================================
+Используется общих символов: 42
+Общие символы:  !%()*+,.№;абвгдеёжзийклмнопрстуфхцчшщъыьэюя
+СТАНДАРТНАЯ: средний путь 1.25
+ВЫЗОВ: средний путь 1.18
+ЗУБАЧЕВ: средний путь 1.30
+СКОРОПИСЬ: средний путь 1.22
+РУСФОН: средний путь 1.15
+ДИКТОР: средний путь 1.28
+АНТ: средний путь 1.20
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="analyze_all_layouts_optimized">
+<span class="sig-name descname"><span class="pre">analyze_all_layouts_optimized</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#analyze_all_layouts_optimized" title="Ссылка на это определение"></a></dt>
+<dd><p>Оптимизированный анализ всех раскладок клавиатуры с выбором текста.</p>
+<p>Функция выполняет:
+- интерактивный выбор текста для анализа (меню: «Война и мир», «Сортировка букв», «Минимальные фразы», либо все тексты),
+- загрузку выбранных файлов (UTF-8, для «Минимальные фразы» берутся первые 1000 слов),
+- анализ текста для каждой раскладки с учётом общих символов (см. <code class="docutils literal notranslate"><span class="pre">get_common_chars</span></code>),
+- формирование сводной таблицы результатов с ключевыми метриками:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>количество символов,</p></li>
+<li><p>количество нажатий,</p></li>
+<li><p>среднее число нажатий на символ,</p></li>
+<li><p>суммарный и средний путь движения пальцев,</p></li>
+<li><p>распределение нагрузки между руками,</p></li>
+<li><p>количество смен рук на 100 символов.</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Результат<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Функция не возвращает значение. Результаты анализа выводятся в консоль в виде сводной таблицы.</p>
+</dd>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Запуск оптимизированного анализа</span>
+<span class="n">analyze_all_layouts_optimized</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Пример работы в консоли</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>======================================================================
+УСКОРЕННЫЙ АНАЛИЗ РАСКЛАДОК
+======================================================================
+
+ВЫБЕРИТЕ ТЕКСТ ДЛЯ АНАЛИЗА:
+1 - Война и мир (большой художественный текст)
+2 - Сортировка букв (частотный анализ)
+3 - Минимальные фразы (первые 1000 слов)
+4 - Все тексты
+Введите номер (1-4): 2
+Выбран: Сортировка букв
+
+Загрузка текстов...
+  ✓ Загружен Сортировка букв: 5 000 символов
+
+Анализ 7 раскладок...
+  Анализируем Стандарт...
+  Анализируем Вызов...
+  Анализируем Зубачев...
+  Анализируем Скоропись...
+  Анализируем Русфон...
+  Анализируем Диктор...
+  Анализируем Ант...
+
+=============================================================================================================================
+СВОДНАЯ ТАБЛИЦА РЕЗУЛЬТАТОВ
+=============================================================================================================================
+Текст              Раскладка    Символов   Нажатий    Наж/симв   Общий путь   Ср. путь   Левая    Правая   Смены
+-----------------------------------------------------------------------------------------------------------------------------
+Сортировка букв    Стандарт     5000       5200       1.04       6300         1.26       48.7     51.3     12.5
+Сортировка букв    Вызов        5000       5100       1.02       6000         1.20       47.9     52.1     11.8
+...
+
+Анализ завершен! Проанализировано 1 текстов и 7 раскладок.
+</pre></div>
+</div>
+</dd></dl>
+
 <p>—</p>
 </section>
 </section>
