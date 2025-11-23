@@ -53,7 +53,7 @@
 - Центрирование часто используемых букв.
 - Подходит для длительного набора текста.
 
-.. image:: _static/zubachev.png
+.. image:: _static/zubachew.png
    :alt: Раскладка Зубачев
    :align: center
    :width: 500px
@@ -89,7 +89,7 @@
 - Упрощённое запоминание.
 - Подходит для начинающих.
 
-.. image:: _static/rusphon.png
+.. image:: _static/rusphone.png
    :alt: Раскладка Русфон
    :align: center
    :width: 500px
