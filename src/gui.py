@@ -106,9 +106,9 @@ def load_all_results():
                 for finger, cnt in result["finger_counts"].items():
                     total_fingers[finger] += cnt
 
-                left_total += result["left_hand_count"]
-                right_total += result["right_hand_count"]
-                both_total += result["shift_count"] + result["alt_count"]
+                left_total += result["left_hand_letters_percentage" ]
+                right_total += result["right_hand_letters_percentage"] 
+                both_total += result["hand_switches_per_100_chars"]
 
         all_results[code] = {
             "name": name,
@@ -318,6 +318,10 @@ def create_pie_plot(all_results):
     fig.suptitle("Соотношение нагрузок на руки")
     return fig
 
+# ------------------------------------------------------------
+#GUI
+# ------------------------------------------------------------
+
 class MainWindow(QWidget):
     """
     Главное окно приложения «Анализатор раскладок клавиатуры».
@@ -426,6 +430,10 @@ class MainWindow(QWidget):
             box.addWidget(canvas)
             self.tab2.setLayout(box)
             self.pie_drawn = True
+
+# ------------------------------------------------------------
+#main
+# ------------------------------------------------------------
 
 if __name__ == "__main__":
     """
