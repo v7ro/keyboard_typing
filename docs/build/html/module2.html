@@ -281,13 +281,15 @@
 <dt class="sig sig-object py" id="analyze_text">
 <span class="sig-name descname"><span class="pre">analyze_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_text" title="Ссылка на это определение"></a></dt>
 <dd><p>Анализирует текст с точки зрения нагрузки на пальцы при печати на выбранной раскладке.</p>
-<p>Метод рассчитывает:
-- путь движения пальцев от домашней позиции до каждой клавиши,
-- количество нажатий с модификаторами (Shift, Alt),
-- распределение нагрузки по пальцам и рукам,
-- частоту использования левой, правой и обеих рук,
-- среднюю длину пути и количество нажатий на символ,
-- количество смен рук при наборе текста.</p>
+<p>Метод рассчитывает:</p>
+<ul class="simple">
+<li><p>путь движения пальцев от домашней позиции до каждой клавиши,</p></li>
+<li><p>количество нажатий с модификаторами (Shift, Alt),</p></li>
+<li><p>распределение нагрузки по пальцам и рукам,</p></li>
+<li><p>частоту использования левой, правой и обеих рук,</p></li>
+<li><p>среднюю длину пути и количество нажатий на символ,</p></li>
+<li><p>количество смен рук при наборе текста.</p></li>
+</ul>
 <p>Поддерживается фильтрация по общим символам, если задан параметр <code class="docutils literal notranslate"><span class="pre">common_chars</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
