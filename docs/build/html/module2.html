@@ -378,10 +378,12 @@ right_thumb: 0 нажатий, путь 0
 <dt class="sig sig-object py" id="analyze_all_files">
 <span class="sig-name descname"><span class="pre">analyze_all_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">common_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_all_files" title="Ссылка на это определение"></a></dt>
 <dd><p>Последовательно анализирует три предопределённых текстовых файла с раскладкой клавиатуры.</p>
-<p>Для каждого файла:
-- загружает текст,
-- фильтрует символы (если задан <code class="docutils literal notranslate"><span class="pre">common_chars</span></code>),
-- рассчитывает статистику по пути, нагрузке и модификаторам.</p>
+<p>Для каждого файла:</p>
+<ul class="simple">
+<li><p>загружает текст,</p></li>
+<li><p>фильтрует символы (если задан <code class="docutils literal notranslate"><span class="pre">common_chars</span></code>),</p></li>
+<li><p>рассчитывает статистику по пути, нагрузке и модификаторам.</p></li>
+</ul>
 <p>Используется для пакетного анализа и сравнения раскладок на разных типах текстов.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
@@ -444,13 +446,15 @@ right_thumb: 0 нажатий, путь 0
 <dt class="sig sig-object py" id="print_results">
 <span class="sig-name descname"><span class="pre">print_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#print_results" title="Ссылка на это определение"></a></dt>
 <dd><p>Выводит результаты анализа текстов в консоль в структурированном виде.</p>
-<p>Для каждого текста отображается:
-- общее количество символов и путь движения пальцев,
-- средняя нагрузка на символ и общее количество нажатий,
-- статистика по модификаторам (Shift, Alt),
-- распределение нагрузки между руками,
-- типы нажатий (одноручные и двуручные),
-- нагрузка по каждому пальцу с процентным соотношением.</p>
+<p>Для каждого текста отображается:</p>
+<ul class="simple">
+<li><p>общее количество символов и путь движения пальцев,</p></li>
+<li><p>средняя нагрузка на символ и общее количество нажатий,</p></li>
+<li><p>статистика по модификаторам (Shift, Alt),</p></li>
+<li><p>распределение нагрузки между руками,</p></li>
+<li><p>типы нажатий (одноручные и двуручные),</p></li>
+<li><p>нагрузка по каждому пальцу с процентным соотношением.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>results</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – <p>Список словарей, полученных из метода <code class="docutils literal notranslate"><span class="pre">analyze_text</span></code> или <code class="docutils literal notranslate"><span class="pre">analyze_all_files</span></code>.
@@ -513,11 +517,13 @@ right_thumb: 0 нажатий, путь 0
 <dt class="sig sig-object py" id="print_improved_results">
 <span class="sig-name descname"><span class="pre">print_improved_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#print_improved_results" title="Ссылка на это определение"></a></dt>
 <dd><p>Улучшенный вывод результатов анализа с акцентом на использование пробела.</p>
-<p>Метод выводит в консоль структурированную статистику по каждому тексту:
-- процентное распределение нагрузки по пальцам (с человеко‑читаемыми названиями),
-- количество нажатий и их процентное соотношение,
-- особенности раскладки с акцентом на пробел (правый большой палец), а также использование модификаторов Alt/Shift (левый большой палец),
-- соотношение нагрузки между левой и правой рукой.</p>
+<p>Метод выводит в консоль структурированную статистику по каждому тексту:</p>
+<ul class="simple">
+<li><p>процентное распределение нагрузки по пальцам (с человеко‑читаемыми названиями),</p></li>
+<li><p>количество нажатий и их процентное соотношение,</p></li>
+<li><p>особенности раскладки с акцентом на пробел (правый большой палец), а также использование модификаторов Alt/Shift (левый большой палец),</p></li>
+<li><p>соотношение нагрузки между левой и правой рукой.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>results</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – <p>Список словарей, полученных из метода <code class="docutils literal notranslate"><span class="pre">analyze_text</span></code> или <code class="docutils literal notranslate"><span class="pre">analyze_all_files</span></code>.
@@ -573,9 +579,11 @@ right_thumb: 0 нажатий, путь 0
 <dt class="sig sig-object py" id="get_common_chars">
 <span class="sig-name descname"><span class="pre">get_common_chars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#get_common_chars" title="Ссылка на это определение"></a></dt>
 <dd><p>Возвращает множество символов, общих для всех раскладок клавиатуры.</p>
-<p>Включает:
-- базовые русские буквы (а–я, ё, пробел),
-- часто используемые спецсимволы, доступные через Shift во всех раскладках.</p>
+<p>Включает:</p>
+<ul class="simple">
+<li><p>базовые русские буквы (а–я, ё, пробел),</p></li>
+<li><p>часто используемые спецсимволы, доступные через Shift во всех раскладках.</p></li>
+</ul>
 <p>Используется для унифицированного анализа раскладок по ограниченному набору символов.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Результат<span class="colon">:</span></dt>
@@ -631,13 +639,13 @@ right_thumb: 0 нажатий, путь 0
 <dt class="sig sig-object py" id="analyze_all_layouts_optimized">
 <span class="sig-name descname"><span class="pre">analyze_all_layouts_optimized</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#analyze_all_layouts_optimized" title="Ссылка на это определение"></a></dt>
 <dd><p>Оптимизированный анализ всех раскладок клавиатуры с выбором текста.</p>
-<p>Функция выполняет:
-- интерактивный выбор текста для анализа (меню: «Война и мир», «Сортировка букв», «Минимальные фразы», либо все тексты),
-- загрузку выбранных файлов (UTF-8, для «Минимальные фразы» берутся первые 1000 слов),
-- анализ текста для каждой раскладки с учётом общих символов (см. <code class="docutils literal notranslate"><span class="pre">get_common_chars</span></code>),
-- формирование сводной таблицы результатов с ключевыми метриками:</p>
-<blockquote>
-<div><ul class="simple">
+<p>Функция выполняет:</p>
+<ul class="simple">
+<li><p>интерактивный выбор текста для анализа (меню: «Война и мир», «Сортировка букв», «Минимальные фразы», либо все тексты),</p></li>
+<li><p>загрузку выбранных файлов (UTF-8, для «Минимальные фразы» берутся первые 1000 слов),</p></li>
+<li><p>анализ текста для каждой раскладки с учётом общих символов (см. <code class="docutils literal notranslate"><span class="pre">get_common_chars</span></code>),</p></li>
+<li><p>формирование сводной таблицы результатов с ключевыми метриками:</p>
+<ul>
 <li><p>количество символов,</p></li>
 <li><p>количество нажатий,</p></li>
 <li><p>среднее число нажатий на символ,</p></li>
@@ -645,7 +653,8 @@ right_thumb: 0 нажатий, путь 0
 <li><p>распределение нагрузки между руками,</p></li>
 <li><p>количество смен рук на 100 символов.</p></li>
 </ul>
-</div></blockquote>
+</li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Результат<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Функция не возвращает значение. Результаты анализа выводятся в консоль в виде сводной таблицы.</p>
