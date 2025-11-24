@@ -42,7 +42,7 @@
 
 ### Раскладка Зубачев
 
-![zubachev](docs/source/_static/zubachev.png)
+![zubachev](docs/source/_static/zubachew.png)
 
 ### Раскладка Скоропись
 
@@ -50,7 +50,7 @@
 
 ### Раскладка Русфон
 
-![rusphon](docs/source/_static/rusphon.png)
+![rusphon](docs/source/_static/rusphone.png)
 
 ### Раскладка Диктор
 
