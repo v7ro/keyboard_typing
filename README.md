@@ -89,9 +89,6 @@ test_analyze_text[vyzov] PASSED
 
 Графический интерфейс включает три вкладки, каждая из которых визуализирует нагрузку на пальцы, руки и раскладки клавиатуры:
 
-### Общая нагрузка
-![nagruzka_svodnaya](docs/source/_static/nagruzka_svodnaya.png)
-
 ### Нагрузка на руку
 ![nagryzka_na_ryky](docs/source/_static/nagryzka_na_ryky.png)
 
