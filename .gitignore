@@ -206,3 +206,4 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 data/voina_i_mir.txt
+src/gui.py
