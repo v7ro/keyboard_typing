@@ -1,6 +1,5 @@
 """
 Модуль с данными раскладок клавиатуры для анализатора
-Автор: Vero
 """
 
 # Карта клавиатуры: код -> (ряд, колонка) - общая для всех раскладок
@@ -31,38 +30,38 @@ keyboard_map = {
     57: (4, 5)    # Пробел
 }
 
-# Домашние позиции
+# Домашние позиции - НОВАЯ СИСТЕМА ИМЕНОВАНИЯ
 home_positions = {
-    'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-    'right_index': 36, 'right_middle': 37, 'right_ring': 38, 'right_pinky': 39,
-    'left_thumb': 42, 'right_thumb': 57
+    'lf5': 30, 'lf4': 31, 'lf3': 32, 'lf2': 33,  # Левая рука
+    'rf2': 36, 'rf3': 37, 'rf4': 38, 'rf5': 39,  # Правая рука
+    'lf1': 42, 'rf1': 57  # Большие пальцы
 }
 
 # Раскладка ЙЦУКЕН
 ytsuken_layout = {
     'keys': {
-        'й': (16, 'left_pinky'), 'ц': (17, 'left_ring'), 'у': (18, 'left_middle'), 
-        'к': (19, 'left_index'), 'е': (20, 'left_index'), 'н': (21, 'right_index'),
-        'г': (22, 'right_index'), 'ш': (23, 'right_middle'), 'щ': (24, 'right_ring'),
-        'з': (25, 'right_pinky'), 'х': (26, 'right_pinky'), 'ъ': (27, 'right_pinky'),
+        'й': (16, 'lf5'), 'ц': (17, 'lf4'), 'у': (18, 'lf3'), 
+        'к': (19, 'lf2'), 'е': (20, 'lf2'), 'н': (21, 'rf2'),
+        'г': (22, 'rf2'), 'ш': (23, 'rf3'), 'щ': (24, 'rf4'),
+        'з': (25, 'rf5'), 'х': (26, 'rf5'), 'ъ': (27, 'rf5'),
         
-        'ф': (30, 'left_pinky'), 'ы': (31, 'left_ring'), 'в': (32, 'left_middle'),
-        'а': (33, 'left_index'), 'п': (34, 'left_index'), 'р': (35, 'right_index'),
-        'о': (36, 'right_index'), 'л': (37, 'right_middle'), 'д': (38, 'right_ring'),
-        'ж': (39, 'right_pinky'), 'э': (40, 'right_pinky'),
+        'ф': (30, 'lf5'), 'ы': (31, 'lf4'), 'в': (32, 'lf3'),
+        'а': (33, 'lf2'), 'п': (34, 'lf2'), 'р': (35, 'rf2'),
+        'о': (36, 'rf2'), 'л': (37, 'rf3'), 'д': (38, 'rf4'),
+        'ж': (39, 'rf5'), 'э': (40, 'rf5'),
         
-        'я': (44, 'left_pinky'), 'ч': (45, 'left_ring'), 'с': (46, 'left_middle'),
-        'м': (47, 'left_index'), 'и': (48, 'right_index'), 'т': (49, 'right_index'),
-        'ь': (50, 'right_index'), 'б': (51, 'right_middle'), 'ю': (52, 'right_ring'),
+        'я': (44, 'lf5'), 'ч': (45, 'lf4'), 'с': (46, 'lf3'),
+        'м': (47, 'lf2'), 'и': (48, 'rf2'), 'т': (49, 'rf2'),
+        'ь': (50, 'rf2'), 'б': (51, 'rf3'), 'ю': (52, 'rf4'),
         
-        'ё': (41, 'left_pinky'), ' ': (57, 'right_thumb')
+        'ё': (41, 'lf5'), ' ': (57, 'rf1')
     },
     'shift_keys': {
-        '!': (2, 'left_pinky'), '"': (3, 'left_ring'), '№': (4, 'left_middle'), 
-        ';': (5, 'left_index'), '%': (6, 'right_index'), ':': (7, 'right_middle'), 
-        '?': (8, 'right_ring'), '*': (9, 'right_pinky'), '(': (10, 'right_pinky'), 
-        ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), '+': (13, 'right_pinky'),
-        '/': (43, 'right_pinky'), ',': (53, 'right_pinky')
+        '!': (2, 'lf5'), '"': (3, 'lf4'), '№': (4, 'lf3'), 
+        ';': (5, 'lf2'), '%': (6, 'rf2'), ':': (7, 'rf3'), 
+        '?': (8, 'rf4'), '*': (9, 'rf5'), '(': (10, 'rf5'), 
+        ')': (11, 'rf5'), '_': (12, 'rf5'), '+': (13, 'rf5'),
+        '/': (43, 'rf5'), ',': (53, 'rf5')
     },
     'alt_keys': {},
     'home_positions': home_positions
@@ -71,38 +70,38 @@ ytsuken_layout = {
 # Раскладка ВЫЗОВ
 vyzov_layout = {
     'keys': {
-        'б': (16, 'left_pinky'), 'ы': (17, 'left_ring'), 'о': (18, 'left_middle'),
-        'у': (19, 'left_index'), 'ь': (20, 'left_index'), 'ё': (21, 'right_index'),
-        '^': (22, 'right_index'), 'д': (23, 'right_index'), 'я': (24, 'right_middle'),
-        'г': (25, 'right_middle'), 'ж': (26, 'right_middle'), 
+        'б': (16, 'lf5'), 'ы': (17, 'lf4'), 'о': (18, 'lf3'),
+        'у': (19, 'lf2'), 'ь': (20, 'lf2'), 'ё': (21, 'rf2'),
+        '^': (22, 'rf2'), 'д': (23, 'rf2'), 'я': (24, 'rf3'),
+        'г': (25, 'rf3'), 'ж': (26, 'rf3'), 
         
-        'ч': (30, 'left_pinky'), 'и': (31, 'left_ring'), 'е': (32, 'left_middle'),
-        'а': (33, 'left_index'), ',': (34, 'left_index'), 'н': (36, 'right_index'),
-        'т': (37, 'right_middle'), 'с': (38, 'right_ring'), 'в': (39, 'right_pinky'),
-        'з': (40, 'right_ring'),
+        'ч': (30, 'lf5'), 'и': (31, 'lf4'), 'е': (32, 'lf3'),
+        'а': (33, 'lf2'), ',': (34, 'lf2'), 'н': (36, 'rf2'),
+        'т': (37, 'rf3'), 'с': (38, 'rf4'), 'в': (39, 'rf5'),
+        'з': (40, 'rf4'),
         
-        'х': (45, 'left_ring'), 'й': (46, 'left_middle'),
-        'к': (47, 'left_index'), '_': (48, 'left_index'), '/': (49, 'right_pinky'),
-        'р': (50, 'right_index'), 'м': (51, 'right_ring'), 'ф': (52, 'right_pinky'),
-        'п': (53, 'right_pinky'),
+        'х': (45, 'lf4'), 'й': (46, 'lf3'),
+        'к': (47, 'lf2'), '_': (48, 'lf2'), '/': (49, 'rf5'),
+        'р': (50, 'rf2'), 'м': (51, 'rf4'), 'ф': (52, 'rf5'),
+        'п': (53, 'rf5'),
         
-        ' ': (57, 'right_thumb'), '₽': (41, 'right_thumb')
+        ' ': (57, 'rf1'), '₽': (41, 'rf1')
     },
     'shift_keys': {
-        'ё': (2, 'left_pinky'), '[': (3, 'left_ring'), '{': (4, 'left_middle'),
-        '}': (5, 'left_index'), '(': (6, 'right_index'), '=': (7, 'right_middle'),
-        '*': (8, 'right_ring'), ')': (9, 'right_pinky'), '+': (10, 'right_pinky'),
-        ']': (11, 'right_pinky'), '!': (12, 'right_pinky'), 
-        ';': (34, 'left_index'), ':': (35, 'right_index'), "'": (20, 'left_index'),
-        '-': (48, 'left_index'), '?': (49, 'right_pinky'), '@': (27, 'right_ring'),
-        '$': (41, 'right_thumb')
+        'ё': (2, 'lf5'), '[': (3, 'lf4'), '{': (4, 'lf3'),
+        '}': (5, 'lf2'), '(': (6, 'rf2'), '=': (7, 'rf3'),
+        '*': (8, 'rf4'), ')': (9, 'rf5'), '+': (10, 'rf5'),
+        ']': (11, 'rf5'), '!': (12, 'rf5'), 
+        ';': (34, 'lf2'), ':': (35, 'rf2'), "'": (20, 'lf2'),
+        '-': (48, 'lf2'), '?': (49, 'rf5'), '@': (27, 'rf4'),
+        '$': (41, 'rf1')
     },
     'alt_keys': {
-        'ц': (30, 'left_ring'),  
-        'щ': (36, 'right_index'),   
-        'ъ': (37, 'right_middle'),   
-        '№': (39, 'right_pinky'),    
-        'э': (32, 'left_middle')     
+        'ц': (30, 'lf4'),  
+        'щ': (36, 'rf2'),   
+        'ъ': (37, 'rf3'),   
+        '№': (39, 'rf5'),    
+        'э': (32, 'lf3')     
     },
     'home_positions': home_positions
 }
@@ -110,174 +109,174 @@ vyzov_layout = {
 # Раскладка ЗУБАЧЕВ
 zubachev_layout = {
     'keys': {
-        'ф': (16, 'left_pinky'), 'ы': (17, 'left_ring'), 'а': (18, 'left_middle'),
-        'я': (19, 'left_index'), ',': (20, 'left_index'), 'й': (21, 'left_index'),
-        'м': (22, 'left_index'), 'р': (23, 'right_index'), 'п': (24, 'right_index'),
-        'х': (25, 'right_index'), 'ц': (26, 'right_index'), 'щ': (27, 'right_index'),
+        'ф': (16, 'lf5'), 'ы': (17, 'lf4'), 'а': (18, 'lf3'),
+        'я': (19, 'lf2'), ',': (20, 'lf2'), 'й': (21, 'lf2'),
+        'м': (22, 'lf2'), 'р': (23, 'rf2'), 'п': (24, 'rf2'),
+        'х': (25, 'rf2'), 'ц': (26, 'rf2'), 'щ': (27, 'rf2'),
         
-        'г': (30, 'left_pinky'), 'и': (31, 'left_ring'), 'у': (32, 'left_middle'),
-        'о': (33, 'left_index'), 'у': (34, 'left_index'), 'л': (35, 'right_middle'),
-        'т': (36, 'right_middle'), 'с': (37, 'right_middle'), 'н': (38, 'right_ring'),
-        'з': (39, 'right_ring'), 'ж': (40, 'right_ring'),
+        'г': (30, 'lf5'), 'и': (31, 'lf4'), 'у': (32, 'lf3'),
+        'о': (33, 'lf2'), 'у': (34, 'lf2'), 'л': (35, 'rf3'),
+        'т': (36, 'rf3'), 'с': (37, 'rf3'), 'н': (38, 'rf4'),
+        'з': (39, 'rf4'), 'ж': (40, 'rf4'),
         
-        'ш': (44, 'left_pinky'), 'ь': (45, 'left_ring'), 'ю': (46, 'left_middle'),
-        '.': (47, 'left_index'), 'э': (48, 'right_pinky'), 'б': (49, 'right_pinky'),
-        'д': (50, 'right_pinky'), 'в': (51, 'right_pinky'), 'к': (52, 'right_pinky'),
-        'ч': (53, 'right_pinky'),
+        'ш': (44, 'lf5'), 'ь': (45, 'lf4'), 'ю': (46, 'lf3'),
+        '.': (47, 'lf2'), 'э': (48, 'rf5'), 'б': (49, 'rf5'),
+        'д': (50, 'rf5'), 'в': (51, 'rf5'), 'к': (52, 'rf5'),
+        'ч': (53, 'rf5'),
         
-        '\\': (43, 'right_index'), 'ё': (41, 'right_pinky'), ' ': (57, 'right_thumb')
+        '\\': (43, 'rf2'), 'ё': (41, 'rf5'), ' ': (57, 'rf1')
     },
     'shift_keys': {
-        '!': (2, 'left_pinky'), '"': (3, 'left_ring'), '№': (4, 'left_middle'),
-        ';': (5, 'left_index'), '%': (6, 'right_index'), ':': (7, 'right_middle'),
-        '?': (8, 'right_ring'), '*': (9, 'right_pinky'), '(': (10, 'right_pinky'),
-        ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), '+': (13, 'right_pinky'),
-        '/': (43, 'right_index'), 'ъ': (45, 'left_ring'), 'ь': (47, 'left_index')
+        '!': (2, 'lf5'), '"': (3, 'lf4'), '№': (4, 'lf3'),
+        ';': (5, 'lf2'), '%': (6, 'rf2'), ':': (7, 'rf3'),
+        '?': (8, 'rf4'), '*': (9, 'rf5'), '(': (10, 'rf5'),
+        ')': (11, 'rf5'), '_': (12, 'rf5'), '+': (13, 'rf5'),
+        '/': (43, 'rf2'), 'ъ': (45, 'lf4'), 'ь': (47, 'lf2')
     },
     'alt_keys': {},
     'home_positions': {
-        'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-        'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-        'left_thumb': 42, 'right_thumb': 57
+        'lf5': 30, 'lf4': 31, 'lf3': 32, 'lf2': 33,  # Левая рука
+        'rf2': 23, 'rf3': 36, 'rf4': 38, 'rf5': 39,  # Правая рука
+        'lf1': 42, 'rf1': 57  # Большие пальцы
     }
 }
 
 # Раскладка СКОРОПИСЬ
 skoropis_layout = {
     'keys': {
-        'ц': (16, 'left_pinky'), 'ь': (17, 'left_ring'), 'я': (18, 'left_middle'),
-        ',': (19, 'left_index'), '.': (20, 'left_index'), 'з': (21, 'left_index'),
-        'в': (22, 'left_index'), 'к': (23, 'right_index'), 'д': (24, 'right_index'),
-        'ч': (25, 'right_index'), 'ш': (26, 'right_index'), 'щ': (27, 'right_index'),
+        'ц': (16, 'lf5'), 'ь': (17, 'lf4'), 'я': (18, 'lf3'),
+        ',': (19, 'lf2'), '.': (20, 'lf2'), 'з': (21, 'lf2'),
+        'в': (22, 'lf2'), 'к': (23, 'rf2'), 'д': (24, 'rf2'),
+        'ч': (25, 'rf2'), 'ш': (26, 'rf2'), 'щ': (27, 'rf2'),
         
-        'у': (30, 'left_pinky'), 'и': (31, 'left_ring'), 'е': (32, 'left_middle'),
-        'о': (33, 'left_index'), 'а': (34, 'left_index'), 'л': (35, 'right_middle'),
-        'н': (36, 'right_middle'), 'т': (37, 'right_middle'), 'с': (38, 'right_ring'),
-        'р': (39, 'right_ring'), 'й': (40, 'right_ring'),
+        'у': (30, 'lf5'), 'и': (31, 'lf4'), 'е': (32, 'lf3'),
+        'о': (33, 'lf2'), 'а': (34, 'lf2'), 'л': (35, 'rf3'),
+        'н': (36, 'rf3'), 'т': (37, 'rf3'), 'с': (38, 'rf4'),
+        'р': (39, 'rf4'), 'й': (40, 'rf4'),
         
-        'ф': (44, 'left_pinky'), 'э': (45, 'left_ring'), 'х': (46, 'left_middle'),
-        'ы': (47, 'left_index'), 'ю': (48, 'right_pinky'), 'б': (49, 'right_pinky'),
-        'м': (50, 'right_pinky'), 'п': (51, 'right_pinky'), 'г': (52, 'right_pinky'),
-        'ж': (53, 'right_pinky'),
+        'ф': (44, 'lf5'), 'э': (45, 'lf4'), 'х': (46, 'lf3'),
+        'ы': (47, 'lf2'), 'ю': (48, 'rf5'), 'б': (49, 'rf5'),
+        'м': (50, 'rf5'), 'п': (51, 'rf5'), 'г': (52, 'rf5'),
+        'ж': (53, 'rf5'),
         
-        '"': (43, 'right_index'), '*': (41, 'right_pinky'), ' ': (57, 'right_thumb')
+        '"': (43, 'rf2'), '*': (41, 'rf5'), ' ': (57, 'rf1')
     },
     'shift_keys': {
-        '.': (2, 'left_pinky'), 'ё': (3, 'left_ring'), 'ъ': (4, 'left_middle'),
-        '?': (5, 'left_index'), '!': (6, 'right_index'), '': (7, 'right_middle'),
-        '-': (8, 'right_ring'), "'": (9, 'right_pinky'), '(': (10, 'right_pinky'),
-        ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), '«': (13, 'right_pinky')
+        '.': (2, 'lf5'), 'ё': (3, 'lf4'), 'ъ': (4, 'lf3'),
+        '?': (5, 'lf2'), '!': (6, 'rf2'), '': (7, 'rf3'),
+        '-': (8, 'rf4'), "'": (9, 'rf5'), '(': (10, 'rf5'),
+        ')': (11, 'rf5'), '_': (12, 'rf5'), '«': (13, 'rf5')
     },
     'alt_keys': {},
     'home_positions': {
-        'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-        'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-        'left_thumb': 42, 'right_thumb': 57
+        'lf5': 30, 'lf4': 31, 'lf3': 32, 'lf2': 33,  # Левая рука
+        'rf2': 23, 'rf3': 36, 'rf4': 38, 'rf5': 39,  # Правая рука
+        'lf1': 42, 'rf1': 57  # Большие пальцы
     }
 }
 
 # Раскладка РУСФОН
 rusfon_layout = {
     'keys': {
-        'я': (16, 'left_pinky'), 'в': (17, 'left_ring'), 'е': (18, 'left_middle'),
-        'р': (19, 'left_index'), 'т': (20, 'left_index'), 'ы': (21, 'left_index'),
-        'у': (22, 'left_index'), 'и': (23, 'right_index'), 'о': (24, 'right_index'),
-        'п': (25, 'right_index'), 'ш': (26, 'right_index'), 'щ': (27, 'right_index'),
+        'я': (16, 'lf5'), 'в': (17, 'lf4'), 'е': (18, 'lf3'),
+        'р': (19, 'lf2'), 'т': (20, 'lf2'), 'ы': (21, 'lf2'),
+        'у': (22, 'lf2'), 'и': (23, 'rf2'), 'о': (24, 'rf2'),
+        'п': (25, 'rf2'), 'ш': (26, 'rf2'), 'щ': (27, 'rf2'),
         
-        'а': (30, 'left_pinky'), 'с': (31, 'left_ring'), 'д': (32, 'left_middle'),
-        'ф': (33, 'left_index'), 'г': (34, 'left_index'), 'х': (35, 'right_middle'),
-        'й': (36, 'right_middle'), 'к': (37, 'right_middle'), 'л': (38, 'right_ring'),
-        ';': (39, 'right_ring'), "'": (40, 'right_ring'),
+        'а': (30, 'lf5'), 'с': (31, 'lf4'), 'д': (32, 'lf3'),
+        'ф': (33, 'lf2'), 'г': (34, 'lf2'), 'х': (35, 'rf3'),
+        'й': (36, 'rf3'), 'к': (37, 'rf3'), 'л': (38, 'rf4'),
+        ';': (39, 'rf4'), "'": (40, 'rf4'),
         
-        'з': (44, 'left_pinky'), 'ь': (45, 'left_ring'), 'ц': (46, 'left_middle'),
-        'ж': (47, 'left_index'), 'б': (48, 'right_pinky'), 'н': (49, 'right_pinky'),
-        'м': (50, 'right_pinky'), ',': (51, 'right_pinky'), '.': (52, 'right_pinky'),
-        '/': (53, 'right_pinky'),
+        'з': (44, 'lf5'), 'ь': (45, 'lf4'), 'ц': (46, 'lf3'),
+        'ж': (47, 'lf2'), 'б': (48, 'rf5'), 'н': (49, 'rf5'),
+        'м': (50, 'rf5'), ',': (51, 'rf5'), '.': (52, 'rf5'),
+        '/': (53, 'rf5'),
         
-        'э': (43, 'right_index'), 'ю': (41, 'right_pinky'), ' ': (57, 'right_thumb')
+        'э': (43, 'rf2'), 'ю': (41, 'rf5'), ' ': (57, 'rf1')
     },
     'shift_keys': {
-        '!': (2, 'left_pinky'), '@': (3, 'left_ring'), 'ё': (4, 'left_middle'),
-        'Ё': (5, 'left_index'), 'ъ': (6, 'right_index'), 'Ъ': (7, 'right_middle'),
-        '&': (8, 'right_ring'), '*': (9, 'right_pinky'), '(': (10, 'right_pinky'),
-        ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), 'ч': (13, 'right_pinky'),
-        ':': (39, 'right_ring'), '"': (40, 'right_ring'), '<': (51, 'right_pinky'),
-        '>': (52, 'right_pinky'), '?': (53, 'right_pinky')
+        '!': (2, 'lf5'), '@': (3, 'lf4'), 'ё': (4, 'lf3'),
+        'Ё': (5, 'lf2'), 'ъ': (6, 'rf2'), 'Ъ': (7, 'rf3'),
+        '&': (8, 'rf4'), '*': (9, 'rf5'), '(': (10, 'rf5'),
+        ')': (11, 'rf5'), '_': (12, 'rf5'), 'ч': (13, 'rf5'),
+        ':': (39, 'rf4'), '"': (40, 'rf4'), '<': (51, 'rf5'),
+        '>': (52, 'rf5'), '?': (53, 'rf5')
     },
     'alt_keys': {},
     'home_positions': {
-        'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-        'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-        'left_thumb': 42, 'right_thumb': 57
+        'lf5': 30, 'lf4': 31, 'lf3': 32, 'lf2': 33,  # Левая рука
+        'rf2': 23, 'rf3': 36, 'rf4': 38, 'rf5': 39,  # Правая рука
+        'lf1': 42, 'rf1': 57  # Большие пальцы
     }
 }
 
 # Раскладка ДИКТОР
 diktor_layout = {
     'keys': {
-        'ц': (16, 'left_pinky'), 'ь': (17, 'left_ring'), 'я': (18, 'left_middle'),
-        ',': (19, 'left_index'), '.': (20, 'left_index'), 'з': (21, 'left_index'),
-        'в': (22, 'left_index'), 'к': (23, 'right_index'), 'д': (24, 'right_index'),
-        'ч': (25, 'right_index'), 'ш': (26, 'right_index'), 'щ': (27, 'right_index'),
+        'ц': (16, 'lf5'), 'ь': (17, 'lf4'), 'я': (18, 'lf3'),
+        ',': (19, 'lf2'), '.': (20, 'lf2'), 'з': (21, 'lf2'),
+        'в': (22, 'lf2'), 'к': (23, 'rf2'), 'д': (24, 'rf2'),
+        'ч': (25, 'rf2'), 'ш': (26, 'rf2'), 'щ': (27, 'rf2'),
         
-        'у': (30, 'left_pinky'), 'и': (31, 'left_ring'), 'е': (32, 'left_middle'),
-        'о': (33, 'left_index'), 'а': (34, 'left_index'), 'л': (35, 'right_middle'),
-        'н': (36, 'right_middle'), 'т': (37, 'right_middle'), 'с': (38, 'right_ring'),
-        'р': (39, 'right_ring'), 'й': (40, 'right_ring'),
+        'у': (30, 'lf5'), 'и': (31, 'lf4'), 'е': (32, 'lf3'),
+        'о': (33, 'lf2'), 'а': (34, 'lf2'), 'л': (35, 'rf3'),
+        'н': (36, 'rf3'), 'т': (37, 'rf3'), 'с': (38, 'rf4'),
+        'р': (39, 'rf4'), 'й': (40, 'rf4'),
         
-        'ф': (44, 'left_pinky'), 'э': (45, 'left_ring'), 'х': (46, 'left_middle'),
-        'ы': (47, 'left_index'), 'ю': (48, 'right_pinky'), 'б': (49, 'right_pinky'),
-        'м': (50, 'right_pinky'), 'п': (51, 'right_pinky'), 'г': (52, 'right_pinky'),
-        'ж': (53, 'right_pinky'),
+        'ф': (44, 'lf5'), 'э': (45, 'lf4'), 'х': (46, 'lf3'),
+        'ы': (47, 'lf2'), 'ю': (48, 'rf5'), 'б': (49, 'rf5'),
+        'м': (50, 'rf5'), 'п': (51, 'rf5'), 'г': (52, 'rf5'),
+        'ж': (53, 'rf5'),
         
-        ' ': (57, 'right_thumb'), 'ё': (41, 'right_pinky')
+        ' ': (57, 'rf1'), 'ё': (41, 'rf5')
     },
     'shift_keys': {
-        'ь': (3, 'left_ring'), '№': (4, 'left_middle'),
-        '%': (5, 'left_index'), ':': (6, 'right_index'), ';': (7, 'right_middle'),
-        '-': (8, 'right_ring'), '"': (9, 'right_pinky'), '(': (10, 'right_pinky'),
-        ')': (11, 'right_pinky'), '_': (12, 'right_pinky'), '+': (13, 'right_pinky'),
-        'ъ': (17, 'left_ring'), '?': (19, 'left_index'), '!': (20, 'left_index')
+        'ь': (3, 'lf4'), '№': (4, 'lf3'),
+        '%': (5, 'lf2'), ':': (6, 'rf2'), ';': (7, 'rf3'),
+        '-': (8, 'rf4'), '"': (9, 'rf5'), '(': (10, 'rf5'),
+        ')': (11, 'rf5'), '_': (12, 'rf5'), '+': (13, 'rf5'),
+        'ъ': (17, 'lf4'), '?': (19, 'lf2'), '!': (20, 'lf2')
     },
     'alt_keys': {},
     'home_positions': {
-        'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-        'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-        'left_thumb': 42, 'right_thumb': 57
+        'lf5': 30, 'lf4': 31, 'lf3': 32, 'lf2': 33,  # Левая рука
+        'rf2': 23, 'rf3': 36, 'rf4': 38, 'rf5': 39,  # Правая рука
+        'lf1': 42, 'rf1': 57  # Большие пальцы
     }
 }
 
 # Раскладка АНТ
 ant_layout = {
     'keys': {
-        'г': (16, 'left_pinky'), 'п': (17, 'left_ring'), 'р': (18, 'left_middle'),
-        'д': (19, 'left_index'), 'м': (20, 'left_index'), 'ы': (21, 'left_index'),
-        'и': (22, 'left_index'), 'я': (23, 'right_index'), 'у': (24, 'right_index'),
-        'х': (25, 'right_index'), 'ц': (26, 'right_index'), 'ж': (27, 'right_index'),
+        'г': (16, 'lf5'), 'п': (17, 'lf4'), 'р': (18, 'lf3'),
+        'д': (19, 'lf2'), 'м': (20, 'lf2'), 'ы': (21, 'lf2'),
+        'и': (22, 'lf2'), 'я': (23, 'rf2'), 'у': (24, 'rf2'),
+        'х': (25, 'rf2'), 'ц': (26, 'rf2'), 'ж': (27, 'rf2'),
         
-        'в': (30, 'left_pinky'), 'н': (31, 'left_ring'), 'с': (32, 'left_middle'),
-        'т': (33, 'left_index'), 'л': (34, 'left_index'), 'ь': (35, 'right_middle'),
-        'о': (36, 'right_middle'), 'е': (37, 'right_middle'), 'а': (38, 'right_ring'),
-        'к': (39, 'right_ring'), 'з': (40, 'right_ring'),
+        'в': (30, 'lf5'), 'н': (31, 'lf4'), 'с': (32, 'lf3'),
+        'т': (33, 'lf2'), 'л': (34, 'lf2'), 'ь': (35, 'rf3'),
+        'о': (36, 'rf3'), 'е': (37, 'rf3'), 'а': (38, 'rf4'),
+        'к': (39, 'rf4'), 'з': (40, 'rf4'),
         
-        'щ': (44, 'left_pinky'), 'й': (45, 'left_ring'), 'ш': (46, 'left_middle'),
-        'ь': (47, 'left_index'), ',': (48, 'right_pinky'), '.': (49, 'right_pinky'),
-        'ю': (50, 'right_pinky'), 'э': (51, 'right_pinky'), 'ё': (52, 'right_pinky'),
-        'ф': (53, 'right_pinky'),
+        'щ': (44, 'lf5'), 'й': (45, 'lf4'), 'ш': (46, 'lf3'),
+        'ь': (47, 'lf2'), ',': (48, 'rf5'), '.': (49, 'rf5'),
+        'ю': (50, 'rf5'), 'э': (51, 'rf5'), 'ё': (52, 'rf5'),
+        'ф': (53, 'rf5'),
         
-        'ч': (43, 'right_index'), '\\': (41, 'right_pinky'), ' ': (57, 'right_thumb')
+        'ч': (43, 'rf2'), '\\': (41, 'rf5'), ' ': (57, 'rf1')
     },
     'shift_keys': {
-        '!': (2, 'left_pinky'), '?': (3, 'left_ring'), "'": (4, 'left_middle'),
-        '"': (5, 'left_index'), '=': (6, 'right_index'), '+': (7, 'right_middle'),
-        '-': (8, 'right_ring'), '*': (9, 'right_pinky'), '/': (10, 'right_pinky'),
-        '%': (11, 'right_pinky'), '«': (12, 'right_pinky'), '»': (13, 'right_pinky'),
-        ';': (48, 'right_pinky'), ':': (49, 'right_pinky')
+        '!': (2, 'lf5'), '?': (3, 'lf4'), "'": (4, 'lf3'),
+        '"': (5, 'lf2'), '=': (6, 'rf2'), '+': (7, 'rf3'),
+        '-': (8, 'rf4'), '*': (9, 'rf5'), '/': (10, 'rf5'),
+        '%': (11, 'rf5'), '«': (12, 'rf5'), '»': (13, 'rf5'),
+        ';': (48, 'rf5'), ':': (49, 'rf5')
     },
     'alt_keys': {},
     'home_positions': {
-        'left_pinky': 30, 'left_ring': 31, 'left_middle': 32, 'left_index': 33,
-        'right_index': 23, 'right_middle': 36, 'right_ring': 38, 'right_pinky': 39,
-        'left_thumb': 42, 'right_thumb': 57
+        'lf5': 30, 'lf4': 31, 'lf3': 32, 'lf2': 33,  # Левая рука
+        'rf2': 23, 'rf3': 36, 'rf4': 38, 'rf5': 39,  # Правая рука
+        'lf1': 42, 'rf1': 57  # Большие пальцы
     }
 }

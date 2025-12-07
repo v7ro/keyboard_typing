@@ -32,19 +32,12 @@ class KeyboardAnalyzer:
         позицией на физической клавиатуре (ряд, колонка), используемая для расчёта пути
         движения пальцев.
 
-        Входные данные (точка входа):
-            layout (str): Название раскладки, которую нужно загрузить.
-                      По умолчанию — 'ytsuken'.
-
-        Выходные данные (точка выхода):
-            None: Метод не возвращает значение.
-            Однако в объекте создаются атрибуты:
-                - self.layout (str): выбранная раскладка.
-                - self.keyboard_map (dict): универсальная карта клавиатуры.
-                - внутренние структуры раскладки (инициализируются через _init_from_layout_data).
+        Args:
+            layout: Название раскладки, которую нужно загрузить. По умолчанию — 'ytsuken'.
         """
         self.layout = layout
         self.keyboard_map = keyboard_map
+        self.finger_counts = {}  
         
         if layout == 'ytsuken':
             self._init_from_layout_data(ytsuken_layout)
@@ -65,25 +58,8 @@ class KeyboardAnalyzer:
         """
         Инициализирует раскладку из данных словаря.
 
-        Загружает основные карты клавиш (обычные, с Shift и Alt), а также позиции
-        домашнего ряда. Дополнительно автоматически формирует словарь заглавных букв
-        на основе алфавитных символов.
-
-        Входные данные (точка входа):
-            layout_data (dict): Словарь с данными раскладки, содержащий ключи:
-                - ``keys`` (dict): соответствие символов их коду клавиши и пальцу
-                - ``shift_keys`` (dict, optional): символы, доступные через Shift
-                - ``alt_keys`` (dict, optional): символы, доступные через Alt
-                - ``home_positions`` (dict, optional): позиции пальцев в домашнем ряду
-
-        Выходные данные (точка выхода):
-            None: Метод не возвращает значение.
-            Однако в объекте создаются/обновляются атрибуты:
-                - self.keys (dict): основная карта клавиш
-                - self.shift_keys (dict): символы, доступные через Shift
-                - self.alt_keys (dict): символы, доступные через Alt
-                - self.home_positions (dict): позиции пальцев в домашнем ряду
-                - self.caps_keys (dict): автоматически созданные заглавные буквы для алфавитных символов
+        Args:
+            layout_data: Словарь с данными раскладки (keys, shift_keys, alt_keys, home_positions)
         """
         self.keys = layout_data['keys']
         self.shift_keys = layout_data.get('shift_keys', {})
@@ -105,21 +81,20 @@ class KeyboardAnalyzer:
 
         Для больших пальцев (Shift, Alt, Space) путь считается равным нулю.
 
-        Входные данные (точка входа):
-            key_code (int): Целочисленный код клавиши (например, 30 для 'ф').
-            finger (str): Название пальца, задействованного при нажатии
-                          (например, 'left_index', 'right_thumb').
-
-        Выходные данные (точка выхода):
-            int: Целое число, представляющее путь (количество шагов по рядам и колонкам).
-                 Если палец — большой (``left_thumb`` или ``right_thumb``), либо координаты
-                 не найдены, возвращается 0.
+        Args:
+            key_code: Целочисленный код клавиши (например, 30 для 'ф').
+            finger: Обозначение пальца (например, 'lf2').
+        
+        Returns:
+            Целое число, представляющее путь (количество шагов по рядам и колонкам).
         """
-        if finger in ['left_thumb', 'right_thumb']:
+        if finger in ['lf1', 'rf1']:  # Большие пальцы
             return 0
             
-        home_code = self.home_positions[finger]
-        
+        home_code = self.home_positions.get(finger)
+        if not home_code:
+            return 0
+            
         home_coords = self.keyboard_map.get(home_code)
         target_coords = self.keyboard_map.get(key_code)
         
@@ -143,18 +118,15 @@ class KeyboardAnalyzer:
         Открывает файл в кодировке UTF-8 и считывает его содержимое.
         В случае ошибки выводит сообщение в консоль и возвращает пустую строку.
 
-        Входные данные (точка входа):
-            filename (str): Путь к текстовому файлу, который необходимо загрузить.
-
-        Выходные данные (точка выхода):
-            str: Строка с содержимым файла.
-                 Если файл не найден или произошла ошибка чтения,
-                 возвращается пустая строка и выводится сообщение об ошибке в консоль.
+        Args:
+            filename: Путь к текстовому файлу.
+        
+        Returns:
+            Строка с содержимым файла или пустая строка при ошибке.
         """
         try:
             with open(filename, 'r', encoding='utf-8') as file:
                 text = file.read()
-                #print(f"Успешно загружен {filename}: {len(text)} символов")
                 return text
         except FileNotFoundError:
             print(f"ОШИБКА: Файл {filename} не найден!")
@@ -163,76 +135,261 @@ class KeyboardAnalyzer:
             print(f"ОШИБКА загрузки файла {filename}: {e}")
             return ""
 
+    def analyze_combinations(self, text):
+        """
+        Анализирует ВСЕ комбинации в тексте
+        Возвращает: сколько удобных, частично удобных, неудобных комбинаций
+        """
+        # Очищаем текст - оставляем только русские буквы
+        clean_text = ''.join([c.lower() for c in text if c.lower() in 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'])
+        
+        results = {
+            'двухграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0},
+            'трехграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0},
+            'четырехграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0}
+        }
+        
+        # Анализируем ВСЕ двухграммы в тексте
+        for i in range(len(clean_text) - 1):
+            bigram = clean_text[i:i+2]
+            comfort = self._analyze_bigram_comfort(bigram)
+            results['двухграммы'][comfort] += 1
+            results['двухграммы']['всего'] += 1
+        
+        # Анализируем ВСЕ трехграммы в тексте
+        for i in range(len(clean_text) - 2):
+            trigram = clean_text[i:i+3]
+            comfort = self._analyze_trigram_comfort(trigram)
+            results['трехграммы'][comfort] += 1
+            results['трехграммы']['всего'] += 1
+        
+        # Анализируем ВСЕ четырехграммы в тексте
+        for i in range(len(clean_text) - 3):
+            fourgram = clean_text[i:i+4]
+            comfort = self._analyze_fourgram_comfort(fourgram)
+            results['четырехграммы'][comfort] += 1
+            results['четырехграммы']['всего'] += 1
+        
+        return results
+    
+    def _analyze_bigram_comfort(self, bigram):
+        """
+        Анализирует удобство двухграммы (2 символа)
+        """
+        if len(bigram) != 2:
+            return 'неудобные'
+        
+        char1, char2 = bigram[0], bigram[1]
+        
+        # Получаем пальцы для каждого символа
+        finger1 = self._get_finger_for_char(char1)
+        finger2 = self._get_finger_for_char(char2)
+        
+        if finger1 is None or finger2 is None:
+            return 'неудобные'
+        
+        # Проверяем, одна ли рука
+        same_hand = (finger1[0] == finger2[0])  # 'l' или 'r' в начале
+        
+        if not same_hand:
+            return 'неудобные'  # Смена руки = неудобно
+        
+        # Получаем номера пальцев (lf5 = 5, lf4 = 4, lf3 = 3, lf2 = 2)
+        finger_num1 = int(finger1[2]) if len(finger1) >= 3 else 0
+        finger_num2 = int(finger2[2]) if len(finger2) >= 3 else 0
+        
+        # Проверяем направление
+        direction = finger_num2 - finger_num1
+        
+        # УДОБНЫЕ: от мизинца к указательному (от большего номера к меньшему)
+        if direction < 0:  # Пример: lf5→lf4 или lf4→lf3
+            return 'удобные'
+        
+        # ЧАСТИЧНО УДОБНЫЕ: от указательного к мизинцу
+        else:
+            return 'частично_удобные'
+    
+    def _analyze_trigram_comfort(self, trigram):
+        """
+        Анализирует удобство трехграммы (3 символа)
+        """
+        if len(trigram) != 3:
+            return 'неудобные'
+        
+        # Анализируем все пары внутри трехграммы
+        comfort1 = self._analyze_bigram_comfort(trigram[0:2])
+        comfort2 = self._analyze_bigram_comfort(trigram[1:3])
+        
+        # Если хотя бы одна пара неудобная - вся трехграмма неудобная
+        if comfort1 == 'неудобные' or comfort2 == 'неудобные':
+            return 'неудобные'
+        
+        # Если обе пары удобные
+        elif comfort1 == 'удобные' and comfort2 == 'удобные':
+            # Проверяем общее направление
+            finger1 = self._get_finger_for_char(trigram[0])
+            finger2 = self._get_finger_for_char(trigram[1])
+            finger3 = self._get_finger_for_char(trigram[2])
+            
+            if finger1 and finger2 and finger3:
+                num1 = int(finger1[2]) if len(finger1) >= 3 else 0
+                num2 = int(finger2[2]) if len(finger2) >= 3 else 0
+                num3 = int(finger3[2]) if len(finger3) >= 3 else 0
+                
+                # УДОБНЫЕ: последовательное движение от мизинца к указательному
+                if num1 > num2 > num3:
+                    return 'удобные'
+                else:
+                    return 'частично_удобные'
+        
+        # В остальных случаях - частично удобная
+        return 'частично_удобные'
+    
+    def _analyze_fourgram_comfort(self, fourgram):
+        """
+        Анализирует удобство четырехграммы
+        """
+        if len(fourgram) != 4:
+            return 'неудобные'
+        
+        # Анализируем все пары внутри четырехграммы
+        comforts = []
+        for i in range(3):
+            pair = fourgram[i:i+2]
+            comfort = self._analyze_bigram_comfort(pair)
+            comforts.append(comfort)
+        
+        # Считаем сколько удобных, частично удобных, неудобных пар
+        counts = {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0}
+        for comfort in comforts:
+            counts[comfort] += 1
+        
+        # Логика оценки
+        if counts['неудобные'] >= 2:
+            return 'неудобные'
+        elif counts['неудобные'] == 1 or counts['частично_удобные'] >= 2:
+            return 'частично_удобные'
+        else:
+            # Проверяем общее направление для 4 символов
+            fingers = []
+            for char in fourgram:
+                finger = self._get_finger_for_char(char)
+                if not finger:
+                    return 'частично_удобные'
+                fingers.append(finger)
+            
+            # Получаем номера пальцев
+            try:
+                nums = [int(f[2]) for f in fingers if len(f) >= 3]
+                
+                # УДОБНЫЕ: последовательное движение от мизинца к указательному
+                if len(nums) == 4 and nums[0] > nums[1] > nums[2] > nums[3]:
+                    return 'удобные'
+                else:
+                    return 'частично_удобные'
+            except:
+                return 'частично_удобные'
+    
+    def _get_finger_for_char(self, char):
+        """
+        Получает палец для символа
+        """
+        if char == ' ':
+            # Ищем правый большой палец
+            for finger_name in self.keys.values():
+                if isinstance(finger_name, tuple) and len(finger_name) > 1:
+                    finger = finger_name[1]
+                    if 'right' in finger or 'rf1' in finger or 'thumb' in finger:
+                        return finger
+            return 'rf1'  # fallback
+        
+        if char in self.keys:
+            return self.keys[char][1]
+        elif char in getattr(self, 'caps_keys', {}):
+            return self.caps_keys[char][1]
+        elif char in getattr(self, 'shift_keys', {}):
+            return self.shift_keys[char][1]
+        elif char in getattr(self, 'alt_keys', {}):
+            return self.alt_keys[char][1]
+        
+        return None
+
     def analyze_text(self, text, text_name, common_chars=None):
         """
         Анализирует текст с точки зрения нагрузки на пальцы при печати на выбранной раскладке.
 
         Метод рассчитывает:
         - путь движения пальцев от домашней позиции до каждой клавиши,
-        - количество нажатий с модификаторами (Shift, Alt),
+        - количество нажатий с модификаторов (Shift, Alt),
         - распределение нагрузки по пальцам и рукам,
         - частоту использования левой, правой и обеих рук,
-        - среднюю длину пути и количество нажатий на символ,
-        - количество смен рук при наборе текста.
+        - среднюю длину пути и количество нажатий на символ.
 
-        Поддерживается фильтрация по общим символам, если задан параметр ``common_chars``.
+        Поддерживается фильтрация по общим символам, если задан параметр common_chars.
 
-        Входные данные (точка входа):
-            text (str): Строка текста для анализа.
-            text_name (str): Название текста (используется в отчёте).
-            common_chars (set, optional): Множество символов, которые следует учитывать
-                                      при анализе. Если не задано, анализируются все символы.
-
-        Выходные данные (точка выхода):
-            dict: Словарь со статистикой по раскладке, включающий:
-                - ``text_name`` (str): название текста
-                - ``layout`` (str): используемая раскладка
-                - ``total_path`` (int): суммарный путь движения пальцев
-                - ``finger_paths`` (dict): путь по каждому пальцу
-                - ``finger_counts`` (dict): количество нажатий каждым пальцем
-                - ``characters_analyzed`` (int): количество символов в тексте
-                - ``shift_count`` (int): количество нажатий с Shift
-                - ``alt_count`` (int): количество нажатий с Alt
-                - ``average_path`` (float): средняя длина пути на символ
-                - ``left_hand_count`` (int): количество нажатий левой рукой
-                - ``right_hand_count`` (int): количество нажатий правой рукой
-                - ``left_hand_percentage`` (float): процент нагрузки левой руки
-                - ``right_hand_percentage`` (float): процент нагрузки правой руки
-                - ``left_hand_letters`` (int): количество букв, набранных левой рукой
-                - ``right_hand_letters`` (int): количество букв, набранных правой рукой
-                - ``hand_switches`` (int): количество смен рук
-                - ``total_presses`` (int): общее количество нажатий (включая модификаторы)
-                - ``average_presses_per_char`` (float): среднее количество нажатий на символ
-                - ``left_hand_letters_percentage`` (float): процент букв левой рукой
-                - ``right_hand_letters_percentage`` (float): процент букв правой рукой
-                - ``hand_switches_per_100_chars`` (float): количество смен рук на 100 символов
+        Args:
+            text: Строка текста для анализа.
+            text_name: Название текста (используется в отчёте).
+            common_chars: Множество символов, которые следует учитывать (опционально).
+        
+        Returns:
+            Словарь со статистикой по раскладке, включая путь, нагрузку, модификаторы и распределение.
         """
         if not text:
             print(f"Текст {text_name} пустой, пропускаем анализ")
             return None
-            
-        clean_text = text
-        paths = {finger: 0 for finger in [
-            'left_pinky', 'left_ring', 'left_middle', 'left_index',
-            'right_index', 'right_middle', 'right_ring', 'right_pinky', 
-            'left_thumb', 'right_thumb'
-        ]}
         
-        finger_counts = {finger: 0 for finger in paths.keys()}
+        clean_text = text
+        
+        # ВАЖНО: получаем все пальцы из раскладки, а не предопределенный список
+        # Сначала получаем уникальные пальцы из всех возможных комбинаций
+        all_fingers = set()
+        
+        # Добавляем пальцы из обычных клавиш
+        for char, (code, finger) in self.keys.items():
+            all_fingers.add(finger)
+        
+        # Добавляем пальцы из заглавных букв
+        for char, (code, finger) in getattr(self, 'caps_keys', {}).items():
+            all_fingers.add(finger)
+        
+        # Добавляем пальцы из shift клавиш
+        for char, (code, finger) in getattr(self, 'shift_keys', {}).items():
+            all_fingers.add(finger)
+        
+        # Добавляем пальцы из alt клавиш
+        for char, (code, finger) in getattr(self, 'alt_keys', {}).items():
+            all_fingers.add(finger)
+        
+        # Инициализируем словари с ВСЕМИ пальцами из этой раскладки
+        paths = {finger: 0 for finger in all_fingers}
+        finger_counts = {finger: 0 for finger in all_fingers}
+        
         total_path = 0
         shift_count = 0
         alt_count = 0
         character_count = len(clean_text)
+
+        # Определяем какие пальцы к каким рукам относятся
+        # Сначала определим левые пальцы
+        left_hand_fingers = [f for f in all_fingers if f.startswith('l') or f.startswith('left')]
+        right_hand_fingers = [f for f in all_fingers if f.startswith('r') or f.startswith('right')]
+        
+        # Если не нашли по префиксам, пробуем другие варианты
+        if not left_hand_fingers:
+            # Предполагаемые обозначения левых пальцев
+            left_hand_fingers = ['lf5', 'lf4', 'lf3', 'lf2', 'lf1', 'left_pinky', 'left_ring', 
+                                'left_middle', 'left_index', 'left_thumb']
+        if not right_hand_fingers:
+            # Предполагаемые обозначения правых пальцев
+            right_hand_fingers = ['rf5', 'rf4', 'rf3', 'rf2', 'rf1', 'right_pinky', 'right_ring',
+                                 'right_middle', 'right_index', 'right_thumb']
 
         # НОВАЯ ЛОГИКА: считаем распределение рук
         left_hand_letters = 0      # Буквы, набранные левой рукой
         right_hand_letters = 0     # Буквы, набранные правой рукой  
         hand_switches = 0          # Смены рук (переход от левой к правой или наоборот)
         total_presses = 0          # Общее количество нажатий
-        
-        # Определяем какие пальцы к каким рукам относятся
-        left_hand_fingers = ['left_pinky', 'left_ring', 'left_middle', 'left_index', 'left_thumb']
-        right_hand_fingers = ['right_pinky', 'right_ring', 'right_middle', 'right_index', 'right_thumb']
 
         # Переменная для отслеживания предыдущей руки
         previous_hand = None  # None, 'left', или 'right'
@@ -248,10 +405,10 @@ class KeyboardAnalyzer:
                 path = self._calculate_path(key_code, finger)
                 options.append(('normal', path, key_code, finger, 0, None))
                 # Определяем руку для основной клавиши
-                if finger in left_hand_fingers:
+                if any(finger.startswith(lhf[0]) or finger == lhf for lhf in left_hand_fingers):
                     current_hand = 'left'
                     left_hand_letters += 1
-                elif finger in right_hand_fingers:
+                elif any(finger.startswith(rhf[0]) or finger == rhf for rhf in right_hand_fingers):
                     current_hand = 'right' 
                     right_hand_letters += 1
             
@@ -259,12 +416,21 @@ class KeyboardAnalyzer:
             if char in getattr(self, 'caps_keys', {}):
                 key_code, finger = self.caps_keys[char]
                 path = self._calculate_path(key_code, finger)
-                options.append(('caps', path + 1, key_code, finger, 1, 'left_thumb'))
+                # Ищем большой палец для Shift
+                shift_finger = None
+                for f in left_hand_fingers:
+                    if 'thumb' in f or '1' in f or f == 'lf1':
+                        shift_finger = f
+                        break
+                if not shift_finger:
+                    shift_finger = 'lf1'  # fallback
+                    
+                options.append(('caps', path + 1, key_code, finger, 1, shift_finger))
                 # Определяем руку для основной клавиши
-                if finger in left_hand_fingers:
+                if any(finger.startswith(lhf[0]) or finger == lhf for lhf in left_hand_fingers):
                     current_hand = 'left'
                     left_hand_letters += 1
-                elif finger in right_hand_fingers:
+                elif any(finger.startswith(rhf[0]) or finger == rhf for rhf in right_hand_fingers):
                     current_hand = 'right'
                     right_hand_letters += 1
             
@@ -272,12 +438,21 @@ class KeyboardAnalyzer:
             if char in getattr(self, 'shift_keys', {}):
                 key_code, finger = self.shift_keys[char]
                 path = self._calculate_path(key_code, finger)
-                options.append(('shift', path + 1, key_code, finger, 1, 'left_thumb'))
+                # Ищем большой палец для Shift
+                shift_finger = None
+                for f in left_hand_fingers:
+                    if 'thumb' in f or '1' in f or f == 'lf1':
+                        shift_finger = f
+                        break
+                if not shift_finger:
+                    shift_finger = 'lf1'  # fallback
+                    
+                options.append(('shift', path + 1, key_code, finger, 1, shift_finger))
                 # Определяем руку для основной клавиши
-                if finger in left_hand_fingers:
+                if any(finger.startswith(lhf[0]) or finger == lhf for lhf in left_hand_fingers):
                     current_hand = 'left'
                     left_hand_letters += 1
-                elif finger in right_hand_fingers:
+                elif any(finger.startswith(rhf[0]) or finger == rhf for rhf in right_hand_fingers):
                     current_hand = 'right'
                     right_hand_letters += 1
             
@@ -285,12 +460,21 @@ class KeyboardAnalyzer:
             if char in getattr(self, 'alt_keys', {}):
                 key_code, finger = self.alt_keys[char]
                 path = self._calculate_path(key_code, finger)
-                options.append(('alt', path + 1, key_code, finger, 1, 'right_thumb'))
+                # Ищем большой палец для Alt
+                alt_finger = None
+                for f in right_hand_fingers:
+                    if 'thumb' in f or '1' in f or f == 'rf1':
+                        alt_finger = f
+                        break
+                if not alt_finger:
+                    alt_finger = 'rf1'  # fallback
+                    
+                options.append(('alt', path + 1, key_code, finger, 1, alt_finger))
                 # Определяем руку для основной клавиши
-                if finger in left_hand_fingers:
+                if any(finger.startswith(lhf[0]) or finger == lhf for lhf in left_hand_fingers):
                     current_hand = 'left'
                     left_hand_letters += 1
-                elif finger in right_hand_fingers:
+                elif any(finger.startswith(rhf[0]) or finger == rhf for rhf in right_hand_fingers):
                     current_hand = 'right'
                     right_hand_letters += 1
             
@@ -298,6 +482,11 @@ class KeyboardAnalyzer:
                 # Выбираем вариант с минимальным общим путем
                 best_option = min(options, key=lambda x: x[1])
                 mode, total_path_option, key_code, finger, mod_cost, mod_finger = best_option
+                
+                # Убедимся, что палец есть в словаре
+                if finger not in finger_counts:
+                    finger_counts[finger] = 0
+                    paths[finger] = 0
                 
                 # Считаем основную клавишу
                 finger_counts[finger] += 1
@@ -307,6 +496,11 @@ class KeyboardAnalyzer:
                 
                 # Считаем модификатор если есть
                 if mod_cost > 0 and mod_finger:
+                    # Убедимся, что палец модификатора есть в словаре
+                    if mod_finger not in finger_counts:
+                        finger_counts[mod_finger] = 0
+                        paths[mod_finger] = 0
+                        
                     finger_counts[mod_finger] += 1
                     paths[mod_finger] += 1
                     total_path += 1
@@ -328,8 +522,8 @@ class KeyboardAnalyzer:
         average_path = total_path / character_count if character_count > 0 else 0
         
         # Статистика по рукам на основе finger_counts
-        left_hand_count = sum(finger_counts[f] for f in left_hand_fingers)
-        right_hand_count = sum(finger_counts[f] for f in right_hand_fingers)
+        left_hand_count = sum(finger_counts.get(f, 0) for f in left_hand_fingers)
+        right_hand_count = sum(finger_counts.get(f, 0) for f in right_hand_fingers)
         total_hand_count = left_hand_count + right_hand_count
         
         left_hand_percentage = (left_hand_count / total_hand_count * 100) if total_hand_count > 0 else 0
@@ -354,41 +548,32 @@ class KeyboardAnalyzer:
                 'right_hand_count': right_hand_count,
                 'left_hand_percentage': left_hand_percentage,
                 'right_hand_percentage': right_hand_percentage,
-                'left_hand_letters': left_hand_letters,           # буквы левой рукой
-                'right_hand_letters': right_hand_letters,         # буквы правой рукой
-                'hand_switches': hand_switches,                   # смены рук
+                'left_hand_letters': left_hand_letters,
+                'right_hand_letters': right_hand_letters,
+                'hand_switches': hand_switches,
                 'total_presses': total_presses,
                 'average_presses_per_char': total_presses / character_count if character_count > 0 else 0,
                 'left_hand_letters_percentage': left_hand_letters_percentage,
                 'right_hand_letters_percentage': right_hand_letters_percentage,
                 'hand_switches_per_100_chars': (hand_switches / character_count * 100) if character_count > 0 else 0,
             }
+            
     def analyze_all_files(self, common_chars=None): 
         """
         Последовательно анализирует три предопределённых текстовых файла с раскладкой клавиатуры.
 
         Для каждого файла:
         - загружает текст,
-        - фильтрует символы (если задан ``common_chars``),
+        - фильтрует символы (если задан common_chars),
         - рассчитывает статистику по пути, нагрузке и модификаторам.
 
         Используется для пакетного анализа и сравнения раскладок на разных типах текстов.
 
-        Входные данные (точка входа):
-            common_chars (set, optional): Множество символов, которые следует учитывать при анализе.
-                                          Если не задано, анализируются все символы.
-
-        Выходные данные (точка выхода):
-            list[dict]: Список словарей с результатами анализа для каждого файла.
-                        Каждый словарь имеет ту же структуру, что и результат метода ``analyze_text``,
-                        включая ключи:
-                            - ``text_name`` (str): название текста
-                            - ``layout`` (str): используемая раскладка
-                            - ``total_path`` (int): суммарный путь движения пальцев
-                            - ``finger_paths`` (dict): путь по каждому пальцу
-                            - ``finger_counts`` (dict): количество нажатий каждым пальцем
-                            - и другие метрики (см. ``analyze_text``).
-
+        Args:
+            common_chars: Множество символов, которые следует учитывать при анализе (опционально).
+        
+        Returns:
+            Список словарей с результатами анализа для каждого файла.
         """
         files_to_analyze = [
             ('voina_i_mir.txt', 'Война и мир'),
@@ -399,7 +584,6 @@ class KeyboardAnalyzer:
         results = []
         
         for filename, text_name in files_to_analyze:
-            #print(f"\n--- Загрузка {filename} ---")
             text = self._load_text_file(filename)
             if text:
                 result = self.analyze_text(text, text_name, common_chars)
@@ -419,86 +603,22 @@ class KeyboardAnalyzer:
         - типы нажатий (одноручные и двуручные),
         - нагрузка по каждому пальцу с процентным соотношением.
 
-        Входные данные (точка входа):
-            results (list[dict]): Список словарей, полученных из метода ``analyze_text`` или
-                                  ``analyze_all_files``. Каждый словарь содержит статистику
-                                  по раскладке, включая ключи:
-                                  - ``text_name`` (str): название текста
-                                  - ``layout`` (str): используемая раскладка
-                                  - ``characters_analyzed`` (int): количество символов
-                                  - ``total_path`` (int): суммарный путь движения пальцев
-                                  - ``average_path`` (float): средний путь на символ
-                                  - ``total_presses`` (int): общее количество нажатий
-                                  - ``shift_count`` (int): количество нажатий с Shift
-                                  - ``alt_count`` (int): количество нажатий с Alt
-                                  - ``left_hand_count`` / ``right_hand_count`` (int): нагрузка по рукам
-                                  - ``finger_counts`` (dict): нагрузка по каждому пальцу
-
-        Выходные данные (точка выхода):
-            None: Метод не возвращает значение.
-            Результаты выводятся в консоль в структурированном виде.
-
+        Args:
+            results: Список словарей, полученных из метода analyze_text, содержащих статистику по раскладке.
         """
-
         for result in results:
-            #print(f"\n{'='*60}")
-            #print(f"=== АНАЛИЗ ПУТЕЙ ДЛЯ: {result['text_name']} ===")
-            #print(f"=== РАСКЛАДКА: {result['layout']} ===")
-            #print(f"{'='*60}")
-            #print(f"Всего проанализировано символов: {result['characters_analyzed']}")
-            #print(f"ОБЩИЙ ПУТЬ: {result['total_path']}")
-            #print(f"СРЕДНИЙ ПУТЬ НА СИМВОЛ: {result['average_path']:.2f}")
-            #print(f"ОБЩЕЕ КОЛИЧЕСТВО НАЖАТИЙ: {result['total_presses']}")
-            #print(f"СРЕДНЕЕ НАЖАТИЙ НА СИМВОЛ: {result['average_presses_per_char']:.2f}")
-            #print(f"Количество Shift-символов: {result['shift_count']}")
-            #print(f"Количество Alt-символов: {result['alt_count']}")
-
-            #print(f"\nРаспределение по рукам:")
-            #print(f"Левая рука: {result['left_hand_count']} нажатий ({result['left_hand_percentage']:.1f}%)")
-            #print(f"Правая рука: {result['right_hand_count']} нажатий ({result['right_hand_percentage']:.1f}%)")
-
-            #print(f"\nТипы нажатий:")
-            #print(f"  Только левая рука: {result['left_hand_only']} ({result['left_hand_only_percentage']:.1f}%)")
-            #print(f"  Только правая рука: {result['right_hand_only']} ({result['right_hand_only_percentage']:.1f}%)")
-            #print(f"  Двуручные: {result['two_handed']} ({result['two_handed_percentage']:.1f}%)")
-            #print(f"    - Shift + буква: {result['shift_count']}")
-            #print(f"    - Alt + буква: {result['alt_count']}")
-
             print(f"\nНагрузка по пальцам:")
             total_presses = sum(result['finger_counts'].values())
-            for finger in ['left_pinky', 'left_ring', 'left_middle', 'left_index', 
-                          'right_index', 'right_middle', 'right_ring', 'right_pinky', 
-                          'left_thumb', 'right_thumb']:
+            for finger in ['lf5', 'lf4', 'lf3', 'lf2', 
+                          'rf2', 'rf3', 'rf4', 'rf5', 
+                          'lf1', 'rf1']:
                 count = result['finger_counts'][finger]
-                if count > 0:  # Показываем только пальцы с ненулевой нагрузкой
+                if count > 0:
                     percentage = (count / total_presses * 100)
                     print(f"  {finger}: {count} нажатий ({percentage:.1f}%)")
 
     def print_improved_results(self, results):
-        """
-        Улучшенный вывод результатов анализа с акцентом на использование пробела.
-
-        Метод выводит в консоль структурированную статистику по каждому тексту:
-        - процентное распределение нагрузки по пальцам (с человеко‑читаемыми названиями),
-        - количество нажатий и их процентное соотношение,
-        - особенности раскладки с акцентом на пробел (правый большой палец),
-      а также использование модификаторов Alt/Shift (левый большой палец),
-        - соотношение нагрузки между левой и правой рукой.
-
-        Входные данные (точка входа):
-            results (list[dict]): Список словарей, полученных из метода ``analyze_text`` или
-                                  ``analyze_all_files``. Каждый словарь содержит статистику
-                                  по раскладке, включая ключи:
-                                  - ``text_name`` (str): название текста
-                                  - ``layout`` (str): используемая раскладка
-                                  - ``finger_counts`` (dict): количество нажатий по каждому пальцу
-                                  - ``left_hand_percentage`` (float): процент нагрузки левой руки
-                                  - ``right_hand_percentage`` (float): процент нагрузки правой руки
-
-        Выходные данные (точка выхода):
-            None: Метод не возвращает значение.
-            Результаты выводятся в консоль в улучшенном структурированном виде.
-        """
+        """Улучшенный вывод результатов с акцентом на пробел"""
         for result in results:
             print(f"\n{'='*60}")
             print(f"=== УЛУЧШЕННЫЙ АНАЛИЗ: {result['text_name']} ===")
@@ -510,26 +630,26 @@ class KeyboardAnalyzer:
             # Процентное распределение
             print("НАГРУЗКА ПО ПАЛЬЦАМ (%):")
             finger_names = {
-                'left_pinky': 'Лев. мизинец', 'left_ring': 'Лев. безым.', 
-                'left_middle': 'Лев. средний', 'left_index': 'Лев. указ.',
-                'right_index': 'Прав. указ.', 'right_middle': 'Прав. средний',
-                'right_ring': 'Прав. безым.', 'right_pinky': 'Прав. мизинец',
-                'left_thumb': 'Лев. большой', 'right_thumb': 'Прав. большой'
+                'lf5': 'Лев. мизинец (lf5)', 'lf4': 'Лев. безым. (lf4)', 
+                'lf3': 'Лев. средний (lf3)', 'lf2': 'Лев. указат. (lf2)',
+                'rf2': 'Прав. указат. (rf2)', 'rf3': 'Прав. средний (rf3)',
+                'rf4': 'Прав. безым. (rf4)', 'rf5': 'Прав. мизинец (rf5)',
+                'lf1': 'Лев. большой (lf1)', 'rf1': 'Прав. большой (rf1)'
             }
             
-            for finger in ['left_pinky', 'left_ring', 'left_middle', 'left_index', 
-                          'right_index', 'right_middle', 'right_ring', 'right_pinky', 
-                          'left_thumb', 'right_thumb']:
+            for finger in ['lf5', 'lf4', 'lf3', 'lf2', 
+                          'rf2', 'rf3', 'rf4', 'rf5', 
+                          'lf1', 'rf1']:
                 count = result['finger_counts'][finger]
                 percentage = (count / total_presses * 100)
                 if count > 0:
-                    print(f"  {finger_names[finger]:<15} {count:>4} нажатий ({percentage:>5.1f}%)")
+                    print(f"  {finger_names[finger]:<25} {count:>4} нажатий ({percentage:>5.1f}%)")
             
             # Анализ пробела
-            space_percentage = (result['finger_counts']['right_thumb'] / total_presses * 100)
+            space_percentage = (result['finger_counts']['rf1'] / total_presses * 100)
             print(f"\nОСОБЕННОСТИ РАСКЛАДКИ:")
-            print(f"  • Пробел (правый большой): {space_percentage:.1f}")
-            print(f"  • Alt/Shift (левый большой): {(result['finger_counts']['left_thumb'] / total_presses * 100):.1f}%")
+            print(f"  • Пробел (правый большой rf1): {space_percentage:.1f}%")
+            print(f"  • Alt/Shift (левый большой lf1): {(result['finger_counts']['lf1'] / total_presses * 100):.1f}%")
             print(f"  • Соотношение рук: Левая {result['left_hand_percentage']:.1f}% / Правая {result['right_hand_percentage']:.1f}%")
 
 
@@ -543,12 +663,8 @@ def get_common_chars():
 
     Используется для унифицированного анализа раскладок по ограниченному набору символов.
 
-    Входные данные (точка входа):
-        None: Функция не принимает аргументов.
-
-    Выходные данные (точка выхода):
-        set: Множество символов, пригодных для сравнения раскладок.
-             Включает русские буквы, пробел и общие спецсимволы.
+    Returns:
+        Множество символов, пригодных для сравнения раскладок.
     """
     # Базовые русские буквы + пробел + общие символы
     basic_russian = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя ')
@@ -559,123 +675,46 @@ def get_common_chars():
     return basic_russian.union(common_shift)
 
 
-# Запуск для всех раскладок с ОБЩИМИ СИМВОЛАМИ
-print("="*70)
-print("СРАВНЕНИЕ РАСКЛАДОК НА ОБЩИХ СИМВОЛАХ")
-print("="*70)
-
-# Получаем общие символы
-common_chars = get_common_chars()
-print(f"Используется общих символов: {len(common_chars)}")
-print(f"Общие символы: {''.join(sorted(common_chars))}")
-
-# Анализ для каждой раскладки
-layouts = [
-    ('ytsuken', 'СТАНДАРТНАЯ'),
-    ('vyzov', 'ВЫЗОВ'), 
-    ('zubachev', 'ЗУБАЧЕВ'),
-    ('skoropis', 'СКОРОПИСЬ'),
-    ('rusfon', 'РУСФОН'),
-    ('diktor', 'ДИКТОР'),
-    ('ant', 'АНТ')
-]
-
-all_results = {}
-
-
-def analyze_all_layouts_optimized():
+def analyze_everything_in_one():
     """
-    Оптимизированный анализ всех раскладок клавиатуры с выбором текста.
-
-    Функция выполняет:
-    - интерактивный выбор текста для анализа (меню: «Война и мир», «Сортировка букв», «Минимальные фразы», либо все тексты),
-    - загрузку выбранных файлов (UTF-8, для «Минимальные фразы» берутся первые 1000 слов),
-    - анализ текста для каждой раскладки с учётом общих символов (см. ``get_common_chars``),
-    - формирование сводной таблицы результатов с ключевыми метриками:
-        * количество символов,
-        * количество нажатий,
-        * среднее число нажатий на символ,
-        * суммарный и средний путь движения пальцев,
-        * распределение нагрузки между руками,
-        * количество смен рук на 100 символов.
-
-    Входные данные (точка входа):
-        None: Функция не принимает аргументов напрямую.
-              Пользователь выбирает текст для анализа через консольное меню (ввод номера 1–4).
-
-    Выходные данные (точка выхода):
-        None: Функция не возвращает значение.
-              Результаты анализа выводятся в консоль в виде сводной таблицы.
+    Анализирует ВСЕ: и нагрузку, и комбинации - В ОДНОМ ВЫВОДЕ
     """
     print("="*70)
-    print("УСКОРЕННЫЙ АНАЛИЗ РАСКЛАДОК")
+    print("ПОЛНЫЙ АНАЛИЗ РАСКЛАДОК (ВСЕ ТЕКСТЫ)")
     print("="*70)
     
-    # МЕНЮ ВЫБОРА ТЕКСТА
-    print("\nВЫБЕРИТЕ ТЕКСТ ДЛЯ АНАЛИЗА:")
-    print("1 - Война и мир (большой художественный текст)")
-    print("2 - Сортировка букв (частотный анализ)")
-    print("3 - Минимальные фразы (первые 1000 слов)")
-    print("4 - Все тексты")
+    # Загружаем ВСЕ тексты
+    files_to_analyze = [
+        ('voina_i_mir.txt', 'Война и мир'),
+        ('sortchbukw.csv', 'Сортировка букв'),
+        ('1grams.txt', 'Минимальные фразы')
+    ]
     
-    try:
-        choice = input("Введите номер (1-4): ").strip()
-    except KeyboardInterrupt:
-        print("\nПрограмма прервана пользователем")
-        return
+    all_texts_data = []
     
-    files_to_analyze = []
-    
-    if choice == "1":
-        files_to_analyze = [('voina_i_mir.txt', 'Война и мир')]
-        print("Выбран: Война и мир")
-    elif choice == "2":
-        files_to_analyze = [('sortchbukw.csv', 'Сортировка букв')]
-        print("Выбран: Сортировка букв")
-    elif choice == "3":
-        files_to_analyze = [('1grams.txt', 'Минимальные фразы')]
-        print("Выбран: Минимальные фразы (первые 1000 слов)")
-    elif choice == "4":
-        files_to_analyze = [
-            ('voina_i_mir.txt', 'Война и мир'),
-            ('sortchbukw.csv', 'Сортировка букв'), 
-            ('1grams.txt', 'Минимальные фразы')
-        ]
-        print("Выбраны все тексты")
-    else:
-        print("Неверный выбор! Загружаются все тексты по умолчанию")
-        files_to_analyze = [
-            ('voina_i_mir.txt', 'Война и мир'),
-            ('sortchbukw.csv', 'Сортировка букв'), 
-            ('1grams.txt', 'Минимальные фразы')
-        ]
-    
-    # ЗАГРУЖАЕМ ВЫБРАННЫЕ ТЕКСТЫ
-    texts_data = []
-    
-    print("\nЗагрузка текстов...")
+    print("Загрузка текстов...")
     for filename, text_name in files_to_analyze:
         try:
             with open(filename, 'r', encoding='utf-8') as file:
                 text = file.read()
-                # ДЛЯ ФАЙЛА С ЛЕКСЕМАМИ БЕРЕМ ТОЛЬКО ПЕРВУЮ 1000 СЛОВ
                 if filename == '1grams.txt':
                     words = text.split()[:1000]
                     text = ' '.join(words)
                     print(f"  ✓ Загружено {len(words)} слов из {text_name}")
                 else:
                     print(f"  ✓ Загружен {text_name}: {len(text):,} символов".replace(',', ' '))
-                texts_data.append((text, text_name))
+                all_texts_data.append((text, text_name))
         except FileNotFoundError:
             print(f"  ✗ ОШИБКА: Файл {filename} не найден!")
+            return
         except Exception as e:
             print(f"  ✗ ОШИБКА загрузки {filename}: {e}")
+            return
     
-    if not texts_data:
+    if not all_texts_data:
         print("Нет данных для анализа!")
         return
     
-    common_chars = get_common_chars()
     layouts = [
         ('ytsuken', 'СТАНДАРТНАЯ'),
         ('vyzov', 'ВЫЗОВ'), 
@@ -686,25 +725,31 @@ def analyze_all_layouts_optimized():
         ('ant', 'АНТ')
     ]
     
-    all_results = {}
+    common_chars = get_common_chars()
     
-    print(f"\nАнализ {len(layouts)} раскладок...")
+    # Словари для результатов
+    all_results = {}  # {layout_code: [result_text1, result_text2, result_text3]}
+    
+    print(f"\nАнализ {len(layouts)} раскладок для {len(all_texts_data)} текстов...")
     for layout_code, layout_name in layouts:
         print(f"  Анализируем {layout_name}...")
+        
+        # Создаем анализатор
         analyzer = KeyboardAnalyzer(layout=layout_code)
+        
         layout_results = []
         
-        for text, text_name in texts_data:
+        for text, text_name in all_texts_data:
+            # Анализ нагрузки
             result = analyzer.analyze_text(text, text_name, common_chars)
             if result:
                 layout_results.append(result)
         
-        if layout_results:
-            all_results[layout_code] = layout_results
+        all_results[layout_code] = layout_results
     
-    # ВЫВОД РЕЗУЛЬТАТОВ
+    # ===== ВЫВОД ТАБЛИЦЫ НАГРУЗКИ ДЛЯ ВСЕХ ТЕКСТОВ =====
     print(f"\n{'='*140}")
-    print("СВОДНАЯ ТАБЛИЦА РЕЗУЛЬТАТОВ")
+    print("СВОДНАЯ ТАБЛИЦА РЕЗУЛЬТАТОВ (НАГРУЗКА)")
     print(f"{'='*140}")
     print(f"{'Текст':<18} {'Раскладка':<12} {'Символов':<10} {'Нажатий':<10} {'Наж/симв':<10} {'Общий путь':<12} {'Ср. путь':<10} {'Левая':<8} {'Правая':<8} {'Смены':<8}")
     print(f"{'-'*140}")
@@ -714,22 +759,109 @@ def analyze_all_layouts_optimized():
         'skoropis': 'Скоропись', 'rusfon': 'Русфон', 'diktor': 'Диктор', 'ant': 'Ант'
     }
 
-    for i in range(len(texts_data)):
+    for text_idx, (text, text_name) in enumerate(all_texts_data):
         for layout_code, layout_name in layouts:
-            if layout_code in all_results and i < len(all_results[layout_code]):
-                result = all_results[layout_code][i]
+            if layout_code in all_results and text_idx < len(all_results[layout_code]):
+                result = all_results[layout_code][text_idx]
                 layout_display_name = layout_display_names.get(layout_code, layout_code)
                 
-                print(f"{result['text_name']:<18} {layout_display_name:<12} {result['characters_analyzed']:<10} "
-                    f"{result['total_presses']:<10} {result['average_presses_per_char']:<10.2f} "
-                    f"{result['total_path']:<12} {result['average_path']:<10.2f} "
-                    f"{result['left_hand_letters_percentage']:<7.1f} {result['right_hand_letters_percentage']:<7.1f} "
-                    f"{result['hand_switches_per_100_chars']:<7.1f}")
-                        
-        if i < len(texts_data) - 1:
+                print(f"{text_name:<18} {layout_display_name:<12} {result['characters_analyzed']:<10} "
+                      f"{result['total_presses']:<10} {result['average_presses_per_char']:<10.2f} "
+                      f"{result['total_path']:<12} {result['average_path']:<10.2f} "
+                      f"{result['left_hand_letters_percentage']:<7.1f} "
+                      f"{result['right_hand_letters_percentage']:<7.1f} "
+                      f"{result['hand_switches_per_100_chars']:<7.1f}")
+        
+        if text_idx < len(all_texts_data) - 1:
             print(f"{'-'*140}")
     
-    print(f"\nАнализ завершен! Проанализировано {len(texts_data)} текстов и {len(layouts)} раскладок.")
-
-# ЗАПУСКАЕМ ОПТИМИЗИРОВАННУЮ ВЕРСИЮ
-analyze_all_layouts_optimized()
+    # ===== ВЫВОД СУММАРНОГО ПУТЯ ПО ВСЕМ ТЕКСТАМ =====
+    print(f"\n{'='*60}")
+    print("СУММАРНЫЙ ПУТЬ ПО РАСКЛАДКАМ (ВСЕ 3 ТЕКСТА):")
+    print(f"{'='*60}")
+    
+    for layout_code, layout_name in layouts:
+        if layout_code in all_results:
+            total_path_all_texts = sum(r['total_path'] for r in all_results[layout_code])
+            layout_display_name = layout_display_names.get(layout_code, layout_code)
+            print(f"{layout_display_name}: {total_path_all_texts:,}")
+    
+    # ===== АНАЛИЗ КОМБИНАЦИЙ ДЛЯ ВСЕХ ТЕКСТОВ ВМЕСТЕ =====
+    print(f"\n\n{'='*80}")
+    print(f"АНАЛИЗ КОМБИНАЦИЙ (ВСЕ ТЕКСТЫ ВМЕСТЕ)")
+    print(f"{'='*80}")
+    
+    all_combination_results = {}
+    
+    for layout_code, layout_name in layouts:
+        print(f"  Анализируем комбинации для {layout_name}...")
+        analyzer = KeyboardAnalyzer(layout=layout_code)
+        
+        # Объединяем все тексты в один для анализа комбинаций
+        combined_text = ""
+        for text, text_name in all_texts_data:
+            combined_text += text
+        
+        combination_results = analyzer.analyze_combinations(combined_text)
+        all_combination_results[layout_code] = combination_results
+    
+    # ДВУХГРАММЫ
+    print(f"\nДВУХБУКВЕННЫЕ КОМБИНАЦИИ (2-граммы)")
+    print(f"{'='*80}")
+    print(f"{'Раскладка':<12} {'Удобные':<10} {'Частично':<12} {'Неудобные':<12} {'Всего':<8}")
+    print(f"{'-'*80}")
+    
+    for layout_code, layout_name in layouts:
+        if layout_code in all_combination_results:
+            results = all_combination_results[layout_code]['двухграммы']
+            layout_display = layout_display_names.get(layout_code, layout_code)
+            
+            print(f"{layout_display:<12} {results['удобные']:<10} "
+                  f"{results['частично_удобные']:<12} "
+                  f"{results['неудобные']:<12} "
+                  f"{results['всего']:<8}")
+    
+    # ТРЕХГРАММЫ
+    print(f"\n\nТРЕХБУКВЕННЫЕ КОМБИНАЦИИ (3-граммы)")
+    print(f"{'='*80}")
+    print(f"{'Раскладка':<12} {'Удобные':<10} {'Частично':<12} {'Неудобные':<12} {'Всего':<8}")
+    print(f"{'-'*80}")
+    
+    for layout_code, layout_name in layouts:
+        if layout_code in all_combination_results:
+            results = all_combination_results[layout_code]['трехграммы']
+            layout_display = layout_display_names.get(layout_code, layout_code)
+            
+            print(f"{layout_display:<12} {results['удобные']:<10} "
+                  f"{results['частично_удобные']:<12} "
+                  f"{results['неудобные']:<12} "
+                  f"{results['всего']:<8}")
+    
+    # ЧЕТЫРЕХГРАММЫ
+    print(f"\n\nЧЕТЫРЕХБУКВЕННЫЕ КОМБИНАЦИИ (4-граммы)")
+    print(f"{'='*80}")
+    print(f"{'Раскладка':<12} {'Удобные':<10} {'Частично':<12} {'Неудобные':<12} {'Всего':<8}")
+    print(f"{'-'*80}")
+    
+    for layout_code, layout_name in layouts:
+        if layout_code in all_combination_results:
+            results = all_combination_results[layout_code]['четырехграммы']
+            layout_display = layout_display_names.get(layout_code, layout_code)
+            
+            print(f"{layout_display:<12} {results['удобные']:<10} "
+                  f"{results['частично_удобные']:<12} "
+                  f"{results['неудобные']:<12} "
+                  f"{results['всего']:<8}")
+    
+    print(f"\n{'='*70}")
+    print("АНАЛИЗ ЗАВЕРШЕН! Проанализировано все 3 текста.")
+    print(f"{'='*70}")
+    
+    # Возвращаем все результаты
+    return {
+        'нагрузка': all_results,
+        'комбинации': all_combination_results
+    }
+if __name__ == "__main__":
+    # Просто запускаем полный анализ
+    results = analyze_everything_in_one()
