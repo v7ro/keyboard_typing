@@ -56,6 +56,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#init_from_layout_data"><code class="docutils literal notranslate"><span class="pre">_init_from_layout_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#calculate_path"><code class="docutils literal notranslate"><span class="pre">_calculate_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#load_text_file"><code class="docutils literal notranslate"><span class="pre">_load_text_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyze_combinations"><code class="docutils literal notranslate"><span class="pre">analyze_combinations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyze_bigram_comfort"><code class="docutils literal notranslate"><span class="pre">_analyze_bigram_comfort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyze_trigram_comfort"><code class="docutils literal notranslate"><span class="pre">_analyze_trigram_comfort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyze_fourgram_comfort"><code class="docutils literal notranslate"><span class="pre">_analyze_fourgram_comfort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get_finger_for_char"><code class="docutils literal notranslate"><span class="pre">_get_finger_for_char()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#analyze_text"><code class="docutils literal notranslate"><span class="pre">analyze_text()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#analyze_all_files"><code class="docutils literal notranslate"><span class="pre">analyze_all_files()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#print_results"><code class="docutils literal notranslate"><span class="pre">print_results()</span></code></a></li>
@@ -64,9 +69,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">🔣 <strong>Функции:</strong></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#get_common_chars"><code class="docutils literal notranslate"><span class="pre">get_common_chars()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analyze_all_layouts_optimized"><code class="docutils literal notranslate"><span class="pre">analyze_all_layouts_optimized()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyze_everything_in_one"><code class="docutils literal notranslate"><span class="pre">analyze_everything_in_one()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">🚀 <strong>Точка входа</strong></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module3.html">Модуль №3 — Визуализация анализа раскладок</a></li>
@@ -176,7 +182,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="init_from_layout_data">
 <span class="sig-name descname"><span class="pre">_init_from_layout_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#init_from_layout_data" title="Ссылка на это определение"></a></dt>
-<dd><p>Инициализирует раскладку из данных словаря.</p>
+<dd><p>Инициализирует объект раскладки клавиатуры на основе словаря данных.</p>
 <p>Загружает основные карты клавиш (обычные, с Shift и Alt), а также позиции
 домашнего ряда. Дополнительно автоматически формирует словарь заглавных букв
 на основе алфавитных символов.</p>
@@ -208,10 +214,17 @@
 </dd>
 </dl>
 <p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span><span class="o">.</span><span class="n">_init_from_layout_data</span><span class="p">(</span><span class="n">ytsuken_layout</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">layout_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;keys&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;а&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;KeyA&#39;</span><span class="p">,</span> <span class="s1">&#39;lf5&#39;</span><span class="p">),</span> <span class="s1">&#39;б&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;KeyB&#39;</span><span class="p">,</span> <span class="s1">&#39;lf4&#39;</span><span class="p">)},</span>
+    <span class="s1">&#39;shift_keys&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;!&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Digit1&#39;</span><span class="p">,</span> <span class="s1">&#39;lf5&#39;</span><span class="p">)},</span>
+    <span class="s1">&#39;alt_keys&#39;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">&#39;home_positions&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;lf5&#39;</span><span class="p">:</span> <span class="s1">&#39;а&#39;</span><span class="p">,</span> <span class="s1">&#39;lf4&#39;</span><span class="p">:</span> <span class="s1">&#39;б&#39;</span><span class="p">}</span>
+<span class="p">}</span>
 
-<span class="n">analyzer</span><span class="o">.</span><span class="n">caps_keys</span><span class="p">[</span><span class="s1">&#39;Ф&#39;</span><span class="p">]</span>
-<span class="c1"># → (код клавиши, палец)</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_init_from_layout_data</span><span class="p">(</span><span class="n">layout_data</span><span class="p">)</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">caps_keys</span><span class="p">[</span><span class="s1">&#39;А&#39;</span><span class="p">]</span>
+<span class="c1"># → (&#39;KeyA&#39;, &#39;lf5&#39;)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -273,6 +286,254 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">_load_text_file</span><span class="p">(</span><span class="s2">&quot;sample.txt&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
 <span class="c1"># → 1200  # количество символов в файле</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze_combinations">
+<span class="sig-name descname"><span class="pre">analyze_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_combinations" title="Ссылка на это определение"></a></dt>
+<dd><p>Выполняет полный анализ удобства буквенных комбинаций (n-грамм) в тексте.</p>
+<p>Логика работы:</p>
+<ul class="simple">
+<li><p>очищает входной текст, оставляя только русские буквы (а–я, ё),</p></li>
+<li><p>формирует все возможные биграммы (2 символа), триграммы (3 символа) и четырёхграммы (4 символа),</p></li>
+<li><p>для каждой комбинации вызывает соответствующий метод анализа:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">_analyze_bigram_comfort</span></code> для биграмм,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_analyze_trigram_comfort</span></code> для триграмм,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_analyze_fourgram_comfort</span></code> для четырёхграмм,</p></li>
+</ul>
+</li>
+<li><p>подсчитывает количество удобных, частично удобных и неудобных комбинаций,</p></li>
+<li><p>сохраняет также общее количество комбинаций каждого типа.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – Исходный текст для анализа.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Словарь с результатами анализа, содержащий три раздела:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">двухграммы</span></code> — статистика по биграммам,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">трехграммы</span></code> — статистика по триграммам,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">четырехграммы</span></code> — статистика по четырёхграммам.</p></li>
+</ul>
+<p>Каждый раздел имеет ключи:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">удобные</span></code> (int),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">частично_удобные</span></code> (int),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">неудобные</span></code> (int),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">всего</span></code> (int).</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">KeyboardAnalyzer</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">&quot;ytsuken&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_combinations</span><span class="p">(</span><span class="s2">&quot;Привет мир&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;двухграммы&quot;</span><span class="p">])</span>
+<span class="c1"># → {&#39;удобные&#39;: 12, &#39;частично_удобные&#39;: 5, &#39;неудобные&#39;: 3, &#39;всего&#39;: 20}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze_bigram_comfort">
+<span class="sig-name descname"><span class="pre">_analyze_bigram_comfort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bigram</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_bigram_comfort" title="Ссылка на это определение"></a></dt>
+<dd><p>Оценивает удобство двухбуквенной комбинации (биграммы).</p>
+<p>Логика анализа:</p>
+<ul class="simple">
+<li><p>если длина последовательности не равна 2, комбинация считается неудобной;</p></li>
+<li><p>определяется палец для каждого символа через <code class="docutils literal notranslate"><span class="pre">_get_finger_for_char</span></code>;</p></li>
+<li><p>если хотя бы один символ не имеет соответствия → <code class="docutils literal notranslate"><span class="pre">'неудобные'</span></code>;</p></li>
+<li><p>если символы принадлежат разным рукам → <code class="docutils literal notranslate"><span class="pre">'неудобные'</span></code>;</p></li>
+<li><p>если символы одной руки:</p>
+<ul>
+<li><p>извлекаются номера пальцев (<code class="docutils literal notranslate"><span class="pre">lf5=5</span></code>, <code class="docutils literal notranslate"><span class="pre">lf4=4</span></code>, <code class="docutils literal notranslate"><span class="pre">lf3=3</span></code>, <code class="docutils literal notranslate"><span class="pre">lf2=2</span></code> и т.д.),</p></li>
+<li><p>направление движения определяется разницей номеров:
+- движение от мизинца к указательному (убывающая последовательность) → <code class="docutils literal notranslate"><span class="pre">'удобные'</span></code>,
+- движение от указательного к мизинцу (возрастающая последовательность) → <code class="docutils literal notranslate"><span class="pre">'частично_удобные'</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bigram</strong> (<em>str</em>) – Строка из 2 символов для анализа.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Оценка удобства комбинации:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'удобные'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'частично_удобные'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'неудобные'</span></code></p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_bigram_comfort</span><span class="p">(</span><span class="s2">&quot;ас&quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;удобные&#39;</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_bigram_comfort</span><span class="p">(</span><span class="s2">&quot;са&quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;частично_удобные&#39;</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_bigram_comfort</span><span class="p">(</span><span class="s2">&quot;а &quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;неудобные&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze_trigram_comfort">
+<span class="sig-name descname"><span class="pre">_analyze_trigram_comfort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trigram</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_trigram_comfort" title="Ссылка на это определение"></a></dt>
+<dd><p>Оценивает удобство трёхбуквенной комбинации (трёхграммы).</p>
+<p>Логика анализа:</p>
+<ul class="simple">
+<li><p>если длина последовательности не равна 3, комбинация считается неудобной;</p></li>
+<li><p>для каждой пары символов внутри трёхграммы (2 биграммы) вызывается
+метод <code class="docutils literal notranslate"><span class="pre">_analyze_bigram_comfort</span></code>;</p></li>
+<li><p>если хотя бы одна пара неудобная → вся трёхграмма <code class="docutils literal notranslate"><span class="pre">'неудобные'</span></code>;</p></li>
+<li><p>если обе пары удобные → выполняется дополнительная проверка:</p>
+<ul>
+<li><p>определяется палец для каждого символа,</p></li>
+<li><p>извлекаются номера пальцев,</p></li>
+<li><p>если движение идёт последовательно от мизинца к указательному
+(убывающая последовательность номеров), комбинация считается <code class="docutils literal notranslate"><span class="pre">'удобные'</span></code>,
+иначе — <code class="docutils literal notranslate"><span class="pre">'частично_удобные'</span></code>;</p></li>
+</ul>
+</li>
+<li><p>во всех остальных случаях результат — <code class="docutils literal notranslate"><span class="pre">'частично_удобные'</span></code>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trigram</strong> (<em>str</em>) – Строка из 3 символов для анализа.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Оценка удобства комбинации:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'удобные'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'частично_удобные'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'неудобные'</span></code></p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_trigram_comfort</span><span class="p">(</span><span class="s2">&quot;йцу&quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;удобные&#39;</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_trigram_comfort</span><span class="p">(</span><span class="s2">&quot;прб&quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;частично_удобные&#39;</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_trigram_comfort</span><span class="p">(</span><span class="s2">&quot;а &quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;неудобные&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze_fourgram_comfort">
+<span class="sig-name descname"><span class="pre">_analyze_fourgram_comfort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fourgram</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_fourgram_comfort" title="Ссылка на это определение"></a></dt>
+<dd><p>Оценивает удобство четырёхбуквенной комбинации (четырёхграммы).</p>
+<p>Логика анализа:</p>
+<ul class="simple">
+<li><p>если длина последовательности не равна 4, комбинация считается неудобной;</p></li>
+<li><p>для каждой пары символов внутри четырёхграммы (3 биграммы) вызывается
+метод <code class="docutils literal notranslate"><span class="pre">_analyze_bigram_comfort</span></code>, результаты собираются;</p></li>
+<li><p>подсчитывается количество удобных, частично удобных и неудобных пар;</p></li>
+<li><p>итоговая оценка:</p>
+<ul>
+<li><p>≥2 неудобных пар → <code class="docutils literal notranslate"><span class="pre">'неудобные'</span></code>,</p></li>
+<li><p>1 неудобная или ≥2 частично удобных → <code class="docutils literal notranslate"><span class="pre">'частично_удобные'</span></code>,</p></li>
+<li><p>иначе выполняется дополнительная проверка:</p>
+<ul>
+<li><p>определяется палец для каждого символа,</p></li>
+<li><p>извлекаются номера пальцев,</p></li>
+<li><p>если движение идёт последовательно от мизинца к указательному
+(убывающая последовательность номеров), комбинация считается <code class="docutils literal notranslate"><span class="pre">'удобные'</span></code>, иначе — <code class="docutils literal notranslate"><span class="pre">'частично_удобные'</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fourgram</strong> (<em>str</em>) – Строка из 4 символов для анализа.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Оценка удобства комбинации:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'удобные'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'частично_удобные'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'неудобные'</span></code></p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_fourgram_comfort</span><span class="p">(</span><span class="s2">&quot;йцук&quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;удобные&#39;</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_fourgram_comfort</span><span class="p">(</span><span class="s2">&quot;проб&quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;частично_удобные&#39;</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_analyze_fourgram_comfort</span><span class="p">(</span><span class="s2">&quot;а бв&quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;неудобные&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="get_finger_for_char">
+<span class="sig-name descname"><span class="pre">_get_finger_for_char</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">char</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#get_finger_for_char" title="Ссылка на это определение"></a></dt>
+<dd><p>Определяет палец, используемый для нажатия заданного символа.</p>
+<p>Логика:</p>
+<ul class="simple">
+<li><p>для пробела (<code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">'</span></code>) ищется правый большой палец (<code class="docutils literal notranslate"><span class="pre">rf1</span></code>, <code class="docutils literal notranslate"><span class="pre">thumb</span></code>, <code class="docutils literal notranslate"><span class="pre">right</span></code>),
+при отсутствии явного соответствия используется fallback <code class="docutils literal notranslate"><span class="pre">'rf1'</span></code>;</p></li>
+<li><p>для остальных символов проверяются словари раскладки:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.keys</span></code> — основные клавиши,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.caps_keys</span></code> — клавиши с Caps,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.shift_keys</span></code> — клавиши с Shift,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.alt_keys</span></code> — клавиши с Alt.</p></li>
+</ul>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>char</strong> (<em>str</em>) – Символ, для которого требуется определить палец.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Код пальца (например, <code class="docutils literal notranslate"><span class="pre">'lf2'</span></code>, <code class="docutils literal notranslate"><span class="pre">'rf1'</span></code>), либо <code class="docutils literal notranslate"><span class="pre">None</span></code>, если символ не найден в раскладке.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+<p class="rubric">Пример</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">analyzer</span><span class="o">.</span><span class="n">_get_finger_for_char</span><span class="p">(</span><span class="s2">&quot;а&quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;lf5&#39;</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_get_finger_for_char</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="c1"># → &#39;rf1&#39;</span>
+
+<span class="n">analyzer</span><span class="o">.</span><span class="n">_get_finger_for_char</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">)</span>
+<span class="c1"># → None</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -636,77 +897,83 @@ right_thumb: 0 нажатий, путь 0
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="analyze_all_layouts_optimized">
-<span class="sig-name descname"><span class="pre">analyze_all_layouts_optimized</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#analyze_all_layouts_optimized" title="Ссылка на это определение"></a></dt>
-<dd><p>Оптимизированный анализ всех раскладок клавиатуры с выбором текста.</p>
-<p>Функция выполняет:</p>
+<dt class="sig sig-object py" id="analyze_everything_in_one">
+<span class="sig-name descname"><span class="pre">analyze_everything_in_one</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#analyze_everything_in_one" title="Ссылка на это определение"></a></dt>
+<dd><p>Выполняет комплексный анализ раскладок клавиатуры по нескольким текстам.</p>
+<p>Включает:</p>
 <ul class="simple">
-<li><p>интерактивный выбор текста для анализа (меню: «Война и мир», «Сортировка букв», «Минимальные фразы», либо все тексты),</p></li>
-<li><p>загрузку выбранных файлов (UTF-8, для «Минимальные фразы» берутся первые 1000 слов),</p></li>
-<li><p>анализ текста для каждой раскладки с учётом общих символов (см. <code class="docutils literal notranslate"><span class="pre">get_common_chars</span></code>),</p></li>
-<li><p>формирование сводной таблицы результатов с ключевыми метриками:</p>
-<ul>
-<li><p>количество символов,</p></li>
-<li><p>количество нажатий,</p></li>
-<li><p>среднее число нажатий на символ,</p></li>
-<li><p>суммарный и средний путь движения пальцев,</p></li>
-<li><p>распределение нагрузки между руками,</p></li>
-<li><p>количество смен рук на 100 символов.</p></li>
+<li><p>загрузку и предварительную обработку текстов (классические произведения, тестовые корпуса, минимальные фразы),</p></li>
+<li><p>анализ нагрузки для каждой раскладки (количество символов, нажатий, путь, распределение по рукам, частота смен),</p></li>
+<li><p>сводную таблицу результатов по всем текстам,</p></li>
+<li><p>суммарный путь по раскладкам,</p></li>
+<li><p>анализ двух-, трёх- и четырёхбуквенных комбинаций (n-грамм) для объединённого текста.</p></li>
 </ul>
-</li>
-</ul>
+<p>Используется для получения полного представления о производительности и удобстве разных раскладок
+на основе реальных текстов и статистики комбинаций.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Результат<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Функция не возвращает значение. Результаты анализа выводятся в консоль в виде сводной таблицы.</p>
+<dd class="field-odd"><p><p>Словарь с двумя ключами:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'нагрузка'</span></code> — результаты анализа нагрузки по раскладкам и текстам,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'комбинации'</span></code> — результаты анализа n-грамм (2-, 3-, 4-буквенные) по раскладкам.</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-even">Тип результата<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 <p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Запуск оптимизированного анализа</span>
-<span class="n">analyze_all_layouts_optimized</span><span class="p">()</span>
-</pre></div>
-</div>
-<p class="rubric">Пример работы в консоли</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>======================================================================
-УСКОРЕННЫЙ АНАЛИЗ РАСКЛАДОК
-======================================================================
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">analyze_everything_in_one</span><span class="p">()</span>
 
-ВЫБЕРИТЕ ТЕКСТ ДЛЯ АНАЛИЗА:
-1 - Война и мир (большой художественный текст)
-2 - Сортировка букв (частотный анализ)
-3 - Минимальные фразы (первые 1000 слов)
-4 - Все тексты
-Введите номер (1-4): 2
-Выбран: Сортировка букв
+<span class="c1"># Доступ к результатам анализа нагрузки</span>
+<span class="n">load_results</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;нагрузка&#39;</span><span class="p">]</span>
 
-Загрузка текстов...
-  ✓ Загружен Сортировка букв: 5 000 символов
+<span class="c1"># Доступ к результатам анализа комбинаций</span>
+<span class="n">combo_results</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;комбинации&#39;</span><span class="p">]</span>
 
-Анализ 7 раскладок...
-  Анализируем Стандарт...
-  Анализируем Вызов...
-  Анализируем Зубачев...
-  Анализируем Скоропись...
-  Анализируем Русфон...
-  Анализируем Диктор...
-  Анализируем Ант...
-
-=============================================================================================================================
-СВОДНАЯ ТАБЛИЦА РЕЗУЛЬТАТОВ
-=============================================================================================================================
-Текст              Раскладка    Символов   Нажатий    Наж/симв   Общий путь   Ср. путь   Левая    Правая   Смены
------------------------------------------------------------------------------------------------------------------------------
-Сортировка букв    Стандарт     5000       5200       1.04       6300         1.26       48.7     51.3     12.5
-Сортировка букв    Вызов        5000       5100       1.02       6000         1.20       47.9     52.1     11.8
-...
-
-Анализ завершен! Проанализировано 1 текстов и 7 раскладок.
+<span class="c1"># Пример: вывод статистики по биграммам для раскладки &quot;Стандарт&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">combo_results</span><span class="p">[</span><span class="s1">&#39;ytsuken&#39;</span><span class="p">][</span><span class="s1">&#39;двухграммы&#39;</span><span class="p">])</span>
+<span class="c1"># → {&#39;удобные&#39;: 123, &#39;частично_удобные&#39;: 45, &#39;неудобные&#39;: 67, &#39;всего&#39;: 235}</span>
 </pre></div>
 </div>
 </dd></dl>
 
+</section>
+<section id="id3">
+<h2>🚀 <strong>Точка входа</strong><a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="c1"># Просто запускаем полный анализ</span>
+     <span class="n">results</span> <span class="o">=</span> <span class="n">analyze_everything_in_one</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Запускает функцию <code class="docutils literal notranslate"><span class="pre">analyze_everything_in_one()</span></code>.</p></li>
+<li><p>Сохраняет результаты анализа в переменной <code class="docutils literal notranslate"><span class="pre">results</span></code>.</p></li>
+<li><p>Выводит таблицы нагрузки и статистику комбинаций для всех раскладок.</p></li>
+</ul>
+<p><strong>Алгоритм работы:</strong></p>
+<ol class="arabic simple">
+<li><p>Загружает подготовленные тексты (например, «Война и мир», тестовые корпуса, минимальные фразы).</p></li>
+<li><p>Инициализирует список раскладок для анализа.</p></li>
+<li><p>Для каждой раскладки выполняет анализ нагрузки.</p></li>
+<li><p>Формирует сводную таблицу и суммарный путь.</p></li>
+<li><p>Анализирует двух-, трёх- и четырёхбуквенные комбинации.</p></li>
+<li><p>Возвращает словарь с результатами анализа.</p></li>
+</ol>
+<p><strong>Выходные данные:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> — словарь с двумя ключами:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'нагрузка'</span></code> — статистика нагрузки по раскладкам и текстам.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'комбинации'</span></code> — статистика удобства n‑грамм.</p></li>
+</ul>
+</li>
+</ul>
+<p class="rubric">Пример запуска</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ python main.py
+</pre></div>
+</div>
 <p>—</p>
 </section>
 </section>
