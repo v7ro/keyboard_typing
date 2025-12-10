@@ -178,34 +178,42 @@ class KeyboardAnalyzer:
         clean_text = ''.join([c.lower() for c in text if c.lower() in 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'])
         
         results = {
-            'двухграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0},
-            'трехграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0},
-            'четырехграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0}
-        }
-        
-        # Анализируем ВСЕ двухграммы в тексте
-        for i in range(len(clean_text) - 1):
-            bigram = clean_text[i:i+2]
-            comfort = self._analyze_bigram_comfort(bigram)
-            results['двухграммы'][comfort] += 1
-            results['двухграммы']['всего'] += 1
-        
-        # Анализируем ВСЕ трехграммы в тексте
-        for i in range(len(clean_text) - 2):
-            trigram = clean_text[i:i+3]
-            comfort = self._analyze_trigram_comfort(trigram)
-            results['трехграммы'][comfort] += 1
-            results['трехграммы']['всего'] += 1
-        
-        # Анализируем ВСЕ четырехграммы в тексте
-        for i in range(len(clean_text) - 3):
-            fourgram = clean_text[i:i+4]
-            comfort = self._analyze_fourgram_comfort(fourgram)
-            results['четырехграммы'][comfort] += 1
-            results['четырехграммы']['всего'] += 1
-        
-        return results
-    
+                'двухграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0},
+                'трехграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0},
+                'четырехграммы': {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0, 'всего': 0}
+            }
+            
+            # Разбиваем на слова
+        import re
+        words = re.findall(r'[а-яё]+', clean_text)
+            
+         # Анализируем все комбинации в словах
+        for word in words:
+            if len(word) >= 2:
+                # Анализируем все двухбуквенные комбинации в слове
+                for i in range(len(word) - 1):
+                    bigram = word[i:i+2]
+                    comfort = self._analyze_bigram_comfort(bigram)
+                    results['двухграммы'][comfort] += 1
+                    results['двухграммы']['всего'] += 1
+                
+            if len(word) >= 3:
+                    # Анализируем все трехбуквенные комбинации в слове
+                for i in range(len(word) - 2):
+                    trigram = word[i:i+3]
+                    comfort = self._analyze_trigram_comfort(trigram)
+                    results['трехграммы'][comfort] += 1
+                    results['трехграммы']['всего'] += 1
+                
+            if len(word) >= 4:
+                    # Анализируем все четырехбуквенные комбинации в слове
+                for i in range(len(word) - 3):
+                    fourgram = word[i:i+4]
+                    comfort = self._analyze_fourgram_comfort(fourgram)
+                    results['четырехграммы'][comfort] += 1
+                    results['четырехграммы']['всего'] += 1
+            
+            return results
     def _analyze_bigram_comfort(self, bigram):
         """
         Оценивает удобство двухбуквенной комбинации (биграммы).
@@ -232,36 +240,42 @@ class KeyboardAnalyzer:
             """
         if len(bigram) != 2:
             return 'неудобные'
-        
+            
         char1, char2 = bigram[0], bigram[1]
-        
+            
         # Получаем пальцы для каждого символа
         finger1 = self._get_finger_for_char(char1)
         finger2 = self._get_finger_for_char(char2)
-        
+            
         if finger1 is None or finger2 is None:
             return 'неудобные'
-        
-        # Проверяем, одна ли рука
-        same_hand = (finger1[0] == finger2[0])  # 'l' или 'r' в начале
-        
-        if not same_hand:
+            
+            # Проверяем, одна ли рука
+        hand1 = finger1[0]  # 'l' или 'r'
+        hand2 = finger2[0]
+            
+        if hand1 != hand2:
             return 'неудобные'  # Смена руки = неудобно
-        
-        # Получаем номера пальцев (lf5 = 5, lf4 = 4, lf3 = 3, lf2 = 2)
-        finger_num1 = int(finger1[2]) if len(finger1) >= 3 else 0
-        finger_num2 = int(finger2[2]) if len(finger2) >= 3 else 0
-        
-        # Проверяем направление
-        direction = finger_num2 - finger_num1
-        
-        # УДОБНЫЕ: от мизинца к указательному (от большего номера к меньшему)
-        if direction < 0:  # Пример: lf5→lf4 или lf4→lf3
-            return 'удобные'
-        
-        # ЧАСТИЧНО УДОБНЫЕ: от указательного к мизинцу
-        else:
+            
+            # Получаем номера пальцев из обозначений lf5, rf3 и т.д.
+        finger_num1 = int(finger1[2]) if len(finger1) >= 3 and finger1[2].isdigit() else None
+        finger_num2 = int(finger2[2]) if len(finger2) >= 3 and finger2[2].isdigit() else None
+            
+        if finger_num1 is None or finger_num2 is None:
             return 'частично_удобные'
+            
+            # УДОБНЫЕ: от мизинца к указательному (от большего номера к меньшему)
+            # 5→4, 5→3, 5→2, 4→3, 4→2, 3→2
+        if finger_num1 > finger_num2:
+            return 'удобные'
+            
+        # ЧАСТИЧНО УДОБНЫЕ: от указательного к мизинцу
+            # 2→3, 2→4, 2→5, 3→4, 3→5, 4→5
+        elif finger_num1 < finger_num2:
+            return 'частично_удобные'
+            
+            # Одинаковые пальцы
+        return 'частично_удобные'
     
     def _analyze_trigram_comfort(self, trigram):
         """
@@ -296,30 +310,43 @@ class KeyboardAnalyzer:
         comfort1 = self._analyze_bigram_comfort(trigram[0:2])
         comfort2 = self._analyze_bigram_comfort(trigram[1:3])
         
-        # Если хотя бы одна пара неудобная - вся трехграмма неудобная
+        # Если хотя бы одна пара неудобная (смена руки) - вся трехграмма неудобная
         if comfort1 == 'неудобные' or comfort2 == 'неудобные':
             return 'неудобные'
         
-        # Если обе пары удобные
-        elif comfort1 == 'удобные' and comfort2 == 'удобные':
-            # Проверяем общее направление
-            finger1 = self._get_finger_for_char(trigram[0])
-            finger2 = self._get_finger_for_char(trigram[1])
-            finger3 = self._get_finger_for_char(trigram[2])
-            
-            if finger1 and finger2 and finger3:
-                num1 = int(finger1[2]) if len(finger1) >= 3 else 0
-                num2 = int(finger2[2]) if len(finger2) >= 3 else 0
-                num3 = int(finger3[2]) if len(finger3) >= 3 else 0
-                
-                # УДОБНЫЕ: последовательное движение от мизинца к указательному
-                if num1 > num2 > num3:
-                    return 'удобные'
-                else:
-                    return 'частично_удобные'
+        # Получаем пальцы для всех трех символов
+        finger1 = self._get_finger_for_char(trigram[0])
+        finger2 = self._get_finger_for_char(trigram[1])
+        finger3 = self._get_finger_for_char(trigram[2])
         
-        # В остальных случаях - частично удобная
-        return 'частично_удобные'
+        if not (finger1 and finger2 and finger3):
+            return 'частично_удобные'
+        
+        # Проверяем, что все пальцы одной руки
+        if not (finger1[0] == finger2[0] == finger3[0]):
+            return 'неудобные'
+        
+        # Получаем номера пальцев
+        num1 = int(finger1[2]) if len(finger1) >= 3 and finger1[2].isdigit() else None
+        num2 = int(finger2[2]) if len(finger2) >= 3 and finger2[2].isdigit() else None
+        num3 = int(finger3[2]) if len(finger3) >= 3 and finger3[2].isdigit() else None
+        
+        if num1 is None or num2 is None or num3 is None:
+            return 'частично_удобные'
+        
+        # УДОБНЫЕ: последовательное движение от мизинца к указательному
+        # 5→4→3, 5→4→2, 5→3→2, 4→3→2
+        if num1 > num2 > num3:
+            return 'удобные'
+        
+        # ЧАСТИЧНО УДОБНЫЕ: движение от указательного к мизинцу
+        # 2→3→4, 2→3→5, 2→4→5, 3→4→5
+        elif num1 < num2 < num3:
+            return 'частично_удобные'
+        
+        # Если направления меняются (например: 2→3→2 или 3→2→3)
+        else:
+            return 'частично_удобные'
     
     def _analyze_fourgram_comfort(self, fourgram):
         """
@@ -359,36 +386,45 @@ class KeyboardAnalyzer:
             comfort = self._analyze_bigram_comfort(pair)
             comforts.append(comfort)
         
-        # Считаем сколько удобных, частично удобных, неудобных пар
-        counts = {'удобные': 0, 'частично_удобные': 0, 'неудобные': 0}
-        for comfort in comforts:
-            counts[comfort] += 1
-        
-        # Логика оценки
-        if counts['неудобные'] >= 2:
+        # Если хотя бы одна пара неудобная (смена руки) - вся комбинация неудобная
+        if 'неудобные' in comforts:
             return 'неудобные'
-        elif counts['неудобные'] == 1 or counts['частично_удобные'] >= 2:
-            return 'частично_удобные'
-        else:
-            # Проверяем общее направление для 4 символов
-            fingers = []
-            for char in fourgram:
-                finger = self._get_finger_for_char(char)
-                if not finger:
-                    return 'частично_удобные'
-                fingers.append(finger)
-            
-            # Получаем номера пальцев
-            try:
-                nums = [int(f[2]) for f in fingers if len(f) >= 3]
-                
-                # УДОБНЫЕ: последовательное движение от мизинца к указательному
-                if len(nums) == 4 and nums[0] > nums[1] > nums[2] > nums[3]:
-                    return 'удобные'
-                else:
-                    return 'частично_удобные'
-            except:
+        
+        # Получаем пальцы для всех четырех символов
+        fingers = []
+        for char in fourgram:
+            finger = self._get_finger_for_char(char)
+            if not finger:
                 return 'частично_удобные'
+            fingers.append(finger)
+        
+        # Проверяем, что все пальцы одной руки
+        hand = fingers[0][0]
+        if not all(f[0] == hand for f in fingers):
+            return 'неудобные'
+        
+        # Получаем номера пальцев
+        nums = []
+        for finger in fingers:
+            num = int(finger[2]) if len(finger) >= 3 and finger[2].isdigit() else None
+            if num is None:
+                return 'частично_удобные'
+            nums.append(num)
+        
+        # Проверяем монотонность
+        # УДОБНЫЕ: строго убывающая последовательность (от мизинца к указательному)
+        # 5→4→3→2, 5→4→3→1, 5→4→2→1 и т.д.
+        if nums[0] > nums[1] > nums[2] > nums[3]:
+            return 'удобные'
+        
+        # ЧАСТИЧНО УДОБНЫЕ: строго возрастающая последовательность (от указательного к мизинцу)
+        # 2→3→4→5, 2→3→4→5, 2→3→5→5 и т.д.
+        elif nums[0] < nums[1] < nums[2] < nums[3]:
+            return 'частично_удобные'
+        
+        # Если направления меняются
+        else:
+            return 'частично_удобные'
     
     def _get_finger_for_char(self, char):
         """
@@ -840,7 +876,7 @@ def analyze_everything_in_one():
     # Загружаем ВСЕ тексты
     files_to_analyze = [
         ('voina_i_mir.txt', 'Война и мир'),
-        ('sortchbukw.csv', 'Сортировка букв'),
+        ('digramms.txt', 'Диграммы'),
         ('1grams.txt', 'Минимальные фразы')
     ]
     
