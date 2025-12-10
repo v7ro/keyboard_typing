@@ -49,8 +49,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Модуль №3 — Визуализация анализа раскладок</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">🔣 <strong>Функции:</strong></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#load_all_results"><code class="docutils literal notranslate"><span class="pre">load_all_results()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#create_bar_plot"><code class="docutils literal notranslate"><span class="pre">create_bar_plot()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#create_pie_plot"><code class="docutils literal notranslate"><span class="pre">create_pie_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create_pie_plots"><code class="docutils literal notranslate"><span class="pre">create_pie_plots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create_ngram_bar"><code class="docutils literal notranslate"><span class="pre">create_ngram_bar()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#mainwindow">🧩 <strong>Класс: MainWindow</strong></a><ul>
@@ -59,14 +59,14 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">🔧 <strong>Методы класса</strong></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#on_tab_change"><code class="docutils literal notranslate"><span class="pre">on_tab_change()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#make_tab"><code class="docutils literal notranslate"><span class="pre">make_tab()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">🚀 <strong>Точка входа</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">🎨 <strong>Цветовая схема раскладок</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">📌 <strong>Полученные графики</strong></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Нагрузка на руку</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Нагрузка на пальцы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Сравнение 2-4 грамм</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Процент удобства переходов</a></li>
 </ul>
 </li>
 </ul>
@@ -116,26 +116,21 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="load_all_results">
 <span class="sig-name descname"><span class="pre">load_all_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#load_all_results" title="Ссылка на это определение"></a></dt>
-<dd><p>Загружает набор текстов и анализирует их для всех заданных раскладок клавиатуры,
-возвращая агрегированные результаты по нагрузке на пальцы и руки.</p>
+<dd><p>Собирает и агрегирует результаты анализа раскладок клавиатуры.</p>
 <p>Включает:</p>
 <ul class="simple">
-<li><p>чтение текстов:</p>
+<li><p>вызов функции <code class="docutils literal notranslate"><span class="pre">analyze_everything_in_one()</span></code> для получения исходных данных</p></li>
+<li><p>извлечение статистики:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">voina_i_mir.txt</span></code> — <em>Война и мир</em></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">sortchbukw.csv</span></code> — <em>Сортировка букв</em></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">1grams.txt</span></code> — <em>Минимальные фразы</em></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">нагрузка</span></code> — распределение нажатий по пальцам и рукам</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">комбинации</span></code> — данные по удобству комбинаций клавиш</p></li>
 </ul>
 </li>
-<li><p>анализ раскладок:</p>
+<li><p>суммирование для каждой раскладки:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">skoropis</span></code> — Скоропись</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ant</span></code> — Ант</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rusfon</span></code> — Фонетическая</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">diktor</span></code> — Диктор</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">vyzov</span></code> — Вызов</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">zubachev</span></code> — Зубачев</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ytsuken</span></code> — Йцукен</p></li>
+<li><p>количество нажатий по пальцам (<code class="docutils literal notranslate"><span class="pre">finger_counts</span></code>)</p></li>
+<li><p>использование левой и правой руки</p></li>
+<li><p>количество комбинаций с модификаторами (Shift + Alt)</p></li>
 </ul>
 </li>
 </ul>
@@ -144,10 +139,11 @@
 <dd class="field-odd"><p><p>Словарь <code class="docutils literal notranslate"><span class="pre">all_results</span></code>, где ключ — код раскладки, а значение — словарь:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (str): название раскладки</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fingers</span></code> (dict): суммарные счётчики по пальцам</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code> (int): общее количество нажатий левой рукой</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">right</span></code> (int): общее количество нажатий правой рукой</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">both</span></code> (int): количество нажатий с модификаторами (Shift + Alt)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fingers</span></code> (dict): суммарное распределение нажатий по пальцам</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code> (int): количество нажатий левой рукой</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right</span></code> (int): количество нажатий правой рукой</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">both</span></code> (int): количество комбинаций с Shift/Alt</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">combos</span></code> (dict): статистика комбинаций для данной раскладки</p></li>
 </ul>
 </p>
 </dd>
@@ -177,106 +173,88 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="create_bar_plot">
-<span class="sig-name descname"><span class="pre">create_bar_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#create_bar_plot" title="Ссылка на это определение"></a></dt>
-<dd><p>Строит горизонтальный столбчатый график сравнения нагрузок на пальцы для разных раскладок клавиатуры.</p>
+<dt class="sig sig-object py" id="create_pie_plots">
+<span class="sig-name descname"><span class="pre">create_pie_plots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#create_pie_plots" title="Ссылка на это определение"></a></dt>
+<dd><p>Строит круговые диаграммы для визуализации удобства комбинаций клавиш
+в разных раскладках.</p>
+<p>Логика:</p>
+<ul class="simple">
+<li><p>создаёт сетку из 2 строк и 4 столбцов для размещения диаграмм</p></li>
+<li><p>для каждой раскладки из <code class="docutils literal notranslate"><span class="pre">layout_order</span></code> суммирует количество комбинаций:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">удобные</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">частично_удобные</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">неудобные</span></code></p></li>
+</ul>
+</li>
+<li><p>строит круговую диаграмму с процентным распределением этих категорий</p></li>
+<li><p>задаёт заголовок диаграммы по имени раскладки</p></li>
+<li><p>последнюю пустую ось скрывает для симметрии</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>all_results</strong> (<em>dict</em>) – <p>агрегированные результаты анализа, полученные из функции <code class="docutils literal notranslate"><span class="pre">load_all_results()</span></code>. Для каждой раскладки словарь содержит:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (str): название раскладки</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fingers</span></code> (dict): количество нажатий по каждому пальцу</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code> (int): общее количество нажатий левой рукой</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">right</span></code> (int): общее количество нажатий правой рукой</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">both</span></code> (int): количество нажатий с модификаторами (Shift + Alt)</p></li>
-</ul>
-</p>
+<dd class="field-odd"><p><strong>all_results</strong> (<em>dict</em>) – Словарь с агрегированными результатами анализа,
+где для каждой раскладки содержится статистика комбинаций.</p>
 </dd>
 <dt class="field-even">Результат<span class="colon">:</span></dt>
-<dd class="field-even"><p>Объект графика с визуализацией нагрузок.</p>
+<dd class="field-even"><p>Объект фигуры с круговыми диаграммами по всем раскладкам.</p>
 </dd>
 <dt class="field-odd">Тип результата<span class="colon">:</span></dt>
 <dd class="field-odd"><p>matplotlib.figure.Figure</p>
 </dd>
 </dl>
-<p><strong>Алгоритм работы:</strong></p>
-<ol class="arabic simple">
-<li><p>Определяет параметры отображения: высоту столбцов, расстояние между группами пальцев, позиции по оси Y.</p></li>
-<li><p>Находит глобальный максимум значений для корректного масштабирования.</p></li>
-<li><p>Для каждой раскладки строит горизонтальные столбцы по нагрузке на пальцы.</p></li>
-<li><p>Добавляет числовые подписи внутри столбцов.</p></li>
-<li><p>Настраивает подписи осей, легенду и заголовок графика.</p></li>
-</ol>
-<p><strong>Особенности:</strong></p>
-<ul class="simple">
-<li><p>Использует список <code class="docutils literal notranslate"><span class="pre">finger_order</span></code> для порядка пальцев.</p></li>
-<li><p>Использует словарь <code class="docutils literal notranslate"><span class="pre">finger_labels_ru</span></code> для русских подписей пальцев.</p></li>
-<li><p>Цвета раскладок задаются через словарь <code class="docutils literal notranslate"><span class="pre">layout_colors</span></code>.</p></li>
-</ul>
 <p class="rubric">Пример</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">load_all_results</span><span class="p">()</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">create_bar_plot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;finger_loads.png&quot;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">create_pie_plots</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;pie_plots.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Результат</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Будет создан файл finger_loads.png с графиком:
-# - по оси Y отображаются пальцы (с подписями на русском),
-# - по оси X — количество нажатий,
-# - для каждой раскладки отдельные цветные столбцы.
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Файл ``pie_plots.png`` будет содержать круговые диаграммы,
+показывающие распределение удобных, частично удобных и неудобных комбинаций
+для каждой раскладки.
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="create_pie_plot">
-<span class="sig-name descname"><span class="pre">create_pie_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#create_pie_plot" title="Ссылка на это определение"></a></dt>
-<dd><p>Строит набор круговых диаграмм (pie charts), показывающих соотношение нагрузок на левую руку, правую руку и обе руки (модификаторы) для каждой раскладки клавиатуры.</p>
+<dt class="sig sig-object py" id="create_ngram_bar">
+<span class="sig-name descname"><span class="pre">create_ngram_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#create_ngram_bar" title="Ссылка на это определение"></a></dt>
+<dd><p>Строит горизонтальные столбчатые диаграммы для сравнения удобных n-грамм
+(двухграмм, трехграмм, четырехграмм) в разных раскладках.</p>
+<p>Логика:</p>
+<ul class="simple">
+<li><p>создаёт фигуру и ось для построения графика</p></li>
+<li><p>для каждой раскладки из <code class="docutils literal notranslate"><span class="pre">layout_order</span></code> извлекает количество удобных n-грамм
+из словаря <code class="docutils literal notranslate"><span class="pre">combos</span></code></p></li>
+<li><p>размещает столбцы с небольшим смещением по вертикали для каждой раскладки</p></li>
+<li><p>окрашивает столбцы в цвет из <code class="docutils literal notranslate"><span class="pre">layout_colors</span></code> и подписывает их названием раскладки</p></li>
+<li><p>добавляет числовые подписи к каждому столбцу</p></li>
+<li><p>задаёт метки оси Y (<code class="docutils literal notranslate"><span class="pre">2-граммы</span></code>, <code class="docutils literal notranslate"><span class="pre">3-граммы</span></code>, <code class="docutils literal notranslate"><span class="pre">4-граммы</span></code>)</p></li>
+<li><p>формирует легенду и аккуратно выравнивает макет</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>all_results</strong> (<em>dict</em>) – <p>агрегированные результаты анализа, полученные из
-функции <code class="docutils literal notranslate"><span class="pre">load_all_results()</span></code>. Для каждой раскладки словарь содержит:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (str): название раскладки</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code> (int): общее количество нажатий левой рукой</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">right</span></code> (int): общее количество нажатий правой рукой</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">both</span></code> (int): количество нажатий с модификаторами (Shift + Alt)</p></li>
-</ul>
-</p>
+<dd class="field-odd"><p><strong>all_results</strong> (<em>dict</em>) – Словарь с агрегированными результатами анализа,
+где для каждой раскладки содержится статистика комбинаций.</p>
 </dd>
 <dt class="field-even">Результат<span class="colon">:</span></dt>
-<dd class="field-even"><p>Объект фигуры с круговыми диаграммами.</p>
+<dd class="field-even"><p>Объект фигуры с горизонтальными столбчатыми диаграммами по всем раскладкам.</p>
 </dd>
 <dt class="field-odd">Тип результата<span class="colon">:</span></dt>
 <dd class="field-odd"><p>matplotlib.figure.Figure</p>
 </dd>
 </dl>
-<p><strong>Алгоритм работы:</strong></p>
-<ol class="arabic simple">
-<li><p>Создаёт сетку подграфиков (2 строки × 4 столбца).</p></li>
-<li><p>Для каждой раскладки строит круговую диаграмму с тремя секторами:</p>
-<ul class="simple">
-<li><p>«Левая» (lightblue),</p></li>
-<li><p>«Правая» (lightcoral),</p></li>
-<li><p>«Обе» (mediumpurple).</p></li>
-</ul>
-</li>
-<li><p>Добавляет подписи процентов (<code class="docutils literal notranslate"><span class="pre">autopct=&quot;%1.1f%%&quot;</span></code>).</p></li>
-<li><p>Устанавливает заголовок диаграммы по названию раскладки.</p></li>
-<li><p>Скрывает лишний пустой подграфик.</p></li>
-<li><p>Добавляет общий заголовок для всей фигуры.</p></li>
-</ol>
 <p class="rubric">Пример</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">load_all_results</span><span class="p">()</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">create_pie_plot</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;hand_loads_pie.png&quot;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">create_ngram_bar</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;ngram_bar.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Результат</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Будет создан файл hand_loads_pie.png с набором круговых диаграмм:
-# - каждая диаграмма показывает долю нагрузок на левую, правую и обе руки
-# - для каждой раскладки отдельная диаграмма с заголовком
-# - последний пустой подграфик скрыт
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Файл ``ngram_bar.png`` будет содержать горизонтальные столбчатые диаграммы,
+показывающие количество удобных двухграмм, трехграмм и четырехграмм
+для каждой раскладки.
 </pre></div>
 </div>
 </dd></dl>
@@ -287,39 +265,26 @@
 <h2>🧩 <strong>Класс: MainWindow</strong><a class="headerlink" href="#mainwindow" title="Ссылка на этот заголовок"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="MainWindow">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MainWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MainWindow" title="Ссылка на это определение"></a></dt>
-<dd><p>Главное окно приложения «Анализатор раскладок клавиатуры».</p>
-<p>Назначение:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Отображает результаты анализа раскладок клавиатуры в виде графиков.</p></li>
-<li><p>Содержит вкладки для сравнения нагрузок:</p>
-<ul>
-<li><p>по пальцам (горизонтальный столбчатый график),</p></li>
-<li><p>по рукам (круговые диаграммы).</p></li>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MainWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">QWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MainWindow" title="Ссылка на это определение"></a></dt>
+<dd><p>Основное окно графического интерфейса приложения.</p>
+<p>Логика:</p>
+<ul class="simple">
+<li><p>наследует от <code class="docutils literal notranslate"><span class="pre">QWidget</span></code> и служит контейнером для всех элементов интерфейса</p></li>
+<li><p>управляет размещением виджетов, обработкой событий и отображением результатов анализа</p></li>
+<li><p>связывает визуальные компоненты (графики, диаграммы, таблицы) с данными из функций анализа</p></li>
+<li><p>обеспечивает единый доступ к настройкам и элементам управления</p></li>
 </ul>
-</li>
+<p class="rubric">Атрибуты</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">results</span></code> (dict): агрегированные результаты анализа раскладок</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">layout</span></code> (QVBoxLayout): основной менеджер компоновки</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tabs</span></code> (QTabWidget): вкладки для отображения разных визуализаций</p></li>
 </ul>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>parent</strong> (<em>QWidget</em><em> or </em><em>None</em>) – Родительский элемент Qt (опционально).</p>
-</dd>
-</dl>
-<p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
-<span class="n">win</span> <span class="o">=</span> <span class="n">MainWindow</span><span class="p">()</span>
-<span class="n">win</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1300</span><span class="p">,</span> <span class="mi">950</span><span class="p">)</span>
-<span class="n">win</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<p class="rubric">Результат</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Будет открыто окно приложения «Анализатор раскладок клавиатуры»
-# с двумя вкладками:
-# - «Нагрузка по пальцам» (горизонтальный график)
-# - «Нагрузка по рукам» (круговые диаграммы)
-</pre></div>
-</div>
+<p class="rubric">Методы</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__init__</span></code>: инициализирует окно и его содержимое</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make_tab</span></code>: создаёт вкладку с графиком на основе функции построения</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -327,125 +292,77 @@
 <h2>🔧 <strong>Методы класса</strong><a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#init__" title="Ссылка на это определение"></a></dt>
-<dd><p>Конструктор главного окна приложения «Анализатор раскладок клавиатуры».</p>
-<p>Назначение:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Инициализирует интерфейс главного окна.</p></li>
-<li><p>Загружает результаты анализа раскладок.</p></li>
-<li><p>Создаёт вкладки для отображения графиков:</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#init__" title="Ссылка на это определение"></a></dt>
+<dd><p>Инициализирует главное окно приложения для анализа раскладок клавиатуры.</p>
+<p>Логика:</p>
+<ul class="simple">
+<li><p>вызывает конструктор базового класса <code class="docutils literal notranslate"><span class="pre">QWidget</span></code></p></li>
+<li><p>задаёт заголовок окна</p></li>
+<li><p>загружает результаты анализа раскладок через <code class="docutils literal notranslate"><span class="pre">load_all_results()</span></code></p></li>
+<li><p>создаёт вертикальный макет (<code class="docutils literal notranslate"><span class="pre">QVBoxLayout</span></code>) и вкладки (<code class="docutils literal notranslate"><span class="pre">QTabWidget</span></code>)</p></li>
+<li><p>добавляет две вкладки:</p>
 <ul>
-<li><p>«Нагрузка по пальцам» (горизонтальный столбчатый график),</p></li>
-<li><p>«Нагрузка по рукам» (круговые диаграммы).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Удобство</span></code> — круговые диаграммы (<code class="docutils literal notranslate"><span class="pre">create_pie_plots</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2–4</span> <span class="pre">граммы</span></code> — горизонтальные столбчатые диаграммы (<code class="docutils literal notranslate"><span class="pre">create_ngram_bar</span></code>)</p></li>
 </ul>
 </li>
+<li><p>размещает вкладки в основном макете и устанавливает его для окна</p></li>
 </ul>
-</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>self</strong> (<a class="reference internal" href="#MainWindow" title="MainWindow"><em>MainWindow</em></a>) – Экземпляр класса <code class="docutils literal notranslate"><span class="pre">MainWindow</span></code>.</p>
+<dt class="field-odd">Результат<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Метод изменяет внутреннее состояние объекта и формирует интерфейс.</p>
 </dd>
-<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
-<p><strong>Алгоритм работы:</strong></p>
-<ol class="arabic simple">
-<li><p>Устанавливает заголовок окна.</p></li>
-<li><p>Создаёт основной вертикальный макет (<code class="docutils literal notranslate"><span class="pre">QVBoxLayout</span></code>).</p></li>
-<li><p>Создаёт виджет вкладок (<code class="docutils literal notranslate"><span class="pre">QTabWidget</span></code>).</p></li>
-<li><p>Загружает результаты анализа через <code class="docutils literal notranslate"><span class="pre">load_all_results()</span></code>.</p></li>
-<li><p>Добавляет две вкладки:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">self.tab1</span></code> — для графика нагрузок по пальцам,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.tab2</span></code> — для графика нагрузок по рукам.</p></li>
-</ul>
-</li>
-<li><p>Инициализирует флаги:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">self.bar_drawn</span> <span class="pre">=</span> <span class="pre">False</span></code> — график по пальцам ещё не построен,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.pie_drawn</span> <span class="pre">=</span> <span class="pre">False</span></code> — график по рукам ещё не построен.</p></li>
-</ul>
-</li>
-<li><p>Подключает обработчик переключения вкладок (<code class="docutils literal notranslate"><span class="pre">on_tab_change</span></code>).</p></li>
-<li><p>Добавляет вкладки в основной макет и применяет его к окну.</p></li>
-</ol>
 <p class="rubric">Пример</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
 <span class="n">win</span> <span class="o">=</span> <span class="n">MainWindow</span><span class="p">()</span>
-<span class="n">win</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1300</span><span class="p">,</span> <span class="mi">950</span><span class="p">)</span>
+<span class="n">win</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1350</span><span class="p">,</span> <span class="mi">850</span><span class="p">)</span>
 <span class="n">win</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
 </pre></div>
 </div>
 <p class="rubric">Результат</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Будет открыто окно приложения «Анализатор раскладок клавиатуры»
-# с двумя вкладками:
-# - «Нагрузка по пальцам» (горизонтальный график)
-# - «Нагрузка по рукам» (круговые диаграммы)
-</pre></div>
-</div>
+<p>При запуске появится главное окно приложения с двумя вкладками:
+«Удобство» и «2–4 граммы», каждая из которых содержит соответствующие диаграммы.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="on_tab_change">
-<span class="sig-name descname"><span class="pre">on_tab_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#on_tab_change" title="Ссылка на это определение"></a></dt>
-<dd><p>Обработчик переключения вкладок в главном окне приложения.</p>
-<p>Назначение:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Отслеживает смену активной вкладки в <code class="docutils literal notranslate"><span class="pre">QTabWidget</span></code>.</p></li>
-<li><p>При первом открытии вкладки строит соответствующий график и добавляет его
-в макет вкладки.</p></li>
+<dt class="sig sig-object py" id="make_tab">
+<span class="sig-name descname"><span class="pre">make_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_tab" title="Ссылка на это определение"></a></dt>
+<dd><p>Создаёт вкладку интерфейса с графиком, построенным по результатам анализа.</p>
+<p>Логика:</p>
+<ul class="simple">
+<li><p>создаёт новый виджет (<code class="docutils literal notranslate"><span class="pre">QWidget</span></code>) для вкладки</p></li>
+<li><p>формирует вертикальный макет (<code class="docutils literal notranslate"><span class="pre">QVBoxLayout</span></code>)</p></li>
+<li><p>вызывает переданную функцию построения графика (<code class="docutils literal notranslate"><span class="pre">plot_func</span></code>) с данными <code class="docutils literal notranslate"><span class="pre">self.results</span></code></p></li>
+<li><p>оборачивает полученную фигуру в <code class="docutils literal notranslate"><span class="pre">FigureCanvas</span></code> для отображения в Qt</p></li>
+<li><p>добавляет холст в макет и устанавливает его для вкладки</p></li>
+<li><p>возвращает готовый виджет вкладки</p></li>
 </ul>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – <p>Индекс выбранной вкладки.</p>
-<ul class="simple">
-<li><p>0 — вкладка «Нагрузка по пальцам»</p></li>
-<li><p>1 — вкладка «Нагрузка по рукам»</p></li>
-</ul>
-</p>
+<dd class="field-odd"><p><strong>plot_func</strong> (<em>callable</em>) – Функция построения графика, принимающая словарь результатов
+и возвращающая объект <code class="docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>.</p>
 </dd>
 <dt class="field-even">Результат<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>Виджет вкладки с встроенным графиком.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>QWidget</p>
 </dd>
 </dl>
-<p><strong>Алгоритм работы:</strong></p>
-<ol class="arabic simple">
-<li><p>Если выбрана вкладка «Нагрузка по пальцам» (<code class="docutils literal notranslate"><span class="pre">index</span> <span class="pre">==</span> <span class="pre">0</span></code>) и график ещё не построен:</p>
-<ul class="simple">
-<li><p>вызывает <code class="docutils literal notranslate"><span class="pre">create_bar_plot(self.results)</span></code> для построения столбчатого графика,</p></li>
-<li><p>создаёт <code class="docutils literal notranslate"><span class="pre">FigureCanvas</span></code> для отображения графика,</p></li>
-<li><p>добавляет график в макет вкладки <code class="docutils literal notranslate"><span class="pre">self.tab1</span></code>,</p></li>
-<li><p>устанавливает флаг <code class="docutils literal notranslate"><span class="pre">self.bar_drawn</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
-</ul>
-</li>
-<li><p>Если выбрана вкладка «Нагрузка по рукам» (<code class="docutils literal notranslate"><span class="pre">index</span> <span class="pre">==</span> <span class="pre">1</span></code>) и график ещё не построен:</p>
-<ul class="simple">
-<li><p>вызывает <code class="docutils literal notranslate"><span class="pre">create_pie_plot(self.results)</span></code> для построения круговых диаграмм,</p></li>
-<li><p>создаёт <code class="docutils literal notranslate"><span class="pre">FigureCanvas</span></code> для отображения графика,</p></li>
-<li><p>добавляет график в макет вкладки <code class="docutils literal notranslate"><span class="pre">self.tab2</span></code>,</p></li>
-<li><p>устанавливает флаг <code class="docutils literal notranslate"><span class="pre">self.pie_drawn</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
-</ul>
-</li>
-</ol>
 <p class="rubric">Пример</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Переключение на вкладку «Нагрузка по пальцам»</span>
-<span class="n">win</span><span class="o">.</span><span class="n">on_tab_change</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Переключение на вкладку «Нагрузка по рукам»</span>
-<span class="n">win</span><span class="o">.</span><span class="n">on_tab_change</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Создаём вкладку с круговыми диаграммами</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">win</span><span class="o">.</span><span class="n">make_tab</span><span class="p">(</span><span class="n">create_pie_plots</span><span class="p">)</span>
+<span class="n">tabs</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="s2">&quot;Удобство&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Результат</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># При первом переключении на вкладку:
-# - строится соответствующий график (столбчатый или круговой),
-# - график добавляется в макет вкладки,
-# - повторное построение не выполняется (флаги bar_drawn/pie_drawn предотвращают дублирование).
-</pre></div>
-</div>
+<p>В интерфейсе появится новая вкладка, содержащая график,
+построенный указанной функцией визуализации.</p>
 </dd></dl>
 
 <p>—</p>
@@ -483,15 +400,6 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> — блок не возвращает значения.</p></li>
 <li><p>Завершает работу приложения при закрытии окна с помощью <code class="docutils literal notranslate"><span class="pre">sys.exit()</span></code>.</p></li>
 </ul>
-<p class="rubric">Пример запуска</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ python gui.py
-
-# Будет открыто окно приложения «Анализатор раскладок клавиатуры»
-# с двумя вкладками:
-# - «Нагрузка по пальцам» (горизонтальный график)
-# - «Нагрузка по рукам» (круговые диаграммы)
-</pre></div>
-</div>
 <p>—</p>
 </section>
 <section id="id4">
@@ -510,14 +418,14 @@
 <section id="id5">
 <h2>📌 <strong>Полученные графики</strong><a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
 <section id="id6">
-<h3>Нагрузка на руку<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
-<a class="reference internal image-reference" href="_images/nagryzka_na_ryky.png"><img alt="Раскладка ЙЦУКЕН" class="align-center" src="_images/nagryzka_na_ryky.png" style="width: 500px;" />
+<h3>Сравнение 2-4 грамм<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
+<a class="reference internal image-reference" href="_images/digramms.png"><img alt="Сравнение диграмм" class="align-center" src="_images/digramms.png" style="width: 500px;" />
 </a>
 <p>—</p>
 </section>
 <section id="id7">
-<h3>Нагрузка на пальцы<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h3>
-<a class="reference internal image-reference" href="_images/nagryzka_na_palci.png"><img alt="Раскладка ЙЦУКЕН" class="align-center" src="_images/nagryzka_na_palci.png" style="width: 500px;" />
+<h3>Процент удобства переходов<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h3>
+<a class="reference internal image-reference" href="_images/ydobstvo_perehod.png"><img alt="Процент удобства переходов" class="align-center" src="_images/ydobstvo_perehod.png" style="width: 500px;" />
 </a>
 <p>—</p>
 </section>
