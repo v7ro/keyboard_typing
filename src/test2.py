@@ -117,6 +117,23 @@ class TestInitFromLayoutDataForAllLayouts:
         assert result is not None
         assert result['layout'] == 'ant'
 class TestCalculatePathForAllLayouts:
+    def test_calculate_path_argument_types(self):
+        analyzer = KeyboardAnalyzer('test_layout')
+    
+        # ВХОД: устанавливаем атрибуты для работы
+        analyzer.home_positions = {'lf2': 20}
+        analyzer.keyboard_map = {20: (0, 0), 25: (1, 2)}
+    
+        # ВХОД: key_code должен быть целым числом
+        key_code_int = 25
+        # ВХОД: finger должен быть строкой
+        finger_str = 'lf2'
+    
+        # ВЫЗОВ: проверяем что функция принимает аргументы правильных типов
+        result = analyzer._calculate_path(key_code_int, finger_str)
+    
+        # ВЫХОД: результат - целое число
+        assert isinstance(result, int)
     def _test_basic_patterns(self, analyzer, layout_name):
         if 'lf1' in analyzer.home_positions:
             assert analyzer._calculate_path(42, 'lf1') == 0
@@ -1180,4 +1197,5 @@ class TestGetFingerForCharForAllLayouts:
 if __name__ == "__main__":
     # Запуск всех 7 тестов
     print("Запуск 7 тестов для метода _init_from_layout_data...")
+
     pytest.main([__file__, "-v"])
