@@ -293,16 +293,17 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="analyze_combinations">
 <span class="sig-name descname"><span class="pre">analyze_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#analyze_combinations" title="Ссылка на это определение"></a></dt>
-<dd><p>Выполняет полный анализ удобства буквенных комбинаций (n-грамм) в тексте.</p>
+<dd><p>Анализирует удобство буквенных комбинаций (n-грамм) в русском тексте по новой логике.</p>
 <p>Логика работы:</p>
 <ul class="simple">
 <li><p>очищает входной текст, оставляя только русские буквы (а–я, ё),</p></li>
+<li><p>разбивает текст на слова,</p></li>
 <li><p>формирует все возможные биграммы (2 символа), триграммы (3 символа) и четырёхграммы (4 символа),</p></li>
-<li><p>для каждой комбинации вызывает соответствующий метод анализа:</p>
+<li><p>для каждой комбинации выполняет проверку:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">_analyze_bigram_comfort</span></code> для биграмм,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">_analyze_trigram_comfort</span></code> для триграмм,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">_analyze_fourgram_comfort</span></code> для четырёхграмм,</p></li>
+<li><p>биграммы анализируются всегда через <code class="docutils literal notranslate"><span class="pre">_analyze_bigram_comfort</span></code>,</p></li>
+<li><p>триграммы анализируются только если все буквы печатаются одной рукой, через <code class="docutils literal notranslate"><span class="pre">_analyze_trigram_comfort</span></code>,</p></li>
+<li><p>четырёхграммы анализируются только если все буквы печатаются одной рукой, через <code class="docutils literal notranslate"><span class="pre">_analyze_fourgram_comfort</span></code>,</p></li>
 </ul>
 </li>
 <li><p>подсчитывает количество удобных, частично удобных и неудобных комбинаций,</p></li>
